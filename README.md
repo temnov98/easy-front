@@ -1,2 +1,11 @@
-# easy-front
-Micro UI library for building easy web pages
+## Tasks
+
+- Избавиться от костылей.
+- какая-то беда с приватными открытыми полями - сделать нормально нужно.
+- внедрения зависимостей не хватает?
+- А нужен ли disconnect для ObservableValue? не будет ли оно копиться бесконечно? будет.
+- Исправить все todo.
+- getElementById - должен быть только в библиотеке.
+
+## Костыли:
+- this.blockOnFocus = false;
