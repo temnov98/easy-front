@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tap me</title>
+        <link href="./styles.css" rel="stylesheet" />
+
+        <!-- import library-->
+        <script src="./library.js"></script>
+
+        <!-- import tools-->
+        <script src="./js/tool/id.tool.js"></script>
+
+        <!-- import models-->
+        <script src="./js/model/task.model.js"></script>
+        <script src="./js/model/preset.model.js"></script>
+
+        <!-- import service-->
+        <script src="./js/service/local-storage.service.js"></script>
+
+        <!-- import page model-->
+        <script src="./js/model/page.model.js"></script>
+
+        <!-- import shared components-->
+        <script src="./js/components/shared/spase.component.js"></script>
+        <script src="./js/components/shared/debug.component.js"></script>
+        <script src="./js/components/shared/switcher.component.js"></script>
+
+        <!-- import task components-->
+        <script src="./js/components/task/task.save-as-preset-button.component.js"></script>
+        <script src="./js/components/task/task.toggle-button.component.js"></script>
+        <script src="./js/components/task/task.delete-button.component.js"></script>
+        <script src="./js/components/task/task.text.component.js"></script>
+        <script src="./js/components/task/task.component.js"></script>
+        <script src="./js/components/task/tasks-list.component.js"></script>
+
+        <!-- import preset components-->
+        <script src="./js/components/preset/preset.delete-button.component.js"></script>
+        <script src="./js/components/preset/preset.text.component.js"></script>
+        <script src="./js/components/preset/preset.component.js"></script>
+        <script src="./js/components/preset/presets-list.component.js"></script>
+
+        <!-- import buttons line components-->
+        <script src="./js/components/buttons-line/add-new-task.component.js"></script>
+        <script src="./js/components/buttons-line/add-from-presets-button.component.js"></script>
+        <script src="./js/components/buttons-line/buttons-line.component.js"></script>
+
+        <!-- import page component-->
+        <script src="./js/components/page.component.js"></script>
+    </head>
+    <body onload="initPage('page-id', new PageComponent())">
+        <div id="page-id"></div>
+    </body>
+</html>
