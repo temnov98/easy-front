@@ -62,6 +62,7 @@ class TaskTextComponent extends Component {
         }
 
         if (this.editMode) {
+            pageModel.changeTaskText(this.task, this.inputValue);
             this.editMode = false;
         }
     }
