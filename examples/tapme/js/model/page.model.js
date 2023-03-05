@@ -4,6 +4,17 @@ class PageModel {
 
         this.tasks = new ObservableValue(tasks);
         this.presets = new ObservableValue(presets);
+        this.totalTimeFormatted = new ObservableValue(this.getTotalTimeFormatted());
+    }
+
+    updateTotalTime() {
+        this.totalTimeFormatted.value = this.getTotalTimeFormatted();
+    }
+
+    getTotalTimeFormatted() {
+        const durationInSeconds = this.tasks.value.reduce((result, task) => result + task.durationInSeconds, 0);
+
+        return timeFormatService.durationFormatted(durationInSeconds);
     }
 
     addTasksFromPresets() {

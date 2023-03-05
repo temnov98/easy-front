@@ -157,7 +157,7 @@
 }
 
 .add-new-task input {
-    width: 670px;
+    width: 535px;
     margin-right: 10px;
     font-family: Arial;
     font-size: 25px;
@@ -337,4 +337,23 @@
 .save-icon {
     padding: 10px;
     height: 50px;
+}
+
+.total-time-container {
+    background-color: #f2f2f2;
+    margin-right: 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+    width: 135px;
+    height: 70px;
+}
+
+.total-time-container div {
+    font-family: Arial;
+    vertical-align: middle;
+    display: table-cell;
+    width: 135px;
+    height: 70px;
+    font-weight: bold;
 }

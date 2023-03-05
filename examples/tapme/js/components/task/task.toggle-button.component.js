@@ -38,6 +38,7 @@ class TaskToggleButtonComponent extends Component {
     startRedrawing() {
         this.timer = setInterval(() => {
             const redrawResult = this.redraw();
+            pageModel.updateTotalTime();
 
             if (!redrawResult) {
                 this.stopRedrawing();
