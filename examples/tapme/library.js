@@ -62,6 +62,10 @@ function _prepareParam(param) {
         return param._insertValue();
     }
 
+    if (param instanceof ObservableValue) {
+        return _prepareParam(param.value);
+    }
+
     if (param?.prototype?._toHtml) {
         return new param()._toHtml();
     }
