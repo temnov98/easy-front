@@ -33,24 +33,6 @@ class TaskModel {
         return this._startedAt.value ? Math.floor((Date.now() - this._startedAt.value.getTime()) / 1000) : 0;
     }
 
-    getHoursFormatted() {
-        const hours = Math.floor(this.durationInSeconds / 60 / 60);
-
-        return hours ? `${hours}h` : '';
-    }
-
-    getMinutesFormatted() {
-        const minutes = Math.floor((this.durationInSeconds % (60 * 60)) / 60);
-
-        return minutes ? `${minutes}m` : '';
-    }
-
-    getSecondsFormatted() {
-        const seconds = this.durationInSeconds % 60;
-
-        return seconds ? `${seconds}s` : '';
-    }
-
     get durationInSeconds() {
         return this._durationInSeconds + this._additionalDurationInSeconds;
     }
@@ -59,15 +41,7 @@ class TaskModel {
      * @returns {string}
      */
     get durationFormatted() {
-        if (!this.durationInSeconds) {
-            return '';
-        }
-
-        return [
-            this.getHoursFormatted(),
-            this.getMinutesFormatted(),
-            this.getSecondsFormatted(),
-        ].join(' ');
+        return timeFormatService.durationFormatted(this.durationInSeconds);
     }
 
     get isActive() {
