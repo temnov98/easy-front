@@ -57,6 +57,7 @@ class PageModel {
      */
     deleteTask(task) {
         this.tasks.value = this.tasks.value.filter((currentTask) => currentTask.id !== task.id);
+        this.updateTotalTime();
 
         this.saveToLocalStorage();
     }
