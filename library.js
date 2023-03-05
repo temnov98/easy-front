@@ -62,6 +62,10 @@ function _prepareParam(param) {
         return param._insertValue();
     }
 
+    if (param?.prototype?._toHtml) {
+        return new param()._toHtml();
+    }
+
     if (typeof param === 'function') {
         const id = _getId(_handlerIdPrefix);
 
