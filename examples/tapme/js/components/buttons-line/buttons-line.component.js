@@ -4,6 +4,7 @@ class ButtonsLineComponent extends Component {
             <div class="row buttons-line">
                 <div >${new AddNewTaskComponent()}</div>
                 <div >${new AddFromPresetsButtonComponent()}</div>
+                <div >${new SaveToFileButtonComponent()}</div>
             </div>
         `;
     }

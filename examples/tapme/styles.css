@@ -74,6 +74,7 @@
     border-radius: 20px;
     font-size: 20px;
     padding: 0 20px;
+    margin-right: 10px;
 }
 
 .add-from-presets-button:hover {
@@ -156,7 +157,7 @@
 }
 
 .add-new-task input {
-    width: 750px;
+    width: 670px;
     margin-right: 10px;
     font-family: Arial;
     font-size: 25px;
@@ -320,4 +321,20 @@
     padding-left: 420px;
     height: 47px;
     color: #205620;
+}
+
+.save-icon-container {
+    height: 70px;
+}
+
+.save-icon-container:hover {
+    cursor: pointer;
+    border-radius: 25px;
+    height: 70px;
+    box-shadow: 0 0 25px 0 #306e32;
+}
+
+.save-icon {
+    padding: 10px;
+    height: 50px;
 }
