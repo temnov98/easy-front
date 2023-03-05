@@ -12,6 +12,14 @@ class TasksListComponent extends Component {
     }
 
     toHtml() {
+        if (!pageModel.tasks.value.length) {
+            return t`
+                <div>
+                    ${TaskPlaceholderComponent}
+                </div>
+            `;
+        }
+
         return t`
             <div>
                 ${pageModel.tasks.value.map((task) => [

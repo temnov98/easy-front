@@ -15,8 +15,12 @@
     display: flex;
 }
 
-.column {
+.padding-10 {
     padding: 10px;
+}
+
+.buttons-line {
+    padding: 10px 0;
 }
 
 .task-text-container {
@@ -54,7 +58,7 @@
     width: 200px;
     border: none;
     background: #4caf506b;
-    border-radius: 30px;
+    border-radius: 20px;
     font-size: 20px;
     padding: 0 20px;
 }
@@ -145,7 +149,8 @@
 }
 
 .add-new-task input {
-    width: 400px;
+    width: 750px;
+    margin-right: 10px;
     font-family: Arial;
     font-size: 25px;
     /*height: 50px;*/
@@ -297,4 +302,14 @@
     width: 42px;
     margin-left: 60px;
     transition-duration: 300ms;
+}
+
+.task-placeholder {
+    background-color: #b7deb733;
+    border-radius: 20px;
+    font-size: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 420px;
+    color: #205620;
 }

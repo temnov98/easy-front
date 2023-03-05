@@ -11,8 +11,8 @@ class PresetComponent extends Component {
     toHtml() {
         return t`
             <div class="row">
-                <div class="column max-width">${new PresetTextComponent(this.preset.title)}</div>
-                <div class="column">${new PresetDeleteButtonComponent(this.preset)}</div>
+                <div class="padding-10 max-width">${new PresetTextComponent(this.preset.title)}</div>
+                <div class="padding-10">${new PresetDeleteButtonComponent(this.preset)}</div>
             </div>
         `;
     }

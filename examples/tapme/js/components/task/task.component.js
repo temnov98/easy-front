@@ -11,10 +11,10 @@ class TaskComponent extends Component {
     toHtml() {
         return t`
             <div class="row">
-                <div class="column">${new TaskToggleButtonComponent(this.task)}</div>
-                <div class="column max-width">${new TaskTextComponent(this.task)}</div>
-                <div class="column">${new TaskSaveAsPresetButtonComponent(this.task)}</div>
-                <div class="column">${new TaskDeleteButtonComponent(this.task)}</div>
+                <div class="padding-10">${new TaskToggleButtonComponent(this.task)}</div>
+                <div class="padding-10 max-width">${new TaskTextComponent(this.task)}</div>
+                <div class="padding-10">${new TaskSaveAsPresetButtonComponent(this.task)}</div>
+                <div class="padding-10">${new TaskDeleteButtonComponent(this.task)}</div>
             </div>
         `;
     }

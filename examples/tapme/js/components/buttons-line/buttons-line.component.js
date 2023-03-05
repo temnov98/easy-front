@@ -1,10 +1,9 @@
 class ButtonsLineComponent extends Component {
     toHtml() {
         return t`
-            <div class="row">
-                <div class="column max-width"></div>
-                <div class="column">${new AddNewTaskComponent()}</div>
-                <div class="column">${new AddFromPresetsButtonComponent()}</div>
+            <div class="row buttons-line">
+                <div >${new AddNewTaskComponent()}</div>
+                <div >${new AddFromPresetsButtonComponent()}</div>
             </div>
         `;
     }
