@@ -13,7 +13,7 @@ class PresetsListComponent extends Component {
 
     toHtml() {
         return t`
-            <div>
+            <div class="preset-list-component">
                 ${pageModel.presets.value.map((preset) => [
                     new PresetComponent(preset),
                 ])}

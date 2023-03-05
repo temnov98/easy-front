@@ -51,7 +51,7 @@ class TaskToggleButtonComponent extends Component {
     }
 
     toHtml() {
-        const buttonClass = this.task.isActive ? 'red-button' : 'green-button';
+        const buttonClass = this.task.isActive ? 'base-button red-button' : 'base-button green-button';
 
         return t`
             <div>

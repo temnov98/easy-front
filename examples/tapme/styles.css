@@ -19,7 +19,20 @@
     padding: 10px;
 }
 
+.padding-5 {
+    padding: 5px 0;
+}
+
+.preset-list-component {
+    margin-top: 20px;
+}
+
+.task-component {
+    margin-top: 15px;
+}
+
 .buttons-line {
+    margin-top: 15px;
     padding: 10px 0;
 }
 
@@ -83,7 +96,8 @@
     margin-top: 25px;
 }
 
-.green-button {
+.base-button {
+    margin-right: 10px;
     display: inline-block;
     width: 135px;
     height: 57px;
@@ -92,11 +106,14 @@
     text-align: center;
     text-decoration: none;
     outline: none;
-    color: #fff;
-    background-color: #4CAF50;
     border: none;
     border-radius: 25px;
+}
+
+.green-button {
     box-shadow: 0 30px #3a6d15, 0 10px #3a6d15, 0 20px #3a6d15;
+    color: #fff;
+    background-color: #4CAF50;
 }
 
 .max-width {
@@ -110,20 +127,10 @@
 }
 
 .red-button {
-    display: inline-block;
-    width: 135px;
-    height: 57px;
-    font-size: 20px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    outline: none;
+    transform: translateY(25px);
+    box-shadow: 0 5px #330101;
     color: #fff;
     background-color: #e80c0c;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 0 5px #330101;
-    transform: translateY(25px);
 }
 
 .add-new-task {
@@ -137,7 +144,7 @@
     border: none;
     background: none;
     padding: 0;
-    margin-left: -70px;
+    margin-left: -80px;
     border-radius: 20px;
 }
 
@@ -308,8 +315,9 @@
     background-color: #b7deb733;
     border-radius: 20px;
     font-size: 30px;
-    padding-top: 20px;
+    padding-top: 30px;
     padding-bottom: 20px;
     padding-left: 420px;
+    height: 47px;
     color: #205620;
 }
