@@ -231,6 +231,7 @@ class Component {
     * @returns {string[]}
     */
     _getIdsFormElement(elementStr) {
+        // TODO: pattern should be started with '^'
         const componentRegexp = new RegExp(_componentIdPrefix + '\\d+', 'g');
         const handlerRegexp = new RegExp(_handlerIdPrefix + '\\d+', 'g');
 
