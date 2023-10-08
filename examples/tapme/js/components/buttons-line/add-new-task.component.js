@@ -1,18 +1,14 @@
 class AddNewTaskComponent extends Component {
     get currentText() {
-        return this._element.value;
+        return this._input.value;
     }
 
     clear() {
-        this._element.value = '';
+        this._input.value = '';
     }
 
-    get _inputId() {
-        return `input-${this._id}`;
-    }
-
-    get _element() {
-        return document.getElementById(this._inputId);
+    get _input() {
+        return this._element.querySelector('input');
     }
 
     addTask() {
@@ -35,7 +31,7 @@ class AddNewTaskComponent extends Component {
     toHtml() {
         return t`
             <div class="row add-new-task">
-                <input id="${this._inputId}" onkeydown="${(event) => this.onKeyDown(event)}">
+                <input onkeydown="${(event) => this.onKeyDown(event)}">
                 <button onclick="${() => this.addTask()}">
                     +
                 </button>
