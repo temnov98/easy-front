@@ -7,7 +7,6 @@ class TaskTextComponent extends Component {
 
         this.inputId = `task-input-id-${task.id}`;
         this.task = task;
-        this.editMode = this.createRedrawable(false, 'editMode');
     }
 
     get element() {
@@ -27,17 +26,13 @@ class TaskTextComponent extends Component {
             return;
         }
 
-        if (event.key === 'Enter') {
-            pageModel.changeTaskText(this.task, this.inputValue);
-            this.onFocusOut();
-        } else if (event.key === 'Escape') {
-            this.onFocusOut();
+        if (event.key === 'Enter' || event.key === 'Escape') {
+            this.element.blur();
         }
     }
 
     onFocusOut() {
         pageModel.changeTaskText(this.task, this.inputValue);
-        this.editMode = false;
     }
 
     toHtml() {
@@ -45,7 +40,7 @@ class TaskTextComponent extends Component {
             <textarea
                 id="${this.inputId}"
                 class="task-text-container-input"
-                onfocusout="${() => this.onFocusOut()}"
+                onblur="${() => this.onFocusOut()}"
                 onkeydown="${(event) => this.onKeyDown(event)}"
             >${this.task.title.trim()}</textarea>
         `;
