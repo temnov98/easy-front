@@ -30,6 +30,11 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     background-color: rgba(185, 223, 185, 0.20);
 }
 
+.page--dark .task-placeholder {
+    background-color: rgba(185, 223, 185, 0.20);
+    color: var(--white);
+}
+
 .body-white {
     background-color: white;
 }
