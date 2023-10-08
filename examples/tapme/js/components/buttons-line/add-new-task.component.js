@@ -35,14 +35,10 @@ class AddNewTaskComponent extends Component {
     toHtml() {
         return t`
             <div class="row add-new-task">
-                <div>
-                    <input id="${this._inputId}" onkeydown="${(event) => this.onKeyDown(event)}">
-                </div>
-                <div>
-                    <button onclick="${() => this.addTask()}">
-                        +
-                    </button>
-                </div>
+                <input id="${this._inputId}" onkeydown="${(event) => this.onKeyDown(event)}">
+                <button onclick="${() => this.addTask()}">
+                    +
+                </button>
             </div>
         `;
     }

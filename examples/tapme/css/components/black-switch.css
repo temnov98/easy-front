@@ -1,0 +1,129 @@
+/*
+Structure for this checkbox:
+<label class="button">
+  <input type="checkbox">
+  <span></span>
+  <span></span>
+</label>
+*/
+
+.toggle-button, .toggle-button *, .toggle-button *:before, .toggle-button *:after {
+  box-sizing: border-box;
+}
+
+.toggle-button {
+  --font-size: 26px;
+  --width: 220px;
+  display: block;
+  width: var(--width);
+  height: calc(var(--width) * 0.3);
+  position: relative;
+  background: #000000; /* darken(#1C1D1F, 50%) */
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.2) inset;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.toggle-button span {
+  display: block;
+  position: absolute;
+  top: 6px;
+  width: calc((var(--width) / 2) - 6px);
+  height: calc((var(--width) * 0.3) - 12px);
+  transition: transform 100ms ease, box-shadow 100ms ease;
+  background-color: var(--black);
+}
+
+.toggle-button span:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Open Sans";
+  font-weight: 800;
+  font-size: var(--font-size);
+  transition: text-shadow 400ms ease 100ms, color 400ms ease 100ms;
+}
+
+.toggle-button span:after {
+  content: "";
+  width: 4px;
+  height: calc((var(--width) * 0.3) - 12px);
+  position: absolute;
+  top: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.5) 0%, transparent 50%);
+  transition: opacity 300ms ease;
+}
+
+.toggle-button span:first-of-type {
+  left: 6px;
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+  transform-style: preserve-3d;
+  transform-origin: right center;
+  transform: perspective(2000px) rotateY(40deg);
+  box-shadow: -1px 0 1px rgba(255, 255, 255, 0.1) inset, 4px 0 8px rgba(255, 255, 255, 0.1) inset, 1px 0 0 rgba(255, 255, 255, 0.1) inset, -10px 0 8px rgba(40, 42, 44, 0.9), -20px 0 8px rgba(28, 29, 31, 0.7), -30px 0 8px rgba(28, 29, 31, 0.4);
+}
+
+.toggle-button span:first-of-type:before {
+  content: "ON";
+  color: rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 4px 6px var(--black), 0 0 0 #000, 1px 4px 6px var(--black);
+}
+
+.toggle-button span:first-of-type:after {
+  left: -1px;
+}
+
+.toggle-button span:last-of-type {
+  right: 6px;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  transform-origin: left center;
+  box-shadow: -1px 1px 1px rgba(255, 255, 255, 0.1) inset, 2px 0 2px rgba(255, 255, 255, 0.05) inset;
+}
+
+.toggle-button span:last-of-type:before {
+  content: "OFF";
+  color: #b2343394;
+  /*text-shadow: 0 0 24px rgba(255, 72, 71, 0.6);*/
+}
+
+.toggle-button span:last-of-type:after {
+  right: -1px;
+  opacity: 0;
+}
+
+.toggle-button input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:first-of-type {
+  transform: none;
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1) inset, -2px 0 2px rgba(255, 255, 255, 0.05) inset;
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:first-of-type:before {
+  color: #93C913;
+  text-shadow: 0 0 24px rgba(147, 201, 19, 0.6);
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:first-of-type:after {
+  opacity: 0;
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:last-of-type {
+  transform: perspective(2000px) rotateY(-40deg);
+  box-shadow: 1px 0 1px rgba(255, 255, 255, 0.1) inset, -4px 0 8px rgba(255, 255, 255, 0.1) inset, -1px 0 0 rgba(255, 255, 255, 0.1) inset, 10px 0 8px rgba(40, 42, 44, 0.9), 20px 0 8px rgba(28, 29, 31, 0.7), 30px 0 8px rgba(28, 29, 31, 0.4);
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:last-of-type:before {
+  color: rgba(0, 0, 0, 0.5);
+  text-shadow: 1px 4px 6px var(--black), 0 0 0 #000, 1px 4px 6px var(--black);
+}
+
+.toggle-button input[type="checkbox"]:checked ~ span:last-of-type:after {
+  opacity: 1;
+}

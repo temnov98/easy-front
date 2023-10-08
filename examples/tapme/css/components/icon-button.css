@@ -1,0 +1,52 @@
+.icon-button {
+  font-family: Arial;
+  background-color: transparent;
+  border-radius: 8px;
+  border: none;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  color: #3c7d05;
+  transition: background-color 0.1s linear;
+}
+
+.icon-button:hover {
+  background-color: #51a407;
+  cursor: pointer;
+}
+
+.icon-button svg {
+  width: 100%;
+  height: 100%;
+}
+
+.icon-button svg * {
+  transition: fill 0.1s linear;
+  fill: #3c7d05;
+}
+
+.icon-button:hover svg * {
+  fill: var(--white);
+}
+
+/*Variants*/
+
+.icon-button--big {
+  width: 54px;
+  height: 54px;
+}
+
+/*Colors*/
+
+.icon-button--red {
+  color: #9e0c0c;
+}
+
+.icon-button--red:hover {
+  background-color: #f31717;
+}
+
+.icon-button--red svg * {
+  fill: #9e0c0c;
+}

@@ -8,9 +8,7 @@ class TotalTimeComponent extends Component {
     toHtml() {
         return t`
             <div class="total-time-container">
-                <div>
-                    ${pageModel.totalTimeFormatted}
-                </div>
+                ${pageModel.totalTimeFormatted}
             </div>
         `;
     }

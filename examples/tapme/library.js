@@ -143,19 +143,26 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @returns {boolean}
      */
-    redraw() {
+    redraw(replace = false) {
         if (this._idDestroyed) {
             return true;
         }
 
         try {
-            const idsBefore = this._innerIds;
+            let idsBefore;
+            if (replace) {
+                idsBefore = this._outerIds;
+                this._element.outerHTML = this._toHtml();
+            } else {
+                idsBefore = this._innerIds;
+                this._element.innerHTML = this.toHtml();
+            }
 
-            this._element.innerHTML = this.toHtml();
 
-            this._deleteUseless(idsBefore);
+            this._deleteUseless(idsBefore, replace);
 
             return true;
         } catch (error) {
@@ -166,10 +173,11 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @param {string[]} idsBefore
      */
-    _deleteUseless(idsBefore) {
-        const idsAfter = new Set(this._innerIds);
+    _deleteUseless(idsBefore, replace) {
+        const idsAfter = new Set(replace ? this._outerIds : this._innerIds);
 
         for (const id of idsBefore) {
             if (id === this._id) {
@@ -208,10 +216,25 @@ class Component {
      * @returns {string[]}
      */
     get _innerIds() {
+        return this._getIdsFormElement(this._element.innerHTML)
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get _outerIds() {
+        return this._getIdsFormElement(this._element.outerHTML)
+    }
+
+    /**
+    * @param {string} elementStr
+    * @returns {string[]}
+    */
+    _getIdsFormElement(elementStr) {
         const componentRegexp = new RegExp(_componentIdPrefix + '\\d+', 'g');
         const handlerRegexp = new RegExp(_handlerIdPrefix + '\\d+', 'g');
 
-        const innerHTML = this._element.innerHTML;
+        const innerHTML = elementStr;
 
         return [
             ...(innerHTML.match(componentRegexp) ?? []),
@@ -374,10 +397,19 @@ class EasyFrontDebugComponent extends Component {
         this.params = params;
 
         this.timer = setInterval(() => this.redraw(), this.params?.updateInterval ?? 1000);
+
+        this._subscriber = new Subscriber(() => this.redraw())
+        pageModel.theme.connect(this._subscriber);
     }
 
     onDestroy() {
         clearInterval(this.timer);
+    }
+
+    onChangeTheme(e) {
+        localStorageService.setItem('theme', e.target.id);
+        pageModel.theme.value = e.target.id;
+        e.stopPropagation();
     }
 
     toHtml() {
@@ -420,6 +452,13 @@ class EasyFrontDebugComponent extends Component {
                 <div ${errorsCount}>
                     Errors count: ${_logger.errorsCount}
                 </div>
+                <fieldset>
+                    <legend>Theme:</legend>
+                    <label for="light">Light</label>
+                    <input ${pageModel.theme.value === 'light' && 'checked'} onclick="${this.onChangeTheme}" type="radio" id="light" name="light">
+                    <label for="dark">Dark</label>
+                    <input ${pageModel.theme.value === 'dark' && 'checked'} onclick="${this.onChangeTheme}" type="radio" id="dark" name="dark">
+                </fieldset>
             </div>
         `;
     }

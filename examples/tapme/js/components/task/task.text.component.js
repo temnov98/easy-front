@@ -7,7 +7,6 @@ class TaskTextComponent extends Component {
 
         this.inputId = `task-input-id-${task.id}`;
         this.task = task;
-        this.blockOnFocus = false; // todo: плохое решение. 
         this.editMode = this.createRedrawable(false, 'editMode');
     }
 
@@ -21,26 +20,6 @@ class TaskTextComponent extends Component {
         }
 
         return this.element.value;
-    }
-
-    get containerClass() {
-        return this.editMode ? 'task-text-container-edit-mode' : 'task-text-container';
-    }
-
-    onClick() {
-        if (this.editMode) {
-            return;
-        }
-
-        this.blockOnFocus = true;
-        this.editMode = true;
-        this.blockOnFocus = false;
-
-        this.element.focus();
-
-        const value = this.element.value;
-        this.element.value = '';
-        this.element.value = value;
     }
 
     onKeyDown(event) {
@@ -57,26 +36,18 @@ class TaskTextComponent extends Component {
     }
 
     onFocusOut() {
-        if (this.blockOnFocus) {
-            return;
-        }
-
-        if (this.editMode) {
-            pageModel.changeTaskText(this.task, this.inputValue);
-            this.editMode = false;
-        }
+        pageModel.changeTaskText(this.task, this.inputValue);
+        this.editMode = false;
     }
 
     toHtml() {
         return t`
-            <div class="${this.containerClass}" onclick="${() => this.onClick()}">
-                <textarea
-                    id="${this.inputId}"
-                    class="task-text-container-input"
-                    onfocusout="${() => this.onFocusOut()}"
-                    onkeydown="${(event) => this.onKeyDown(event)}"
-                />${this.task.title}</textarea>
-            </div>
+            <textarea
+                id="${this.inputId}"
+                class="task-text-container-input"
+                onfocusout="${() => this.onFocusOut()}"
+                onkeydown="${(event) => this.onKeyDown(event)}"
+            >${this.task.title.trim()}</textarea>
         `;
     }
 }
