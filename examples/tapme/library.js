@@ -143,19 +143,26 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @returns {boolean}
      */
-    redraw() {
+    redraw(replace = false) {
         if (this._idDestroyed) {
             return true;
         }
 
         try {
-            const idsBefore = this._innerIds;
+            let idsBefore;
+            if (replace) {
+                idsBefore = this._outerIds;
+                this._element.outerHTML = this._toHtml();
+            } else {
+                idsBefore = this._innerIds;
+                this._element.innerHTML = this.toHtml();
+            }
 
-            this._element.innerHTML = this.toHtml();
 
-            this._deleteUseless(idsBefore);
+            this._deleteUseless(idsBefore, replace);
 
             return true;
         } catch (error) {
@@ -166,10 +173,11 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @param {string[]} idsBefore
      */
-    _deleteUseless(idsBefore) {
-        const idsAfter = new Set(this._innerIds);
+    _deleteUseless(idsBefore, replace) {
+        const idsAfter = new Set(replace ? this._outerIds : this._innerIds);
 
         for (const id of idsBefore) {
             if (id === this._id) {
@@ -208,10 +216,26 @@ class Component {
      * @returns {string[]}
      */
     get _innerIds() {
+        return this._getIdsFormElement(this._element.innerHTML)
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get _outerIds() {
+        return this._getIdsFormElement(this._element.outerHTML)
+    }
+
+    /**
+    * @param {string} elementStr
+    * @returns {string[]}
+    */
+    _getIdsFormElement(elementStr) {
+        // TODO: pattern should be started with '^'
         const componentRegexp = new RegExp(_componentIdPrefix + '\\d+', 'g');
         const handlerRegexp = new RegExp(_handlerIdPrefix + '\\d+', 'g');
 
-        const innerHTML = this._element.innerHTML;
+        const innerHTML = elementStr;
 
         return [
             ...(innerHTML.match(componentRegexp) ?? []),
@@ -356,71 +380,5 @@ class ObservableValue {
         for (const subscriber of this._subscribers) {
             subscriber.handler(value);
         }
-    }
-}
-
-class EasyFrontDebugComponent extends Component {
-    /**
-     * @param {Object} [params]
-     * @param {string} [params.mainClass]
-     * @param {string} [params.componentsCountClass]
-     * @param {string} [params.handlersCountClass]
-     * @param {string} [params.errorsCountClass]
-     * @param {number} [params.updateInterval]
-     */
-    constructor(params) {
-        super();
-
-        this.params = params;
-
-        this.timer = setInterval(() => this.redraw(), this.params?.updateInterval ?? 1000);
-    }
-
-    onDestroy() {
-        clearInterval(this.timer);
-    }
-
-    toHtml() {
-        const {
-            mainClass = '',
-            componentsCountClass = '',
-            handlersCountClass = '',
-            errorsCountClass = '',
-        } = this.params ?? {};
-
-        const main = mainClass ? `class="${mainClass}"` : `style="${[
-            'position: fixed;',
-            'left: 10px;',
-            'top: 10px;',
-            'font-size: 20px;',
-            'background-color: rgba(188, 188, 188, 0.45);',
-            'padding: 10px;',
-        ].join(';')}"`;
-
-        const componentsCount = componentsCountClass ? `class="${componentsCountClass}"` : `style="${[
-            'color: #183ce5;',
-        ].join(';')}"`;
-
-        const handlersCount = handlersCountClass ? `class="${handlersCountClass}"` : `style="${[
-            'color: #3a6d15;',
-        ].join(';')}"`;
-
-        const errorsCount = errorsCountClass ? `class="${errorsCountClass}"` : `style="${[
-            'color: red;',
-        ].join(';')}"`;
-
-        return t`
-            <div ${main}>
-                <div ${componentsCount}>
-                    Components count: ${_idToComponentMapping.size}
-                </div>
-                <div ${handlersCount}>
-                    Handlers count: ${_globalFunctions.size}
-                </div>
-                <div ${errorsCount}>
-                    Errors count: ${_logger.errorsCount}
-                </div>
-            </div>
-        `;
     }
 }

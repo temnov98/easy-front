@@ -21,10 +21,9 @@ class TasksListComponent extends Component {
         }
 
         return t`
-            <div>
+            <div class="task-container">
                 ${pageModel.tasks.value.map((task) => [
                     new TaskComponent(task),
-                    new SpaseComponent(5),
                 ])}
             </div>
         `;

@@ -1,9 +1,46 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:800);
+@import "css/index.css";
+
+body {
+}
+
+body:has(.page--dark) {
+    background-color: var(--black);
+    color: var(--white);
+}
+
+body:has(.page--dark) input, body:has(.page--dark) textarea {
+    color: var(--white);
+}
+
+.page--dark .task-text-container-input:focus {
+    outline: 2px rgba(40, 184, 78, 0.82) dashed;
+}
+
+.page--dark .save-icon-container svg * {
+    fill: var(--white);
+}
+
+.page--dark .add-new-task button {
+    color: var(--white);
+}
+
+.page--dark .add-new-task button:hover {
+    box-shadow: 0 0 10px rgba(185, 223, 185, 0.20);
+    background-color: rgba(185, 223, 185, 0.20);
+}
+
+.page--dark .task-placeholder {
+    background-color: rgba(185, 223, 185, 0.20);
+    color: var(--white);
+}
+
 .body-white {
     background-color: white;
 }
 
 .body-black {
-    background-color: black;
+    background-color: var(--black);
 }
 
 .page {
@@ -28,12 +65,17 @@
 }
 
 .task-component {
-    margin-top: 15px;
+    gap: 16px;
+    align-items: center;
 }
 
 .buttons-line {
-    margin-top: 15px;
-    padding: 10px 0;
+    padding: 30px 0;
+    gap: 16px;
+}
+
+.buttons-line div:nth-child(2) {
+    flex: 1;
 }
 
 .task-text-container {
@@ -44,44 +86,25 @@
     box-sizing: border-box;
 }
 
-.task-text-container-edit-mode {
-    height: 85px;
-    margin-top: 0;
-    margin-bottom: 2px;
-    padding-left: 10px;
-    box-sizing: border-box;
-
-    border: 2px #28b84e4f dashed;
-}
-
 .task-text-container-input {
     font-family: Arial;
     font-size: 25px;
-    width: 99%;
+    width: 100%;
     white-space: normal;
     border: none;
     outline: none;
     text-align: left;
     resize: none;
     word-break: normal;
+    padding: 16px 12px;
+    box-sizing: border-box;
+    background: transparent;
+    border-radius: 12px;
+    transition: outline 0.1s linear;
 }
 
-.add-from-presets-button {
-    height: 70px;
-    width: 200px;
-    border: none;
-    background: #4caf506b;
-    border-radius: 20px;
-    font-size: 20px;
-    padding: 0 20px;
-    margin-right: 10px;
-}
-
-.add-from-presets-button:hover {
-    transition: 800ms;
-    box-shadow: 0 0 10px #b9dfb9;
-    background-color: #4caf50;
-    cursor: pointer;
+.task-text-container-input:focus {
+    outline: 2px #28b84e4f dashed;
 }
 
 .preset-text {
@@ -98,7 +121,7 @@
 }
 
 .base-button {
-    margin-right: 10px;
+    --shadowHeight: 30px;
     display: inline-block;
     width: 135px;
     height: 57px;
@@ -109,10 +132,13 @@
     outline: none;
     border: none;
     border-radius: 25px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: var(--shadowHeight);
 }
 
 .green-button {
-    box-shadow: 0 30px #3a6d15, 0 10px #3a6d15, 0 20px #3a6d15;
+    box-shadow: 0 var(--shadowHeight) #3a6d15, 0 10px #3a6d15, 0 20px #3a6d15;
     color: #fff;
     background-color: #4CAF50;
 }
@@ -137,88 +163,54 @@
 .add-new-task {
     padding: 0;
     margin: auto;
+    width: 100%;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .add-new-task button {
+    font-size: 30px;
     height: 70px;
     width: 70px;
     border: none;
     background: none;
     padding: 0;
-    margin-left: -80px;
     border-radius: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: background 0.2s linear, box-shadow 0.2s linear;
 }
 
 .add-new-task button:hover {
-    transition: 500ms;
     box-shadow: 0 0 10px #b9dfb9;
     background-color: #b9dfb9;
     cursor: pointer;
 }
 
 .add-new-task input {
-    width: 535px;
-    margin-right: 10px;
+    width: 100%;
+    outline: none;
     font-family: Arial;
     font-size: 25px;
-    /*height: 50px;*/
     padding: 20px;
-    /*margin-left: 300px;*/
     border-radius: 20px;
-    border-width: 1px;
-    border-color: #b9dfb9;
-    /*border: none;*/
+    border: 1px solid #b9dfb9;
+    transition: border-color 0.1s linear;
+    background: transparent;
 }
 
-.delete-task-button {
-    font-size: 25px;
-    font-family: Arial;
-    background-color: transparent;
-    border-radius: 10px;
-    height: 35px;
-    width: 35px;
-    border-width: 0;
-    color: #9e0c0c;
+.add-new-task input:focus {
+    border-color: #78d878;
 }
 
-.delete-task-button:hover {
-    background-color: #f31717;
-    color: white;
-    cursor: pointer;
-}
-
-.save-task-as-preset-button {
-    font-size: 25px;
-    font-family: Arial;
-    background-color: transparent;
-    border-radius: 10px;
-    height: 35px;
-    width: 35px;
-    border-width: 0;
-    color: #3c7d05;
-}
-
-.save-task-as-preset-button:hover {
-    background-color: #51a407;
-    color: white;
-    cursor: pointer;
-}
-
-.delete-preset-button {
-    font-size: 25px;
-    font-family: Arial;
-    background-color: transparent;
-    border-radius: 10px;
-    height: 35px;
-    width: 35px;
-    border-width: 0;
-    color: #9e0c0c;
-}
-
-.delete-preset-button:hover {
-    background-color: #f31717;
-    color: white;
-    cursor: pointer;
+.task-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    gap: 16px;
 }
 
 
@@ -325,18 +317,26 @@
 
 .save-icon-container {
     height: 70px;
+    width: 70px;
+    padding: 16px;
+    box-sizing: border-box;
+    border-radius: 25px;
+    transition: box-shadow 0.1s linear;
+}
+
+.save-icon-container svg {
+    transition: fill 0.1s linear;
+    width: 100%;
+    height: 100%;
 }
 
 .save-icon-container:hover {
     cursor: pointer;
-    border-radius: 25px;
-    height: 70px;
     box-shadow: 0 0 25px 0 #306e32;
 }
 
-.save-icon {
-    padding: 10px;
-    height: 50px;
+.save-icon-container:hover svg * {
+    fill: #306e32;
 }
 
 .total-time-container {
@@ -347,13 +347,30 @@
     text-align: center;
     width: 135px;
     height: 70px;
-}
-
-.total-time-container div {
     font-family: Arial;
     vertical-align: middle;
     display: table-cell;
-    width: 135px;
-    height: 70px;
     font-weight: bold;
+}
+
+.page--dark .total-time-container {
+    background-color: transparent;
+}
+
+.toggle-button__container {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-button__container > div:first-child {
+    transition: opacity 0.3s linear;
+    opacity: 0.6;
+    margin-left: -135px;
+    width: 135px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.toggle-button__container:has(input[checked]) > div:first-child {
+    opacity: 1;
 }

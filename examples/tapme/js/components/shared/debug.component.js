@@ -32,15 +32,15 @@ class DebugComponent extends Component {
             return t`
                 <div 
                     class="${panelClass}" 
-                    onmousedown="${() => this.onClick()}"
-                     onmouseleave="${() => this.onLeave()}"
+                    onclick="${() => this.onClick()}"
+                    onmouseleave="${() => this.onLeave()}"
                 >
                     ${new EasyFrontDebugComponent(debugClasses)}
                 </div>
             `;
         } else {
             return t`
-                <div class="debug-icon" onmousedown="${() => this.onClick()}">
+                <div class="debug-icon" onclick="${() => this.onClick()}">
                     <img class="debug-image-active" src="images/debug.svg" alt="Image">
                 </div>
             `;

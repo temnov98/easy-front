@@ -5,6 +5,7 @@ class PageModel {
         this.tasks = new ObservableValue(tasks);
         this.presets = new ObservableValue(presets);
         this.totalTimeFormatted = new ObservableValue(this.getTotalTimeFormatted());
+        this.theme = new ObservableValue(localStorageService.getItem('theme') || 'light');
     }
 
     updateTotalTime() {
