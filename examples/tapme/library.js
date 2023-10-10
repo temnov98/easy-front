@@ -1,8 +1,11 @@
 const _componentIdPrefix = 'easy-front-component-id-';
 const _handlerIdPrefix = 'easy-front-handler-id-';
-const _cssClassIdPrefix = 'easy-front-css-class-id-';
 const _subscriberIdPrefix = 'easy-front-subscriber-id-';
 const _observableValueIdPrefix = 'easy-front-observable-value-id-';
+
+const _dataAttributeNames = {
+    cssClassId: 'data-easy-front-css-class-id',
+};
 
 class _Logger {
     constructor() {
@@ -227,9 +230,9 @@ class Component {
     }
 
     /**
-    * @param {string} elementStr
-    * @returns {string[]}
-    */
+     * @param {string} elementStr
+     * @returns {string[]}
+     */
     _getIdsFormElement(elementStr) {
         // TODO: pattern should be started with '^'
         const componentRegexp = new RegExp(_componentIdPrefix + '\\d+', 'g');
@@ -291,7 +294,7 @@ class CssClass {
      * @param {string} className
      */
     constructor(className) {
-        this._id = _getId(_cssClassIdPrefix);
+        this._id = _getId('');
         this._className = className;
     }
 
@@ -307,7 +310,7 @@ class CssClass {
      */
     set className(className) {
         try {
-            const element = document.getElementById(this._id);
+            const [element] = document.querySelectorAll(`[${_dataAttributeNames.cssClassId}="${this._id}"]`);
 
             element.className = className;
 
@@ -321,7 +324,7 @@ class CssClass {
      * @returns {string}
      */
     _insertValue() {
-        return `${this._className}" id="${this._id}`;
+        return `${this._className}" ${_dataAttributeNames.cssClassId}="${this._id}`;
     }
 }
 
