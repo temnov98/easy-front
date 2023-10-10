@@ -81,7 +81,7 @@ class LocalStorageService {
      * @param {string} key
      */
     getItem(key) {
-        return localStorage.getItem(this.storageKey + '-' +key);
+        return localStorage.getItem(this.storageKey + '-' + key);
     }
 
     /**
@@ -89,7 +89,7 @@ class LocalStorageService {
      * @param {string} value
      */
     setItem(key, value) {
-        localStorage.setItem(this.storageKey + '-' +key, value);
+        localStorage.setItem(this.storageKey + '-' + key, value);
     }
 }
 
