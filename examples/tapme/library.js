@@ -1,3 +1,5 @@
+const _containerTagName = 'easy-front-container';
+
 const _componentIdPrefix = 'easy-front-component-id-';
 const _handlerIdPrefix = 'easy-front-handler-id-';
 const _subscriberIdPrefix = 'easy-front-subscriber-id-';
@@ -5,6 +7,7 @@ const _observableValueIdPrefix = 'easy-front-observable-value-id-';
 
 const _dataAttributeNames = {
     cssClassId: 'data-easy-front-css-class-id',
+    redrawableId: 'data-easy-front-redrawable-id',
 };
 
 class _Logger {
@@ -263,7 +266,7 @@ class Component {
      * @param {string} fieldName
      * @returns {T}
      */
-    createRedrawable(value, fieldName) {
+    createFullRedrawable(value, fieldName) {
         let init = true;
         const key = Symbol('RedrawableValueSymbol');
 
@@ -282,6 +285,60 @@ class Component {
             get: () => {
                 return self[key];
             }
+        });
+
+        return value;
+    }
+
+    /**
+     * @template T
+     * @param {T} value
+     * @param {string} fieldName
+     * @returns {T}
+     */
+    createRedrawable(value, fieldName) {
+        let init = true;
+        const key = Symbol('RedrawableValueSymbol');
+
+        const self = this;
+
+        const redrawableId = _getId('');
+
+        Object.defineProperty(self, fieldName, {
+            set: (setValue) => {
+                self[key] = setValue;
+
+                if (init) {
+                    init = false;
+                } else {
+                    document
+                        .querySelectorAll(`[${_dataAttributeNames.redrawableId}="${redrawableId}"]`)
+                        .forEach((element) => element.innerHTML = self[key]);
+                }
+            },
+            get: () => {
+                let storedValue = self[key];
+
+                if (storedValue === null || storedValue === undefined) {
+                    return storedValue;
+                }
+
+                if (typeof storedValue === 'string') {
+                    storedValue = new String(storedValue);
+                }
+
+                if (typeof storedValue === 'number') {
+                    storedValue = new Number(storedValue);
+                }
+
+                if (typeof storedValue === 'boolean') {
+                    storedValue = new Boolean(storedValue);
+                }
+
+                storedValue._toHtml = () => t`<${_containerTagName} ${_dataAttributeNames.redrawableId}="${redrawableId}">${self[key]}</${_containerTagName}>`;
+
+                return storedValue;
+            },
         });
 
         return value;

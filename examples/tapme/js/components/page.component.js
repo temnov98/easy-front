@@ -7,8 +7,9 @@ class PageComponent extends Component {
         });
         pageModel.theme.connect(this._subscriber);
 
-        this.className = this.createRedrawable(`"page page--${pageModel.theme.value}"`, 'className');
+        this.className = this.createFullRedrawable(`"page page--${pageModel.theme.value}"`, 'className');
     }
+
     toHtml() {
         return t`
             <div id="main-content" class=${this.className}>

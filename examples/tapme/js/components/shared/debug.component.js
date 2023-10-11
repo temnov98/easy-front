@@ -2,8 +2,8 @@ class DebugComponent extends Component {
     constructor() {
         super();
 
-        this.expanded = this.createRedrawable(false, 'expanded');
-        this.initial = this.createRedrawable(false, 'initial');
+        this.expanded = this.createFullRedrawable(false, 'expanded');
+        this.initial = this.createFullRedrawable(false, 'initial');
     }
 
     onClick() {

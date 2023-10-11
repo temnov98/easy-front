@@ -2,7 +2,7 @@ class TaskPlaceholderComponent extends Component {
     constructor() {
         super();
 
-        this.dotsCount = this.createRedrawable(0, 'dotsCount');
+        this.dots = this.createRedrawable('', 'dots');
         this.timer = setInterval(() => this.tick(), 500);
     }
 
@@ -11,21 +11,11 @@ class TaskPlaceholderComponent extends Component {
     }
 
     tick() {
-        if (this.dotsCount < 3) {
-            this.dotsCount++;
+        if (this.dots.length < 3) {
+            this.dots += '.';
         } else {
-            this.dotsCount = 0;
+            this.dots = '';
         }
-    }
-
-    get dots() {
-        let result = '';
-
-        for (let i = 0; i < this.dotsCount; i++) {
-            result += '.';
-        }
-
-        return result;
     }
 
     toHtml() {
