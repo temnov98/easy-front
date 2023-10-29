@@ -1,7 +1,22 @@
 /**
+ * @typedef {Object} RawTaskIntervalValue
+ * @property {string} startedAt
+ * @property {string} finishedAt
+ */
+
+/**
+ * @typedef {Object} RawTaskValue
+ * @property {string} id
+ * @property {string} title
+ * @property {number} durationInSeconds
+ * @property {string} [startedAt]
+ * @property {RawTaskIntervalValue[]} [finishedIntervals]
+ */
+
+/**
  * @typedef {Object} RawValue
- * @property {Array<{ id: number; title: string; durationInSeconds: number; startedAt?: string }>} tasks
- * @property {Array<{ id: number; title: string }>} presets
+ * @property {Array<RawTaskValue>} tasks
+ * @property {Array<{ id: string; title: string }>} presets
  */
 
 class LocalStorageService {
@@ -31,6 +46,7 @@ class LocalStorageService {
                     title: task.title,
                     durationInSeconds: task.durationInSeconds,
                     startedAt: task.startedAt ? new Date(task.startedAt) : undefined,
+                    finishedIntervals: this._getFinishedIntervals(task),
                 })),
                 presets: raw.presets.map((preset) => new PresetModel({
                     id: preset.id,
@@ -47,6 +63,22 @@ class LocalStorageService {
     }
 
     /**
+     * @param {RawTaskValue} task
+     * @returns {TaskIntervalModel[]}
+     */
+    _getFinishedIntervals(task) {
+        if (task.finishedIntervals) {
+            return task.finishedIntervals.map((interval) => new TaskIntervalModel({
+                startedAt: new Date(interval.startedAt),
+                finishedAt: new Date(interval.finishedAt),
+            }));
+        }
+
+        // If old version without finishedIntervals in localstorage
+        return [];
+    }
+
+    /**
      * @param {Object} params
      * @param {TaskModel[]} params.tasks
      * @param {PresetModel[]} params.presets
@@ -60,6 +92,10 @@ class LocalStorageService {
                     title: task.title,
                     durationInSeconds: task._durationInSeconds,
                     startedAt: task._startedAt.value ? task._startedAt.value.toString() : undefined,
+                    finishedIntervals: task._finishedIntervals.map((interval) => ({
+                        startedAt: interval.startedAt.toISOString(),
+                        finishedAt: interval.finishedAt.toISOString(),
+                    })),
                 })),
                 presets: presets.map((preset) => ({
                     id: preset.id,

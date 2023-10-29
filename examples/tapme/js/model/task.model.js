@@ -1,3 +1,10 @@
+/** @class TaskModel
+ * @property {string} id
+ * @property {string} title
+ * @property {number} _durationInSeconds
+ * @property {ObservableValue} _startedAt
+ * @property {TaskIntervalModel} _finishedIntervals
+ */
 class TaskModel {
     /**
      * @param {object} params
@@ -5,12 +12,14 @@ class TaskModel {
      * @param {string} params.title
      * @param {number} [params.durationInSeconds]
      * @param {Date} [params.startedAt]
+     * @param {TaskIntervalModel[]} [params.finishedIntervals]
      */
-    constructor({ id, title, durationInSeconds, startedAt }) {
+    constructor({ id, title, durationInSeconds, startedAt, finishedIntervals }) {
         this.id = id ?? getId();
         this.title = title;
         this._durationInSeconds = durationInSeconds ?? 0;
         this._startedAt = new ObservableValue(startedAt);
+        this._finishedIntervals = finishedIntervals ?? [];
     }
 
     /**
@@ -37,6 +46,12 @@ class TaskModel {
         return this._durationInSeconds + this._additionalDurationInSeconds;
     }
 
+    get durationInMilliseconds() {
+        const durationInSeconds = this._finishedIntervals.reduce((result, interval) => result + interval.durationInMilliseconds, 0);
+
+        return durationInSeconds + this._additionalDurationInSeconds * 1000;
+    }
+
     /**
      * @returns {string}
      */
@@ -50,6 +65,13 @@ class TaskModel {
 
     stop() {
         if (this._startedAt.value) {
+            const interval = new TaskIntervalModel({
+                startedAt: this._startedAt.value,
+                finishedAt: new Date(),
+            });
+
+            this._finishedIntervals.push(interval);
+
             this._durationInSeconds += this._additionalDurationInSeconds;
 
             this._startedAt.value = undefined;
@@ -61,6 +83,22 @@ class TaskModel {
             this.stop();
         } else {
             this._startedAt.value = new Date();
+        }
+    }
+
+    /**
+     * @returns {TaskIntervalModel[]}
+     */
+    get intervals() {
+        if (this._startedAt.value) {
+            const lastInterval = new TaskIntervalModel({
+                startedAt: this._startedAt.value,
+                finishedAt: new Date(),
+            });
+
+            return [...this._finishedIntervals, lastInterval];
+        } else {
+            return this._finishedIntervals;
         }
     }
 }
