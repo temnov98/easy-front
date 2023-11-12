@@ -1,0 +1,138 @@
+body {
+    font-size: 14pt;
+}
+
+button {
+    background-color: white;
+    border: 2px solid #04AA6D;
+    color: black;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 9px 2px 0px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    height: 57px;
+}
+
+button:hover {
+    background-color: #04AA6D;
+    color: white;
+}
+
+
+
+
+/* The container */
+.for-replaced-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-top: 9px;
+    margin-left: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.for-replaced-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.for-replaced-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.for-replaced-container:hover input ~ .for-replaced-checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.for-replaced-container input:checked ~ .for-replaced-checkmark {
+    background-color: green;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.for-replaced-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.for-replaced-container input:checked ~ .for-replaced-checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.for-replaced-container .for-replaced-checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+
+
+
+
+
+
+
+.column {
+    float: left;
+}
+
+.column-30 {
+    float: left;
+    width: 30%;
+}
+
+.column-70 {
+    float: left;
+    width: 70%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.settings-block {
+    width: 400px;
+}
+
+.letter-block {
+    margin-top: 10px;
+    width: 400px;
+}
+
+.source-text {
+    margin-top: 20px;
+    width: 428px;
+    height: 130px;
+}
+
+.result-text {
+    padding: 15px;
+    width: 700px;
+    font-size: 18pt;
+}

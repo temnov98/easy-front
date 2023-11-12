@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Georgian</title>
+
+        <link href="css/styles.css" rel="stylesheet" />
+
+        <!-- import library-->
+        <script src="./library.js"></script>
+
+        <!-- import constants-->
+        <script src="js/const/georgian.js"></script>
+
+        <!-- import models-->
+        <script src="js/models/letter.model.js"></script>
+        <script src="js/models/page.model.js"></script>
+
+        <!-- import components-->
+        <script src="js/components/settings.component.js"></script>
+        <script src="js/components/source-text.component.js"></script>
+        <script src="js/components/result-text.component.js"></script>
+        <script src="js/components/letter.component.js"></script>
+        <script src="js/components/letters-block.component.js"></script>
+
+        <!-- import page component-->
+        <script src="js/components/page.component.js"></script>
+    </head>
+    <body onload="initPage('page-id', new PageComponent())">
+        <div id="page-id"></div>
+    </body>
+</html>
