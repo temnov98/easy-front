@@ -1,3 +1,5 @@
+const _easyFrontVersion = 1;
+
 const _containerTagName = 'easy-front-container';
 
 const _componentIdPrefix = 'easy-front-component-id-';
