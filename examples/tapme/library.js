@@ -442,3 +442,62 @@ class ObservableValue {
         }
     }
 }
+
+class BaseModel {
+    constructor() {
+        this._fieldNameToSymbol = new Map();
+    }
+
+    /**
+     * @template T
+     * @param {T} value
+     * @param {string} fieldName
+     * @returns {T}
+     */
+    createObservable(value, fieldName) {
+        let init = true;
+        const key = Symbol('ObservableValueSymbol');
+        this._fieldNameToSymbol.set(fieldName, key);
+
+        const self = this;
+
+        Object.defineProperty(self, fieldName, {
+            set: (setValue) => {
+                if (init) {
+                    self[key] = new ObservableValue(setValue);
+
+                    init = false;
+                } else {
+                    self[key].value = setValue;
+                }
+            },
+            get: () => {
+                return self[key].value;
+            },
+        });
+
+        return value;
+    }
+
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    connect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
+
+        this[key].connect(subscriber);
+    }
+
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    disconnect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
+
+        this[key].disconnect(subscriber);
+    }
+}
