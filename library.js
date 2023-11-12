@@ -1,8 +1,14 @@
+const _containerTagName = 'easy-front-container';
+
 const _componentIdPrefix = 'easy-front-component-id-';
 const _handlerIdPrefix = 'easy-front-handler-id-';
-const _cssClassIdPrefix = 'easy-front-css-class-id-';
 const _subscriberIdPrefix = 'easy-front-subscriber-id-';
 const _observableValueIdPrefix = 'easy-front-observable-value-id-';
+
+const _dataAttributeNames = {
+    cssClassId: 'data-easy-front-css-class-id',
+    redrawableId: 'data-easy-front-redrawable-id',
+};
 
 class _Logger {
     constructor() {
@@ -143,19 +149,26 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @returns {boolean}
      */
-    redraw() {
+    redraw(replace = false) {
         if (this._idDestroyed) {
             return true;
         }
 
         try {
-            const idsBefore = this._innerIds;
+            let idsBefore;
+            if (replace) {
+                idsBefore = this._outerIds;
+                this._element.outerHTML = this._toHtml();
+            } else {
+                idsBefore = this._innerIds;
+                this._element.innerHTML = this.toHtml();
+            }
 
-            this._element.innerHTML = this.toHtml();
 
-            this._deleteUseless(idsBefore);
+            this._deleteUseless(idsBefore, replace);
 
             return true;
         } catch (error) {
@@ -166,10 +179,11 @@ class Component {
     }
 
     /**
+     * @param {boolean} replace
      * @param {string[]} idsBefore
      */
-    _deleteUseless(idsBefore) {
-        const idsAfter = new Set(this._innerIds);
+    _deleteUseless(idsBefore, replace) {
+        const idsAfter = new Set(replace ? this._outerIds : this._innerIds);
 
         for (const id of idsBefore) {
             if (id === this._id) {
@@ -208,10 +222,26 @@ class Component {
      * @returns {string[]}
      */
     get _innerIds() {
+        return this._getIdsFormElement(this._element.innerHTML)
+    }
+
+    /**
+     * @returns {string[]}
+     */
+    get _outerIds() {
+        return this._getIdsFormElement(this._element.outerHTML)
+    }
+
+    /**
+     * @param {string} elementStr
+     * @returns {string[]}
+     */
+    _getIdsFormElement(elementStr) {
+        // TODO: pattern should be started with '^'
         const componentRegexp = new RegExp(_componentIdPrefix + '\\d+', 'g');
         const handlerRegexp = new RegExp(_handlerIdPrefix + '\\d+', 'g');
 
-        const innerHTML = this._element.innerHTML;
+        const innerHTML = elementStr;
 
         return [
             ...(innerHTML.match(componentRegexp) ?? []),
@@ -236,7 +266,7 @@ class Component {
      * @param {string} fieldName
      * @returns {T}
      */
-    createRedrawable(value, fieldName) {
+    createFullRedrawable(value, fieldName) {
         let init = true;
         const key = Symbol('RedrawableValueSymbol');
 
@@ -259,6 +289,60 @@ class Component {
 
         return value;
     }
+
+    /**
+     * @template T
+     * @param {T} value
+     * @param {string} fieldName
+     * @returns {T}
+     */
+    createRedrawable(value, fieldName) {
+        let init = true;
+        const key = Symbol('RedrawableValueSymbol');
+
+        const self = this;
+
+        const redrawableId = _getId('');
+
+        Object.defineProperty(self, fieldName, {
+            set: (setValue) => {
+                self[key] = setValue;
+
+                if (init) {
+                    init = false;
+                } else {
+                    document
+                        .querySelectorAll(`[${_dataAttributeNames.redrawableId}="${redrawableId}"]`)
+                        .forEach((element) => element.innerHTML = self[key]);
+                }
+            },
+            get: () => {
+                let storedValue = self[key];
+
+                if (storedValue === null || storedValue === undefined) {
+                    return storedValue;
+                }
+
+                if (typeof storedValue === 'string') {
+                    storedValue = new String(storedValue);
+                }
+
+                if (typeof storedValue === 'number') {
+                    storedValue = new Number(storedValue);
+                }
+
+                if (typeof storedValue === 'boolean') {
+                    storedValue = new Boolean(storedValue);
+                }
+
+                storedValue._toHtml = () => t`<${_containerTagName} ${_dataAttributeNames.redrawableId}="${redrawableId}">${self[key]}</${_containerTagName}>`;
+
+                return storedValue;
+            },
+        });
+
+        return value;
+    }
 }
 
 // usage: <div class="${this.cssClass}"><div>
@@ -267,7 +351,7 @@ class CssClass {
      * @param {string} className
      */
     constructor(className) {
-        this._id = _getId(_cssClassIdPrefix);
+        this._id = _getId('');
         this._className = className;
     }
 
@@ -283,7 +367,7 @@ class CssClass {
      */
     set className(className) {
         try {
-            const element = document.getElementById(this._id);
+            const [element] = document.querySelectorAll(`[${_dataAttributeNames.cssClassId}="${this._id}"]`);
 
             element.className = className;
 
@@ -297,7 +381,7 @@ class CssClass {
      * @returns {string}
      */
     _insertValue() {
-        return `${this._className}" id="${this._id}`;
+        return `${this._className}" ${_dataAttributeNames.cssClassId}="${this._id}`;
     }
 }
 
@@ -359,68 +443,61 @@ class ObservableValue {
     }
 }
 
-class EasyFrontDebugComponent extends Component {
+class BaseModel {
+    constructor() {
+        this._fieldNameToSymbol = new Map();
+    }
+
     /**
-     * @param {Object} [params]
-     * @param {string} [params.mainClass]
-     * @param {string} [params.componentsCountClass]
-     * @param {string} [params.handlersCountClass]
-     * @param {string} [params.errorsCountClass]
-     * @param {number} [params.updateInterval]
+     * @template T
+     * @param {T} value
+     * @param {string} fieldName
+     * @returns {T}
      */
-    constructor(params) {
-        super();
+    createObservable(value, fieldName) {
+        let init = true;
+        const key = Symbol('ObservableValueSymbol');
+        this._fieldNameToSymbol.set(fieldName, key);
 
-        this.params = params;
+        const self = this;
 
-        this.timer = setInterval(() => this.redraw(), this.params?.updateInterval ?? 1000);
+        Object.defineProperty(self, fieldName, {
+            set: (setValue) => {
+                if (init) {
+                    self[key] = new ObservableValue(setValue);
+
+                    init = false;
+                } else {
+                    self[key].value = setValue;
+                }
+            },
+            get: () => {
+                return self[key].value;
+            },
+        });
+
+        return value;
     }
 
-    onDestroy() {
-        clearInterval(this.timer);
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    connect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
+
+        this[key].connect(subscriber);
     }
 
-    toHtml() {
-        const {
-            mainClass = '',
-            componentsCountClass = '',
-            handlersCountClass = '',
-            errorsCountClass = '',
-        } = this.params ?? {};
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    disconnect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
 
-        const main = mainClass ? `class="${mainClass}"` : `style="${[
-            'position: fixed;',
-            'left: 10px;',
-            'top: 10px;',
-            'font-size: 20px;',
-            'background-color: rgba(188, 188, 188, 0.45);',
-            'padding: 10px;',
-        ].join(';')}"`;
-
-        const componentsCount = componentsCountClass ? `class="${componentsCountClass}"` : `style="${[
-            'color: #183ce5;',
-        ].join(';')}"`;
-
-        const handlersCount = handlersCountClass ? `class="${handlersCountClass}"` : `style="${[
-            'color: #3a6d15;',
-        ].join(';')}"`;
-
-        const errorsCount = errorsCountClass ? `class="${errorsCountClass}"` : `style="${[
-            'color: red;',
-        ].join(';')}"`;
-
-        return t`
-            <div ${main}>
-                <div ${componentsCount}>
-                    Components count: ${_idToComponentMapping.size}
-                </div>
-                <div ${handlersCount}>
-                    Handlers count: ${_globalFunctions.size}
-                </div>
-                <div ${errorsCount}>
-                    Errors count: ${_logger.errorsCount}
-                </div>
-            </div>
-        `;
+        this[key].disconnect(subscriber);
     }
 }
