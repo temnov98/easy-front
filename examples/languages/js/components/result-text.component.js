@@ -2,13 +2,7 @@ class ResultTextComponent extends Component {
     constructor() {
         super();
 
-        this._subscriber = new Subscriber(() => this.redraw(true))
-
-        pageModel.connect('sourceText', this._subscriber);
-    }
-
-    onDestroy() {
-        pageModel.disconnect('sourceText', this._subscriber);
+        this.subscribe(pageModel, 'sourceText', () => this.redraw(true));
     }
 
     toHtml() {

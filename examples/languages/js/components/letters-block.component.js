@@ -2,12 +2,7 @@ class LettersBlockComponent extends Component {
     constructor() {
         super();
 
-        this._subscriber = new Subscriber(() => this.redraw(true));
-        pageModel.connect('letters', this._subscriber);
-    }
-
-    onDestroy() {
-        pageModel.disconnect('letters', this._subscriber);
+        this.subscribe(pageModel, 'letters', () => this.redraw(true));
     }
 
     toHtml() {

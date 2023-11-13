@@ -7,12 +7,7 @@ class LetterComponent extends Component {
 
         this.model = model;
 
-        this._subscriber = new Subscriber(() => this.redraw());
-        this.model.connect('selected', this._subscriber);
-    }
-
-    onDestroy() {
-        this.model.disconnect('selected', this._subscriber);
+        this.subscribe(model, 'selected', () => this.redraw());
     }
 
     onChange() {

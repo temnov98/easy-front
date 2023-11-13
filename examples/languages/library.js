@@ -118,11 +118,131 @@ function initPage(id, page) {
 /** @type {Map<string, Component>} */
 const _idToComponentMapping = new Map();
 
+class Subscriber {
+    /**
+     * @param {(value: any) => void} handler
+     */
+    constructor(handler) {
+        this.id = _getId(_subscriberIdPrefix);
+        this.handler = handler;
+    }
+}
+
+// Use it for models
+class ObservableValue {
+    /**
+     * @param {any} value
+     */
+    constructor(value) {
+        this.id = _getId(_observableValueIdPrefix);
+        this._value = value;
+
+        /** @type {Array<Subscriber>} */
+        this._subscribers = [];
+    }
+
+    /**
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    connect(subscriber) {
+        this._subscribers.push(subscriber);
+    }
+
+    /**
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    disconnect(subscriber) {
+        this._subscribers = this._subscribers.filter((currentSubscriber) => currentSubscriber.id !== subscriber.id);
+    }
+
+    /**
+     * @returns {any}
+     */
+    get value() {
+        return this._value;
+    }
+
+    /**
+     * @param {any} value
+     */
+    set value(value) {
+        this._value = value;
+
+        for (const subscriber of this._subscribers) {
+            subscriber.handler(value);
+        }
+    }
+}
+
+
+class BaseModel {
+    constructor() {
+        this._fieldNameToSymbol = new Map();
+    }
+
+    /**
+     * @template T
+     * @param {T} value
+     * @param {string} fieldName
+     * @returns {T}
+     */
+    createObservable(value, fieldName) {
+        let init = true;
+        const key = Symbol('ObservableValueSymbol');
+        this._fieldNameToSymbol.set(fieldName, key);
+
+        const self = this;
+
+        Object.defineProperty(self, fieldName, {
+            set: (setValue) => {
+                if (init) {
+                    self[key] = new ObservableValue(setValue);
+
+                    init = false;
+                } else {
+                    self[key].value = setValue;
+                }
+            },
+            get: () => {
+                return self[key].value;
+            },
+        });
+
+        return value;
+    }
+
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    connect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
+
+        this[key].connect(subscriber);
+    }
+
+    /**
+     * @param {string} fieldName
+     * @param {Subscriber} subscriber
+     * @returns {void}
+     */
+    disconnect(fieldName, subscriber) {
+        const key = this._fieldNameToSymbol.get(fieldName);
+
+        this[key].disconnect(subscriber);
+    }
+}
+
 // Base class for components
 class Component {
     constructor() {
         this._id = _getId(_componentIdPrefix);
         this._idDestroyed = false;
+        this._rendered = false;
+        this._unsubscribeHandlers = [];
 
         _idToComponentMapping.set(this._id, this);
     }
@@ -147,6 +267,8 @@ class Component {
      * @returns {void}
      */
     _onDestroy() {
+        this._unsubscribeHandlers.forEach((handler) => handler());
+
         this._idDestroyed = true;
         this.onDestroy();
     }
@@ -157,6 +279,11 @@ class Component {
      */
     redraw(replace = false) {
         if (this._idDestroyed) {
+            return true;
+        }
+
+        if (!this._rendered) {
+            _logger.log(`Trying redraw unrendered component: ${this.constructor.name}`);
             return true;
         }
 
@@ -256,6 +383,8 @@ class Component {
      * @returns {string}
      */
     _toHtml() {
+        this._rendered = true;
+
         const html = this.toHtml();
 
         const nodes = new DOMParser()
@@ -366,6 +495,19 @@ class Component {
 
         return value;
     }
+
+    /**
+     * @param {BaseModel} model
+     * @param fieldName
+     * @param handler
+     */
+    subscribe(model, fieldName, handler) {
+        const subscriber = new Subscriber(handler);
+
+        model.connect(fieldName, subscriber);
+
+        this._unsubscribeHandlers.push(() => model.disconnect(fieldName, subscriber));
+    }
 }
 
 // usage: <div class="${this.cssClass}"><div>
@@ -405,122 +547,5 @@ class CssClass {
      */
     _insertValue() {
         return `${this._className}" ${_dataAttributeNames.cssClassId}="${this._id}`;
-    }
-}
-
-class Subscriber {
-    /**
-     * @param {(value: any) => void} handler
-     */
-    constructor(handler) {
-        this.id = _getId(_subscriberIdPrefix);
-        this.handler = handler;
-    }
-}
-
-// Use it for models
-class ObservableValue {
-    /**
-     * @param {any} value
-     */
-    constructor(value) {
-        this.id = _getId(_observableValueIdPrefix);
-        this._value = value;
-
-        /** @type {Array<Subscriber>} */
-        this._subscribers = [];
-    }
-
-    /**
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    connect(subscriber) {
-        this._subscribers.push(subscriber);
-    }
-
-    /**
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    disconnect(subscriber) {
-        this._subscribers = this._subscribers.filter((currentSubscriber) => currentSubscriber.id !== subscriber.id);
-    }
-
-    /**
-     * @returns {any}
-     */
-    get value() {
-        return this._value;
-    }
-
-    /**
-     * @param {any} value
-     */
-    set value(value) {
-        this._value = value;
-
-        for (const subscriber of this._subscribers) {
-            subscriber.handler(value);
-        }
-    }
-}
-
-class BaseModel {
-    constructor() {
-        this._fieldNameToSymbol = new Map();
-    }
-
-    /**
-     * @template T
-     * @param {T} value
-     * @param {string} fieldName
-     * @returns {T}
-     */
-    createObservable(value, fieldName) {
-        let init = true;
-        const key = Symbol('ObservableValueSymbol');
-        this._fieldNameToSymbol.set(fieldName, key);
-
-        const self = this;
-
-        Object.defineProperty(self, fieldName, {
-            set: (setValue) => {
-                if (init) {
-                    self[key] = new ObservableValue(setValue);
-
-                    init = false;
-                } else {
-                    self[key].value = setValue;
-                }
-            },
-            get: () => {
-                return self[key].value;
-            },
-        });
-
-        return value;
-    }
-
-    /**
-     * @param {string} fieldName
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    connect(fieldName, subscriber) {
-        const key = this._fieldNameToSymbol.get(fieldName);
-
-        this[key].connect(subscriber);
-    }
-
-    /**
-     * @param {string} fieldName
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    disconnect(fieldName, subscriber) {
-        const key = this._fieldNameToSymbol.get(fieldName);
-
-        this[key].disconnect(subscriber);
     }
 }
