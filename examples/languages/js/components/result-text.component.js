@@ -2,7 +2,7 @@ class ResultTextComponent extends Component {
     constructor() {
         super();
 
-        this._subscriber = new Subscriber(() => this.redraw())
+        this._subscriber = new Subscriber(() => this.redraw(true))
 
         pageModel.connect('sourceText', this._subscriber);
     }

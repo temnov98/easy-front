@@ -94,11 +94,6 @@ body {
     float: left;
 }
 
-.column-70 {
-    float: left;
-    width: 70%;
-}
-
 /* Clear floats after the columns */
 .row:after {
     content: "";
@@ -122,8 +117,9 @@ body {
 }
 
 .result-text {
-    padding: 15px;
+    padding: 15px 50px;
     font-size: 18pt;
+    max-width: 800px;
 }
 
 .language-title {

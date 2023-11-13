@@ -30,7 +30,7 @@ class PageModel extends BaseModel {
     }
 
     get resultHtml() {
-        let preparedText = this.sourceText;
+        let preparedText = this.sourceText.toLowerCase();
 
         this.letters
             .filter((letter) => letter.selected && letter.replaceFrom.length > 1)
