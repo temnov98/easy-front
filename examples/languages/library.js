@@ -502,6 +502,18 @@ class Component {
      * @param handler
      */
     subscribe(model, fieldName, handler) {
+        if (!(model instanceof BaseModel)) {
+            _logger.error(`Error on subscribe for ${this.constructor.name} component: model is not a BaseModel`);
+
+            return;
+        }
+
+        if (typeof handler !== 'function') {
+            _logger.error(`Error on subscribe for ${this.constructor.name} component: handler is not a function`);
+
+            return;
+        }
+
         const subscriber = new Subscriber(handler);
 
         model.connect(fieldName, subscriber);
