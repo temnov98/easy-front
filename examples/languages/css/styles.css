@@ -2,7 +2,7 @@ body {
     font-size: 14pt;
 }
 
-button {
+.select-button {
     background-color: white;
     border: 2px solid #04AA6D;
     color: black;
@@ -15,15 +15,13 @@ button {
     transition-duration: 0.4s;
     cursor: pointer;
     height: 57px;
+    width: 190px;
 }
 
-button:hover {
+.select-button:hover {
     background-color: #04AA6D;
     color: white;
 }
-
-
-
 
 /* The container */
 .for-replaced-container {
@@ -88,20 +86,12 @@ button:hover {
     transform: rotate(45deg);
 }
 
-
-
-
-
-
-
-
 .column {
     float: left;
 }
 
 .column-30 {
     float: left;
-    width: 30%;
 }
 
 .column-70 {
@@ -133,6 +123,34 @@ button:hover {
 
 .result-text {
     padding: 15px;
-    width: 700px;
     font-size: 18pt;
+}
+
+.language-title {
+    margin: 3px 10px;
+}
+
+.switcher-container {
+    border-radius: 25px;
+    background-color: #90c56e;
+    height: 30px;
+    width: 70px;
+    cursor: pointer;
+}
+
+.switcher-circle {
+    height: 22px;
+    width: 22px;
+    border: solid 4px #3a6d15;
+    background-color: #3a6d15;
+    border-radius: 25px;
+    transition-duration: 300ms;
+}
+
+.switcher-circle-active {
+    margin-left: 0;
+}
+
+.switcher-circle-inactive {
+    margin-left: 40px;
 }

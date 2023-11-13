@@ -2,17 +2,19 @@ class PageModel extends BaseModel {
     constructor() {
         super();
 
-        // TODO: georgianLetters should be passed from constructor
-        this.letters = georgianLetters.map((item) => new LetterModel({
+        this.sourceText = this.createObservable('', 'sourceText');
+        this.boldForReplaced = this.createObservable(false, 'boldForReplaced');
+        this.colorForReplaced = this.createObservable(false, 'colorForReplaced');
+        this.letters = this.createObservable([], 'letters');
+    }
+
+    setLanguage(newLetters) {
+        this.letters = newLetters.map((item) => new LetterModel({
             selected: false,
             description: item.description,
             foreign: item.foreign,
             replaceFrom: item.replaceFrom,
         }));
-
-        this.sourceText = this.createObservable('', 'sourceText');
-        this.boldForReplaced = this.createObservable(false, 'boldForReplaced');
-        this.colorForReplaced = this.createObservable(false, 'colorForReplaced');
 
         this.replaceFromToLetters = new Map();
 
@@ -84,3 +86,5 @@ class PageModel extends BaseModel {
 }
 
 const pageModel = new PageModel();
+
+pageModel.setLanguage(georgianLetters);

@@ -1,4 +1,4 @@
-const _easyFrontVersion = 1;
+const _easyFrontVersion = 2;
 
 const _containerTagName = 'easy-front-container';
 
@@ -8,6 +8,7 @@ const _subscriberIdPrefix = 'easy-front-subscriber-id-';
 const _observableValueIdPrefix = 'easy-front-observable-value-id-';
 
 const _dataAttributeNames = {
+    componentId: 'data-easy-front-component-id',
     cssClassId: 'data-easy-front-css-class-id',
     redrawableId: 'data-easy-front-redrawable-id',
 };
@@ -161,6 +162,7 @@ class Component {
 
         try {
             let idsBefore;
+
             if (replace) {
                 idsBefore = this._outerIds;
                 this._element.outerHTML = this._toHtml();
@@ -168,7 +170,6 @@ class Component {
                 idsBefore = this._innerIds;
                 this._element.innerHTML = this.toHtml();
             }
-
 
             this._deleteUseless(idsBefore, replace);
 
@@ -217,7 +218,7 @@ class Component {
     }
 
     get _element() {
-        return document.getElementById(this._id);
+        return document.querySelector(`[${_dataAttributeNames.componentId}="${this._id}"]`);
     }
 
     /**
@@ -255,20 +256,40 @@ class Component {
      * @returns {string}
      */
     _toHtml() {
-        return t`
-            <div id="${this._id}">
-                ${this.toHtml()}
-            </div>
-        `;
+        const html = this.toHtml();
+
+        const nodes = new DOMParser()
+            .parseFromString(html, "text/html")
+            .body
+            .childNodes;
+
+        if (nodes.length < 1) {
+            _logger.error(`Nodes count in component ${this.constructor.name} should be more than 1`);
+
+            return '';
+        }
+
+        const node = nodes[0];
+
+        if (typeof node.setAttribute !== 'function') {
+            _logger.error(`Component ${this.constructor.name} has incorrect html representation`);
+
+            return '';
+        }
+
+        node.setAttribute(_dataAttributeNames.componentId, this._id);
+
+        return node.outerHTML;
     }
 
     /**
      * @template T
      * @param {T} value
      * @param {string} fieldName
+     * @param {boolean} [redrawReplace]
      * @returns {T}
      */
-    createFullRedrawable(value, fieldName) {
+    createFullRedrawable(value, fieldName, redrawReplace = false) {
         let init = true;
         const key = Symbol('RedrawableValueSymbol');
 
@@ -281,7 +302,7 @@ class Component {
                 if (init) {
                     init = false;
                 } else {
-                    self.redraw();
+                    self.redraw(redrawReplace);
                 }
             },
             get: () => {

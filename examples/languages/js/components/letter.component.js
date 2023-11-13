@@ -7,7 +7,7 @@ class LetterComponent extends Component {
 
         this.model = model;
 
-        this._subscriber = new Subscriber(() => this.redraw())
+        this._subscriber = new Subscriber(() => this.redraw());
         this.model.connect('selected', this._subscriber);
     }
 
