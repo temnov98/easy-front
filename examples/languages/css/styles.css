@@ -105,21 +105,44 @@ body {
     width: 400px;
 }
 
-.letter-block {
-    margin-top: 10px;
-    width: 400px;
+/* monitors and laptops */
+@media only screen and (orientation: landscape) {
+    .letter-block {
+        margin-top: 10px;
+        width: 400px;
+    }
+
+    .source-text {
+        margin-top: 20px;
+        width: 428px;
+        height: 130px;
+    }
+
+    .result-text {
+        padding: 15px 50px;
+        font-size: 18pt;
+        max-width: 800px;
+    }
 }
 
-.source-text {
-    margin-top: 20px;
-    width: 428px;
-    height: 130px;
-}
+/* mobile */
+@media only screen and (orientation: portrait) {
+    .letter-block {
+        margin-top: 10px;
+        width: 95%;
+    }
 
-.result-text {
-    padding: 15px 50px;
-    font-size: 18pt;
-    max-width: 800px;
+    .source-text {
+        margin-top: 20px;
+        width: 100%;
+        height: 130px;
+    }
+
+    .result-text {
+        padding: 10px 7px;
+        font-size: 18pt;
+        max-width: 800px;
+    }
 }
 
 .language-title {
