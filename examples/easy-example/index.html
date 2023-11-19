@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Easy example</title>
+
+        <!-- import library-->
+        <script src="https://temnov98.github.io/easy-front/languages/library.js"></script>
+
+        <style>
+            body {
+                font-size: 30pt;
+            }
+
+            button {
+                font-size: 30pt;
+            }
+
+            .empty {
+                transition-duration: 5s;
+            }
+
+            .red-background {
+                background-color: red;
+                transition-duration: 5s;
+            }
+        </style>
+
+        <script>
+            // Модель, изменения в которой будут тригерить изменения компонентов
+            class Model extends BaseModel {
+                constructor() {
+                    super();
+
+                    this.count = this.createObservable(0, 'count');
+                    this.fillColor = this.createObservable(false, 'fillColor');
+                }
+            }
+
+            const model = new Model();
+
+            // Компонент с авто подпиской (AutoSubscribeComponent).
+            // В методе toHtml() используется observable field (model.count).
+            // При изменении этого поля, компонент автоматически обновится.
+            class CountButtonWithModel extends AutoSubscribeComponent {
+                toHtml() {
+                    return t`
+                        <button onclick="${() => model.count++}">
+                            with model: ${model.count}
+                        </button>
+                    `;
+                }
+            }
+
+            // Компонент без авто подписки (Component).
+            // В методе toHtml() используется observable field (model.count).
+            // При изменении этого поля, компонент автоматически обновится потому что в конструкторе вызван метод subscribe()
+            class CountComponent extends Component {
+                constructor() {
+                    super();
+
+                    this.subscribe(model.count).redrawOnChange();
+                }
+
+                toHtml() {
+                    return t`
+                        <div>
+                            count in model: ${model.count}
+                        </div>
+                    `;
+                }
+            }
+
+            // Ещё один компонент с авто подпиской, но уже с двумя полями.
+            class ModelView extends AutoSubscribeComponent {
+                toHtml() {
+                    return t`
+                        <div>
+                            fillColor: ${model.fillColor}
+                            <br>
+                            count: ${model.count}
+                            <br>
+                        </div>
+                    `;
+                }
+            }
+
+            // Компонент, который не связан с моделью.
+            // При изменении redrawable поля (count), компонент обновится автоматически.
+            class CountButtonWithoutModel extends Component {
+                constructor() {
+                    super();
+
+                    this.count = this.createRedrawable(0, 'count');
+                }
+
+                toHtml() {
+                    return t`
+                         <button onclick="${() => this.count++}">
+                             without model: ${this.count}
+                         </button>
+                    `;
+                }
+            }
+
+            // Компонент без авто подписки (Component).
+            // В методе toHtml() используется observable field (model.fillColor).
+            // При изменении этого поля, компонент автоматически обновится потому что в конструкторе вызван метод subscribe()
+            class ChangeBackgroundComponent extends Component {
+                constructor() {
+                    super();
+
+                    this.subscribe(model.fillColor).onChange(() => this.redraw());
+                }
+
+                toHtml() {
+                    const text = model.fillColor ? 'Delete filling' : 'Fill';
+
+                    return t`
+                        <button onclick="${() => model.fillColor = !model.fillColor}">
+                            ${text}
+                        </button>
+                    `;
+                }
+            }
+
+            // Компонент без автоматической подписки.
+            // В конструкторе задана подписка на изменение model.fillColor.
+            // При изменении этого поля меняется this.class.className.
+            // Компонент при этом не перерисовывается, обновляется только класс.
+            // Это позволяет делать transition в css.
+            class PageComponent extends Component {
+                constructor() {
+                    super();
+
+                    this.class = new CssClass('empty');
+
+                    this.subscribe(model.fillColor).onChange(() => {
+                        this.class.className = model.fillColor ? 'red-background' : 'empty';
+                    });
+                }
+
+                toHtml() {
+                    return t`
+                        <div class="${this.class}">
+                            ${CountButtonWithoutModel}
+                            ${CountButtonWithModel}
+                            ${CountComponent}
+                            ${ChangeBackgroundComponent}
+                            ${ModelView}
+                            ${ChangeBackgroundComponent}
+                        </div>
+                    `;
+                }
+            }
+        </script>
+    </head>
+    <body onload="initPage('page-id', new PageComponent())">
+        <div id="page-id"></div>
+    </body>
+</html>
