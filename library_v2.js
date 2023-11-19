@@ -336,7 +336,7 @@ class BaseModel {
 // Base class for components
 class Component {
     /**
-     * @param {object} params
+     * @param {object} [params]
      * @param {boolean} [params.autoSubscribe]
      * @returns {void}
      */
