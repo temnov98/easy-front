@@ -6,7 +6,7 @@ class SourceTextComponent extends Component {
     }
 
     onChange() {
-        pageModel.sourceText = document.getElementById(this.textAreaId).value;
+        pageModel.setSourceText(document.getElementById(this.textAreaId).value);
     }
 
     toHtml() {

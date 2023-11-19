@@ -22,10 +22,10 @@ class SwitcherComponent extends Component {
     }
 
     onClick() {
-        this.params?.onClick();
-
         this.toggle();
         this.switherClass.className = this.currentSwitcherClass;
+
+        this.params?.onClick();
     }
 
     toHtml() {

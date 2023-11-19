@@ -2,6 +2,7 @@ const _easyFrontVersion = '2.0.0';
 
 const _containerTagName = 'easy-front-container';
 
+const _modelIdPrefix = 'easy-front-model-id-';
 const _componentIdPrefix = 'easy-front-component-id-';
 const _handlerIdPrefix = 'easy-front-handler-id-';
 const _subscriberIdPrefix = 'easy-front-subscriber-id-';
@@ -118,6 +119,9 @@ function initPage(id, page) {
 /** @type {Map<string, Component>} */
 const _idToComponentMapping = new Map();
 
+/** @type {Set<string>} */
+const _componentNamesSet = new Set();
+
 class Subscriber {
     /**
      * @param {(value: any) => void} handler
@@ -178,12 +182,85 @@ class ObservableValue {
 
 class BaseModel {
     static _returnMode = 'value';
+    static _stack = new Map();
+    static _components = [];
 
     static enableOnceReturnObject() {
         this._returnMode = 'object';
     }
 
+    /**
+     * @param {Component} component
+     * @returns {void}
+     */
+    static startStack(component) {
+        this._components.push(component);
+        this._stack.set(component, []);
+    }
+
+    /**
+     * @returns {{ model: BaseModel; fieldName: string }[]}
+     */
+    static stopStack() {
+        const component = this._components.pop();
+        const fields = this._stack.get(component) ?? [];
+
+        const handled = new Set();
+        const result = [];
+
+        for (const field of fields) {
+            if (!handled.has(field.model._id)) {
+                handled.add(field.model._id);
+                result.push(field);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @param {object} params
+     * @param {BaseModel} params.model
+     * @param {string} params.fieldName
+     * @returns {void}
+     */
+    static _pushToStack({ model, fieldName }) {
+        if (!this._components.length) {
+            return;
+        }
+
+        const array = this._stack.get(this._components[this._components.length - 1]);
+        if (!array) {
+            return;
+        }
+
+        if (this._shouldPush()) {
+            array.push({ model, fieldName });
+        }
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    static _shouldPush() {
+        try {
+            const [componentName, toHtmlMethod] = new Error()
+                .stack
+                .split(' at ')[4]
+                .split(' ')[0]
+                .split('.');
+
+            if (toHtmlMethod !== 'toHtml') {
+                return false;
+            }
+
+            return _componentNamesSet.has(componentName);
+        } catch (error) {
+        }
+    }
+
     constructor() {
+        this._id = _getId(_modelIdPrefix);
         this._fieldNameToSymbol = new Map();
     }
 
@@ -211,6 +288,8 @@ class BaseModel {
                 }
             },
             get: () => {
+                BaseModel._pushToStack({ model: self, fieldName });
+
                 if (BaseModel._returnMode === 'object') {
                     BaseModel._returnMode = 'value';
                     return { model: self, fieldName };
@@ -255,6 +334,10 @@ class Component {
         this._unsubscribeHandlers = [];
 
         _idToComponentMapping.set(this._id, this);
+        _componentNamesSet.add(this.constructor.name);
+
+        this._observableFields = [];
+        this._renderCount = 0;
     }
 
     /**
@@ -284,13 +367,9 @@ class Component {
     }
 
     /**
-     * @param {object} [params]
-     * @param {boolean} [params.replace]
      * @returns {boolean}
      */
-    redraw(params) {
-        const { replace = false } = params || {};
-
+    redraw() {
         if (this._idDestroyed) {
             return true;
         }
@@ -301,17 +380,10 @@ class Component {
         }
 
         try {
-            let idsBefore;
+            const idsBefore = this._outerIds;
+            this._element.outerHTML = this._toHtml();
 
-            if (replace) {
-                idsBefore = this._outerIds;
-                this._element.outerHTML = this._toHtml();
-            } else {
-                idsBefore = this._innerIds;
-                this._element.innerHTML = this.toHtml();
-            }
-
-            this._deleteUseless(idsBefore, replace);
+            this._deleteUseless(idsBefore);
 
             return true;
         } catch (error) {
@@ -322,11 +394,10 @@ class Component {
     }
 
     /**
-     * @param {boolean} replace
      * @param {string[]} idsBefore
      */
-    _deleteUseless(idsBefore, replace) {
-        const idsAfter = new Set(replace ? this._outerIds : this._innerIds);
+    _deleteUseless(idsBefore) {
+        const idsAfter = new Set(this._outerIds);
 
         for (const id of idsBefore) {
             if (id === this._id) {
@@ -393,12 +464,36 @@ class Component {
     }
 
     /**
+     * @param {{ model: BaseModel; fieldName: string }[]} observableFields
+     * @returns {void}
+     */
+    _autoSubscribe(observableFields) {
+        for (const { model, fieldName } of observableFields) {
+            const alreadySubscribed = this._observableFields.some((field) => field.fieldName === fieldName && field.model._id === model._id);
+
+            if (!alreadySubscribed) {
+                this._observableFields.push({ model, fieldName });
+
+                this._subscribe({
+                    model,
+                    fieldName,
+                    handler: () => this.redraw(),
+                });
+            }
+        }
+    }
+
+    /**
      * @returns {string}
      */
     _toHtml() {
         this._rendered = true;
 
+        BaseModel.startStack(this);
         const html = this.toHtml();
+        this._autoSubscribe(BaseModel.stopStack());
+
+        this._renderCount++;
 
         const nodes = new DOMParser()
             .parseFromString(html, "text/html")
@@ -428,10 +523,9 @@ class Component {
      * @template T
      * @param {T} value
      * @param {string} fieldName
-     * @param {boolean} [redrawReplace]
      * @returns {T}
      */
-    createFullRedrawable(value, fieldName, redrawReplace = false) {
+    createFullRedrawable(value, fieldName) {
         let init = true;
         const key = Symbol('RedrawableValueSymbol');
 
@@ -444,7 +538,7 @@ class Component {
                 if (init) {
                     init = false;
                 } else {
-                    self.redraw({ replace: redrawReplace });
+                    self.redraw();
                 }
             },
             get: () => {
@@ -510,7 +604,7 @@ class Component {
     }
 
     /**
-     * @returns {(field) => { onChange: (handler: Function) => void; redrawOnChange: (redrawParams?: { replace?: boolean }) => void }}
+     * @returns {(field) => { onChange: (handler: Function) => void; redrawOnChange: () => void }}
      */
     get subscribe() {
         BaseModel.enableOnceReturnObject();
@@ -526,11 +620,11 @@ class Component {
                         handler,
                     });
                 },
-                redrawOnChange: (redrawParams) => {
+                redrawOnChange: () => {
                     this._subscribe({
                         model,
                         fieldName,
-                        handler: () => this.redraw(redrawParams),
+                        handler: () => this.redraw(),
                     });
                 },
             };

@@ -6,43 +6,27 @@ class LetterComponent extends Component {
         super();
 
         this.model = model;
-
-        this.subscribe(model.selected).redrawOnChange();
     }
 
     onChange() {
         this.model.selected = !this.model.selected;
-
-        pageModel.updateText();
+        pageModel.updateResultText();
     }
 
     toHtml() {
         const name = Math.random().toString();
 
-        if (this.model.selected) {
-            return t`
-                <div>
-                    <input
-                        type="checkbox"
-                        name="${name}"
-                        checked
-                        onchange="${() => this.onChange()}"
-                    />
-                    <label for="${name}">${this.model.foreign} - ${this.model.description}</label>
-                </div>
-            `;
-        } else {
-            return t`
-                <div>
-                     <input
-                        type="checkbox"
-                        name="${name}"
-                        onchange="${() => this.onChange()}"
-                    />
-                    <label for="${name}">${this.model.foreign} - ${this.model.description}</label>
-                </div>
-            `;
-        }
+        return t`
+            <div>
+                <input
+                    type="checkbox"
+                    name="${name}"
+                    ${this.model.selected ? 'checked' : ''}
+                    onchange="${() => this.onChange()}"
+                />
+                <label for="${name}">${this.model.foreign} - ${this.model.description}</label>
+            </div>
+        `;
     }
 }
 
