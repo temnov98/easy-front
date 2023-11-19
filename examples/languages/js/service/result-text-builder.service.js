@@ -2,7 +2,7 @@ class ResultTextBuilderService {
     /**
      * @param {object} params
      * @param {string} params.sourceText
-     * @param {object[]} params.letters
+     * @param {{ selected: boolean; replaceFrom: string; foreign: string }[]} params.letters
      * @param {Map<string, string[]>} params.replaceFromToLetters
      * @param {boolean} params.boldForReplaced
      * @param {boolean} params.colorForReplaced

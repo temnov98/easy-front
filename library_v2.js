@@ -2,6 +2,7 @@ const _easyFrontVersion = '2.0.0';
 
 const _containerTagName = 'easy-front-container';
 
+const _modelIdPrefix = 'easy-front-model-id-';
 const _componentIdPrefix = 'easy-front-component-id-';
 const _handlerIdPrefix = 'easy-front-handler-id-';
 const _subscriberIdPrefix = 'easy-front-subscriber-id-';
@@ -118,6 +119,9 @@ function initPage(id, page) {
 /** @type {Map<string, Component>} */
 const _idToComponentMapping = new Map();
 
+/** @type {Set<string>} */
+const _componentNamesSet = new Set();
+
 class Subscriber {
     /**
      * @param {(value: any) => void} handler
@@ -177,13 +181,94 @@ class ObservableValue {
 }
 
 class BaseModel {
-    static _returnMode = 'value';
+    // TODO: typify it
+    static _returnObservableFieldMode = 'value'; // 'value' | 'object'
+
+    // TODO: typify it
+    // TODO: can use only one array - _autoSubscribeComponents. _componentToObservableFields is useless
+    static _componentToObservableFields = new Map();
+    static _autoSubscribeComponents = [];
 
     static enableOnceReturnObject() {
-        this._returnMode = 'object';
+        this._returnObservableFieldMode = 'object';
+    }
+
+    /**
+     * @param {Component} component
+     * @returns {void}
+     */
+    static startAutoSubscribe(component) {
+        this._autoSubscribeComponents.push(component);
+        this._componentToObservableFields.set(component, []);
+    }
+
+    /**
+     * @returns {{ model: BaseModel; fieldName: string }[]}
+     */
+    static stopAutoSubscribe() {
+        const component = this._autoSubscribeComponents.pop();
+        const fields = this._componentToObservableFields.get(component) ?? [];
+
+        const handled = new Set();
+        const result = [];
+
+        for (const field of fields) {
+            if (!handled.has(field.model._id)) {
+                handled.add(field.model._id);
+                result.push(field);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @param {object} params
+     * @param {BaseModel} params.model
+     * @param {string} params.fieldName
+     * @returns {void}
+     */
+    static _pushObservableFieldToAutoSubscribeComponent({ model, fieldName }) {
+        if (!this._autoSubscribeComponents.length) {
+            return;
+        }
+
+        const currentComponent = this._autoSubscribeComponents[this._autoSubscribeComponents.length - 1];
+
+        const fields = this._componentToObservableFields.get(currentComponent);
+        if (!fields) {
+            return;
+        }
+
+        if (this._shouldPush()) {
+            fields.push({ model, fieldName });
+        }
+    }
+
+    // TODO: Refactor it. Is it good or bad solution (use Error.stack?
+    /**
+     * @returns {boolean}
+     */
+    static _shouldPush() {
+        try {
+            const [componentName, toHtmlMethod] = new Error()
+                .stack
+                .split(' at ')[4]
+                .split(' ')[0]
+                .split('.');
+
+            if (toHtmlMethod !== 'toHtml') {
+                return false;
+            }
+
+            return _componentNamesSet.has(componentName);
+        } catch (error) {
+            // TODO: add error log
+        }
     }
 
     constructor() {
+        this._id = _getId(_modelIdPrefix);
         this._fieldNameToSymbol = new Map();
     }
 
@@ -211,8 +296,10 @@ class BaseModel {
                 }
             },
             get: () => {
-                if (BaseModel._returnMode === 'object') {
-                    BaseModel._returnMode = 'value';
+                BaseModel._pushObservableFieldToAutoSubscribeComponent({ model: self, fieldName });
+
+                if (BaseModel._returnObservableFieldMode === 'object') {
+                    BaseModel._returnObservableFieldMode = 'value';
                     return { model: self, fieldName };
                 }
 
@@ -248,13 +335,24 @@ class BaseModel {
 
 // Base class for components
 class Component {
-    constructor() {
+    /**
+     * @param {object} params
+     * @param {boolean} [params.autoSubscribe]
+     * @returns {void}
+     */
+    constructor(params) {
+        const { autoSubscribe = false } = params || {};
+
+        this._autoSubscribeEnabled = autoSubscribe;
         this._id = _getId(_componentIdPrefix);
         this._idDestroyed = false;
         this._rendered = false;
         this._unsubscribeHandlers = [];
 
         _idToComponentMapping.set(this._id, this);
+        _componentNamesSet.add(this.constructor.name);
+
+        this._observableFields = [];
     }
 
     /**
@@ -284,13 +382,9 @@ class Component {
     }
 
     /**
-     * @param {object} [params]
-     * @param {boolean} [params.replace]
      * @returns {boolean}
      */
-    redraw(params) {
-        const { replace = false } = params || {};
-
+    redraw() {
         if (this._idDestroyed) {
             return true;
         }
@@ -301,17 +395,10 @@ class Component {
         }
 
         try {
-            let idsBefore;
+            const idsBefore = this._outerIds;
+            this._element.outerHTML = this._toHtml();
 
-            if (replace) {
-                idsBefore = this._outerIds;
-                this._element.outerHTML = this._toHtml();
-            } else {
-                idsBefore = this._innerIds;
-                this._element.innerHTML = this.toHtml();
-            }
-
-            this._deleteUseless(idsBefore, replace);
+            this._deleteUseless(idsBefore);
 
             return true;
         } catch (error) {
@@ -322,11 +409,10 @@ class Component {
     }
 
     /**
-     * @param {boolean} replace
      * @param {string[]} idsBefore
      */
-    _deleteUseless(idsBefore, replace) {
-        const idsAfter = new Set(replace ? this._outerIds : this._innerIds);
+    _deleteUseless(idsBefore) {
+        const idsAfter = new Set(this._outerIds);
 
         for (const id of idsBefore) {
             if (id === this._id) {
@@ -364,13 +450,6 @@ class Component {
     /**
      * @returns {string[]}
      */
-    get _innerIds() {
-        return this._getIdsFormElement(this._element.innerHTML)
-    }
-
-    /**
-     * @returns {string[]}
-     */
     get _outerIds() {
         return this._getIdsFormElement(this._element.outerHTML)
     }
@@ -393,12 +472,40 @@ class Component {
     }
 
     /**
+     * @param {{ model: BaseModel; fieldName: string }[]} observableFields
+     * @returns {void}
+     */
+    _autoSubscribe(observableFields) {
+        for (const { model, fieldName } of observableFields) {
+            const alreadySubscribed = this._observableFields.some((field) => field.fieldName === fieldName && field.model._id === model._id);
+
+            if (!alreadySubscribed) {
+                this._observableFields.push({ model, fieldName });
+
+                this._subscribe({
+                    model,
+                    fieldName,
+                    handler: () => this.redraw(),
+                });
+            }
+        }
+    }
+
+    /**
      * @returns {string}
      */
     _toHtml() {
         this._rendered = true;
 
-        const html = this.toHtml();
+        let html;
+
+        if (this._autoSubscribeEnabled) {
+            BaseModel.startAutoSubscribe(this);
+            html = this.toHtml();
+            this._autoSubscribe(BaseModel.stopAutoSubscribe());
+        } else {
+            html = this.toHtml();
+        }
 
         const nodes = new DOMParser()
             .parseFromString(html, "text/html")
@@ -428,10 +535,9 @@ class Component {
      * @template T
      * @param {T} value
      * @param {string} fieldName
-     * @param {boolean} [redrawReplace]
      * @returns {T}
      */
-    createFullRedrawable(value, fieldName, redrawReplace = false) {
+    createFullRedrawable(value, fieldName) {
         let init = true;
         const key = Symbol('RedrawableValueSymbol');
 
@@ -444,7 +550,7 @@ class Component {
                 if (init) {
                     init = false;
                 } else {
-                    self.redraw({ replace: redrawReplace });
+                    self.redraw();
                 }
             },
             get: () => {
@@ -510,7 +616,7 @@ class Component {
     }
 
     /**
-     * @returns {(field) => { onChange: (handler: Function) => void; redrawOnChange: (redrawParams?: { replace?: boolean }) => void }}
+     * @returns {(field) => { onChange: (handler: Function) => void; redrawOnChange: () => void }}
      */
     get subscribe() {
         BaseModel.enableOnceReturnObject();
@@ -526,11 +632,11 @@ class Component {
                         handler,
                     });
                 },
-                redrawOnChange: (redrawParams) => {
+                redrawOnChange: () => {
                     this._subscribe({
                         model,
                         fieldName,
-                        handler: () => this.redraw(redrawParams),
+                        handler: () => this.redraw(),
                     });
                 },
             };
@@ -562,6 +668,12 @@ class Component {
         model.connect(fieldName, subscriber);
 
         this._unsubscribeHandlers.push(() => model.disconnect(fieldName, subscriber));
+    }
+}
+
+class AutoSubscribeComponent extends Component {
+    constructor() {
+        super({ autoSubscribe: true });
     }
 }
 

@@ -181,8 +181,11 @@ class ObservableValue {
 }
 
 class BaseModel {
+    // TODO: typify it
     static _returnObservableFieldMode = 'value'; // 'value' | 'object'
 
+    // TODO: typify it
+    // TODO: can use only one array - _autoSubscribeComponents. _componentToObservableFields is useless
     static _componentToObservableFields = new Map();
     static _autoSubscribeComponents = [];
 
