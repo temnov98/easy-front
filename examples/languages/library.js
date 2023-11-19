@@ -181,29 +181,30 @@ class ObservableValue {
 }
 
 class BaseModel {
-    static _returnMode = 'value';
-    static _stack = new Map();
-    static _components = [];
+    static _returnObservableFieldMode = 'value'; // 'value' | 'object'
+
+    static _componentToObservableFields = new Map();
+    static _autoSubscribeComponents = [];
 
     static enableOnceReturnObject() {
-        this._returnMode = 'object';
+        this._returnObservableFieldMode = 'object';
     }
 
     /**
      * @param {Component} component
      * @returns {void}
      */
-    static startStack(component) {
-        this._components.push(component);
-        this._stack.set(component, []);
+    static startAutoSubscribe(component) {
+        this._autoSubscribeComponents.push(component);
+        this._componentToObservableFields.set(component, []);
     }
 
     /**
      * @returns {{ model: BaseModel; fieldName: string }[]}
      */
-    static stopStack() {
-        const component = this._components.pop();
-        const fields = this._stack.get(component) ?? [];
+    static stopAutoSubscribe() {
+        const component = this._autoSubscribeComponents.pop();
+        const fields = this._componentToObservableFields.get(component) ?? [];
 
         const handled = new Set();
         const result = [];
@@ -224,21 +225,24 @@ class BaseModel {
      * @param {string} params.fieldName
      * @returns {void}
      */
-    static _pushToStack({ model, fieldName }) {
-        if (!this._components.length) {
+    static _pushObservableFieldToAutoSubscribeComponent({ model, fieldName }) {
+        if (!this._autoSubscribeComponents.length) {
             return;
         }
 
-        const array = this._stack.get(this._components[this._components.length - 1]);
-        if (!array) {
+        const currentComponent = this._autoSubscribeComponents[this._autoSubscribeComponents.length - 1];
+
+        const fields = this._componentToObservableFields.get(currentComponent);
+        if (!fields) {
             return;
         }
 
         if (this._shouldPush()) {
-            array.push({ model, fieldName });
+            fields.push({ model, fieldName });
         }
     }
 
+    // TODO: Refactor it. Is it good or bad solution (use Error.stack?
     /**
      * @returns {boolean}
      */
@@ -256,6 +260,7 @@ class BaseModel {
 
             return _componentNamesSet.has(componentName);
         } catch (error) {
+            // TODO: add error log
         }
     }
 
@@ -288,10 +293,10 @@ class BaseModel {
                 }
             },
             get: () => {
-                BaseModel._pushToStack({ model: self, fieldName });
+                BaseModel._pushObservableFieldToAutoSubscribeComponent({ model: self, fieldName });
 
-                if (BaseModel._returnMode === 'object') {
-                    BaseModel._returnMode = 'value';
+                if (BaseModel._returnObservableFieldMode === 'object') {
+                    BaseModel._returnObservableFieldMode = 'value';
                     return { model: self, fieldName };
                 }
 
@@ -327,7 +332,15 @@ class BaseModel {
 
 // Base class for components
 class Component {
-    constructor() {
+    /**
+     * @param {object} params
+     * @param {boolean} [params.autoSubscribe]
+     * @returns {void}
+     */
+    constructor(params) {
+        const { autoSubscribe = false } = params || {};
+
+        this._autoSubscribeEnabled = autoSubscribe;
         this._id = _getId(_componentIdPrefix);
         this._idDestroyed = false;
         this._rendered = false;
@@ -337,7 +350,6 @@ class Component {
         _componentNamesSet.add(this.constructor.name);
 
         this._observableFields = [];
-        this._renderCount = 0;
     }
 
     /**
@@ -435,13 +447,6 @@ class Component {
     /**
      * @returns {string[]}
      */
-    get _innerIds() {
-        return this._getIdsFormElement(this._element.innerHTML)
-    }
-
-    /**
-     * @returns {string[]}
-     */
     get _outerIds() {
         return this._getIdsFormElement(this._element.outerHTML)
     }
@@ -489,11 +494,15 @@ class Component {
     _toHtml() {
         this._rendered = true;
 
-        BaseModel.startStack(this);
-        const html = this.toHtml();
-        this._autoSubscribe(BaseModel.stopStack());
+        let html;
 
-        this._renderCount++;
+        if (this._autoSubscribeEnabled) {
+            BaseModel.startAutoSubscribe(this);
+            html = this.toHtml();
+            this._autoSubscribe(BaseModel.stopAutoSubscribe());
+        } else {
+            html = this.toHtml();
+        }
 
         const nodes = new DOMParser()
             .parseFromString(html, "text/html")
@@ -656,6 +665,12 @@ class Component {
         model.connect(fieldName, subscriber);
 
         this._unsubscribeHandlers.push(() => model.disconnect(fieldName, subscriber));
+    }
+}
+
+class AutoSubscribeComponent extends Component {
+    constructor() {
+        super({ autoSubscribe: true });
     }
 }
 

@@ -1,4 +1,4 @@
-class ResultTextComponent extends Component {
+class ResultTextComponent extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <div class="result-text">

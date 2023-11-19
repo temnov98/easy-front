@@ -1,4 +1,4 @@
-class LetterComponent extends Component {
+class LetterComponent extends AutoSubscribeComponent {
     /**
      * @param {LetterModel} model
      */

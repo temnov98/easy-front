@@ -1,4 +1,4 @@
-class ReplacedSettingsContainer extends Component {
+class ReplacedSettingsContainer extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <div>

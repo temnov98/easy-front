@@ -1,4 +1,4 @@
-class LettersBlockComponent extends Component {
+class LettersBlockComponent extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <fieldset class="letter-block">

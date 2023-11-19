@@ -1,4 +1,4 @@
-class LanguagesSettingsComponent extends Component {
+class LanguagesSettingsComponent extends AutoSubscribeComponent {
     toHtml() {
         const switcher = new SwitcherComponent({
             onClick: () => pageModel.toggleLanguage(),
