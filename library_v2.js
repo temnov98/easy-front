@@ -213,8 +213,10 @@ class BaseModel {
         const result = [];
 
         for (const field of fields) {
-            if (!handled.has(field.model._id)) {
-                handled.add(field.model._id);
+            const key = `${field.model.constructor.name}.${field.fieldName}(${field.model._id})`;
+
+            if (!handled.has(key)) {
+                handled.add(key);
                 result.push(field);
             }
         }
