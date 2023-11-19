@@ -2,7 +2,7 @@ class LettersBlockComponent extends Component {
     constructor() {
         super();
 
-        this.subscribe(pageModel, 'letters', () => this.redraw(true));
+        this.subscribe(pageModel.letters).redrawOnChange({ replace: true });
     }
 
     toHtml() {

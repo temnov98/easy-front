@@ -1,4 +1,4 @@
-const _easyFrontVersion = 2;
+const _easyFrontVersion = '2.0.0';
 
 const _containerTagName = 'easy-front-container';
 
@@ -176,8 +176,13 @@ class ObservableValue {
     }
 }
 
-
 class BaseModel {
+    static _returnMode = 'value';
+
+    static enableOnceReturnObject() {
+        this._returnMode = 'object';
+    }
+
     constructor() {
         this._fieldNameToSymbol = new Map();
     }
@@ -206,6 +211,11 @@ class BaseModel {
                 }
             },
             get: () => {
+                if (BaseModel._returnMode === 'object') {
+                    BaseModel._returnMode = 'value';
+                    return { model: self, fieldName };
+                }
+
                 return self[key].value;
             },
         });
@@ -274,10 +284,13 @@ class Component {
     }
 
     /**
-     * @param {boolean} replace
+     * @param {object} [params]
+     * @param {boolean} [params.replace]
      * @returns {boolean}
      */
-    redraw(replace = false) {
+    redraw(params) {
+        const { replace = false } = params || {};
+
         if (this._idDestroyed) {
             return true;
         }
@@ -431,7 +444,7 @@ class Component {
                 if (init) {
                     init = false;
                 } else {
-                    self.redraw(redrawReplace);
+                    self.redraw({ replace: redrawReplace });
                 }
             },
             get: () => {
@@ -497,11 +510,41 @@ class Component {
     }
 
     /**
-     * @param {BaseModel} model
-     * @param fieldName
-     * @param handler
+     * @returns {(field) => { onChange: (handler: Function) => void; redrawOnChange: (redrawParams?: { replace?: boolean }) => void }}
      */
-    subscribe(model, fieldName, handler) {
+    get subscribe() {
+        BaseModel.enableOnceReturnObject();
+
+        return (field) => {
+            const { model, fieldName } = field;
+
+            return {
+                onChange: (handler) => {
+                    this._subscribe({
+                        model,
+                        fieldName,
+                        handler,
+                    });
+                },
+                redrawOnChange: (redrawParams) => {
+                    this._subscribe({
+                        model,
+                        fieldName,
+                        handler: () => this.redraw(redrawParams),
+                    });
+                },
+            };
+        };
+    }
+
+    /**
+     * @param {object} params
+     * @param {BaseModel} params.model
+     * @param {string} params.fieldName
+     * @param {Function} params.handler
+     * @returns {void}
+     */
+    _subscribe({ model, fieldName, handler }) {
         if (!(model instanceof BaseModel)) {
             _logger.error(`Error on subscribe for ${this.constructor.name} component: model is not a BaseModel`);
 

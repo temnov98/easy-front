@@ -2,7 +2,7 @@ class ResultTextComponent extends Component {
     constructor() {
         super();
 
-        this.subscribe(pageModel, 'sourceText', () => this.redraw(true));
+        this.subscribe(pageModel.sourceText).redrawOnChange({ replace: true });
     }
 
     toHtml() {

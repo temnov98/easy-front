@@ -7,7 +7,7 @@ class LetterComponent extends Component {
 
         this.model = model;
 
-        this.subscribe(model, 'selected', () => this.redraw());
+        this.subscribe(model.selected).redrawOnChange();
     }
 
     onChange() {
