@@ -1,4 +1,4 @@
-class TaskToggleButtonComponent extends Component {
+class TaskToggleButtonComponent extends AutoSubscribeComponent {
     /**
      * @param {TaskModel} task
      */
@@ -6,20 +6,22 @@ class TaskToggleButtonComponent extends Component {
         super();
 
         this.task = task;
-
-        this._subscriber = new Subscriber(this.redraw.bind(this));
-
-        pageModel.theme.connect(this._subscriber);
     }
 
     toHtml() {
-        return pageModel.theme.value === 'dark'
-            ? t`${new TaskToggleButtonDarkComponent(this.task)}`
-            : t`${new TaskToggleButtonLightComponent(this.task)}`;
+        const component = pageModel.theme === 'dark'
+            ? new TaskToggleButtonDarkComponent(this.task)
+            : new TaskToggleButtonLightComponent(this.task);
+
+        return t`
+            <div>
+                ${component}
+            </div>
+        `;
     }
 }
 
-class TaskToggleButtonLightComponent extends Component {
+class TaskToggleButtonLightComponent extends AutoSubscribeComponent {
     /**
      * @param {TaskModel} task
      */
@@ -27,23 +29,14 @@ class TaskToggleButtonLightComponent extends Component {
         super();
 
         this.task = task;
-
-        this._subscriber = new Subscriber(this.redraw.bind(this));
-
-        this.task.connect(this._subscriber);
-    }
-
-    onDestroy() {
-        this.task.disconnect(this._subscriber);
-        super.onDestroy();
     }
 
     toHtml() {
-        const buttonClass = this.task.isActive ? 'base-button red-button' : 'base-button green-button';
+        const buttonCssClass = this.task._startedAt ? 'base-button red-button' : 'base-button green-button';
 
         return t`
             <button
-                class="${buttonClass}"
+                class="${buttonCssClass}"
                 onmousedown="${() => pageModel.toggle(this.task)}">
                 ${new Timer(this.task)}
             </button>
@@ -66,16 +59,16 @@ class TaskToggleButtonDarkComponent extends Component {
             <div class="toggle-button__container">
                 ${new Timer(this.task)}
                 <label class="toggle-button">
-                  ${new ToggleInput(this.task)}
-                  <span></span>
-                  <span></span>
+                ${new ToggleInput(this.task)}
+                <span></span>
+                <span></span>
                 </label>
             </div>
         `;
     }
 }
 
-class ToggleInput extends Component {
+class ToggleInput extends AutoSubscribeComponent {
 
     /**
      * @param {TaskModel} task
@@ -84,36 +77,17 @@ class ToggleInput extends Component {
         super();
 
         this.task = task;
-        this.isChecked = this.task.isActive;
-
-        this._subscriber = new Subscriber(() => this.onChange());
-        this.task.connect(this._subscriber);
-    }
-
-    onChange() {
-        this.isChecked = this.task.isActive;
-        this.redraw(true);
-    }
-
-    onDestroy() {
-        this.task.disconnect(this._subscriber);
-        super.onDestroy();
     }
 
     toHtml() {
+        const isChecked = this.task._startedAt;
+
         return t`
             <input
-                id="${this._id}"
                 type="checkbox"  
                 onchange="${() => pageModel.toggle(this.task)}"
-                ${this.isChecked && 'checked'}
-              >
-        `;
-    }
-
-    _toHtml() {
-        return t`
-            ${this.toHtml()}
+                ${isChecked && 'checked'}
+                >
         `;
     }
 }
@@ -132,17 +106,13 @@ class Timer extends Component {
             this.startRedrawing();
         }
 
-        this._subscriber = new Subscriber(() => this.onChange());
-
-        this.task.connect(this._subscriber);
+        this.subscribe(this.task._startedAt).onChange(() => this.onChange());
     }
 
     onDestroy() {
         if (this.timer) {
             this.stopRedrawing();
         }
-
-        this.task.disconnect(this._subscriber);
     }
 
     onChange() {
@@ -173,7 +143,9 @@ class Timer extends Component {
 
     toHtml() {
         return t`
-            ${this.task.durationFormatted}
+            <div>
+                ${this.task.durationFormatted}
+            </div>
         `
     }
 }

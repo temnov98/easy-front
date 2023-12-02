@@ -1,10 +1,4 @@
-class TotalTimeComponent extends Component {
-    constructor() {
-        super();
-
-        pageModel.totalTimeFormatted.connect(new Subscriber(() => this.redraw()));
-    }
-
+class TotalTimeComponent extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <div class="total-time-container">

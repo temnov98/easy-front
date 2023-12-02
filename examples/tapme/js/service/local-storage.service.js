@@ -91,7 +91,7 @@ class LocalStorageService {
                     id: task.id,
                     title: task.title,
                     durationInSeconds: task._durationInSeconds,
-                    startedAt: task._startedAt.value ? task._startedAt.value.toString() : undefined,
+                    startedAt: task._startedAt ? task._startedAt.toString() : undefined,
                     finishedIntervals: task._finishedIntervals.map((interval) => ({
                         startedAt: interval.startedAt.toISOString(),
                         finishedAt: interval.finishedAt.toISOString(),
@@ -109,7 +109,7 @@ class LocalStorageService {
 
             console.log(`Saved to local storage at ${new Date().toLocaleString()}`);
         } catch (error) {
-            console.log(`Error saving to local storage: ${error.message}`);
+            console.error(`Error saving to local storage: ${error.message}`);
         }
     }
 

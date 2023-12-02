@@ -1,4 +1,4 @@
-class EasyFrontDebugComponent extends Component {
+class EasyFrontDebugComponent extends AutoSubscribeComponent {
     /**
      * @param {Object} [params]
      * @param {string} [params.mainClass]
@@ -13,9 +13,6 @@ class EasyFrontDebugComponent extends Component {
         this.params = params;
 
         this.timer = setInterval(() => this.redraw(), this.params?.updateInterval ?? 1000);
-
-        this._subscriber = new Subscriber(() => this.redraw())
-        pageModel.theme.connect(this._subscriber);
     }
 
     onDestroy() {
@@ -24,7 +21,7 @@ class EasyFrontDebugComponent extends Component {
 
     onChangeTheme(e) {
         localStorageService.setItem('theme', e.target.id);
-        pageModel.theme.value = e.target.id;
+        pageModel.theme = e.target.id;
         e.stopPropagation();
     }
 
@@ -71,9 +68,9 @@ class EasyFrontDebugComponent extends Component {
                 <fieldset>
                     <legend>Theme:</legend>
                     <label for="light">Light</label>
-                    <input ${pageModel.theme.value === 'light' && 'checked'} onclick="${this.onChangeTheme}" type="radio" id="light" name="light">
+                    <input ${pageModel.theme === 'light' && 'checked'} onclick="${(e) => this.onChangeTheme(e)}" type="radio" id="light" name="light">
                     <label for="dark">Dark</label>
-                    <input ${pageModel.theme.value === 'dark' && 'checked'} onclick="${this.onChangeTheme}" type="radio" id="dark" name="dark">
+                    <input ${pageModel.theme === 'dark' && 'checked'} onclick="${(e) => this.onChangeTheme(e)}" type="radio" id="dark" name="dark">
                 </fieldset>
             </div>
         `;

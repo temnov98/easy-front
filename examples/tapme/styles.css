@@ -109,9 +109,28 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 
 .preset-text {
     font-family: Arial;
-    font-size: 20px;
-    padding: 0;
-    margin: 0;
+    font-size: 25px;
+    width: 100%;
+    white-space: normal;
+    border: none;
+    outline: none;
+    text-align: left;
+    resize: none;
+    word-break: normal;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    background: transparent;
+    border-radius: 12px;
+    transition: outline 0.1s linear;
+    height: 50px;
+}
+
+.page--dark .preset-text:focus {
+    outline: 2px rgba(40, 184, 78, 0.82) dashed;
+}
+
+.preset-text:focus {
+    outline: 2px #28b84e4f dashed;
 }
 
 .timer {

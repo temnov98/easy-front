@@ -1,27 +1,29 @@
-class PageModel {
+class PageModel extends BaseModel {
     constructor() {
+        super();
+
         const { tasks, presets } = localStorageService.load();
 
-        this.tasks = new ObservableValue(tasks);
-        this.presets = new ObservableValue(presets);
-        this.totalTimeFormatted = new ObservableValue(this.getTotalTimeFormatted());
-        this.theme = new ObservableValue(localStorageService.getItem('theme') || 'light');
+        this.tasks = this.createObservable(tasks, 'tasks');
+        this.presets = this.createObservable(presets, 'presets');
+        this.totalTimeFormatted = this.createObservable(this.getTotalTimeFormatted(), 'totalTimeFormatted');
+        this.theme = this.createObservable(localStorageService.getItem('theme') || 'light', 'theme');
     }
 
     updateTotalTime() {
-        this.totalTimeFormatted.value = this.getTotalTimeFormatted();
+        this.totalTimeFormatted = this.getTotalTimeFormatted();
     }
 
     getTotalTimeFormatted() {
-        const durationInSeconds = this.tasks.value.reduce((result, task) => result + task.durationInSeconds, 0);
+        const durationInSeconds = this.tasks.reduce((result, task) => result + task.durationInSeconds, 0);
 
         return timeFormatService.durationFormatted(durationInSeconds);
     }
 
     addTasksFromPresets() {
-        const tasks = this.presets.value.map((preset) => new TaskModel({ title: preset.title }));
+        const tasks = this.presets.map((preset) => new TaskModel({ title: preset.title }));
 
-        this.tasks.value = [...this.tasks.value, ...tasks];
+        this.tasks = [...this.tasks, ...tasks];
 
         this.saveToLocalStorage();
     }
@@ -30,7 +32,7 @@ class PageModel {
      * @param {PresetModel} preset
      */
     addPreset(preset) {
-        this.presets.value = [...this.presets.value, preset];
+        this.presets = [...this.presets, preset];
 
         this.saveToLocalStorage();
     }
@@ -39,7 +41,7 @@ class PageModel {
      * @param {PresetModel} preset
      */
     deletePreset(preset) {
-        this.presets.value = this.presets.value.filter((currentPreset) => currentPreset.id !== preset.id);
+        this.presets = this.presets.filter((currentPreset) => currentPreset.id !== preset.id);
 
         this.saveToLocalStorage();
     }
@@ -48,7 +50,7 @@ class PageModel {
      * @param {TaskModel} task
      */
     addTask(task) {
-        this.tasks.value = [...this.tasks.value, task];
+        this.tasks = [...this.tasks, task];
 
         this.saveToLocalStorage();
     }
@@ -57,7 +59,7 @@ class PageModel {
      * @param {TaskModel} task
      */
     deleteTask(task) {
-        this.tasks.value = this.tasks.value.filter((currentTask) => currentTask.id !== task.id);
+        this.tasks = this.tasks.filter((currentTask) => currentTask.id !== task.id);
         this.updateTotalTime();
 
         this.saveToLocalStorage();
@@ -70,7 +72,7 @@ class PageModel {
      */
     changeTaskText(task, text) {
         /** @type {TaskModel | undefined} */
-        const editedTask = this.tasks.value.find((currentTask) => currentTask.id === task.id);
+        const editedTask = this.tasks.find((currentTask) => currentTask.id === task.id);
         if (!editedTask) {
             return;
         }
@@ -81,10 +83,27 @@ class PageModel {
     }
 
     /**
+     * @param {PresetModel} preset
+     * @param {string} text
+     * @returns {void}
+     */
+    changePresetText(preset, text) {
+        /** @type {TaskModel | undefined} */
+        const editedPreset = this.presets.find((currentPreset) => currentPreset.id === preset.id);
+        if (!editedPreset) {
+            return;
+        }
+
+        editedPreset.title = text;
+
+        this.saveToLocalStorage();
+    }
+
+    /**
      * @param {TaskModel} task
      */
     toggle(task) {
-        this.tasks.value.forEach((currentTask) => {
+        this.tasks.forEach((currentTask) => {
             if (currentTask.id !== task.id) {
                 currentTask.stop();
             } else {
@@ -97,8 +116,8 @@ class PageModel {
 
     saveToLocalStorage() {
         localStorageService.save({
-            tasks: this.tasks.value,
-            presets: this.presets.value,
+            tasks: this.tasks,
+            presets: this.presets,
         });
     }
 }

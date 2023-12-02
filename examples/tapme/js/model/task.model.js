@@ -5,7 +5,7 @@
  * @property {ObservableValue} _startedAt
  * @property {TaskIntervalModel} _finishedIntervals
  */
-class TaskModel {
+class TaskModel extends BaseModel {
     /**
      * @param {object} params
      * @param {string} [params.id]
@@ -15,31 +15,17 @@ class TaskModel {
      * @param {TaskIntervalModel[]} [params.finishedIntervals]
      */
     constructor({ id, title, durationInSeconds, startedAt, finishedIntervals }) {
+        super();
+
         this.id = id ?? getId();
         this.title = title;
         this._durationInSeconds = durationInSeconds ?? 0;
-        this._startedAt = new ObservableValue(startedAt);
+        this._startedAt = this.createObservable(startedAt, '_startedAt');
         this._finishedIntervals = finishedIntervals ?? [];
     }
 
-    /**
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    connect(subscriber) {
-        this._startedAt.connect(subscriber);
-    }
-
-    /**
-     * @param {Subscriber} subscriber
-     * @returns {void}
-     */
-    disconnect(subscriber) {
-        this._startedAt.disconnect(subscriber);
-    }
-
     get _additionalDurationInSeconds() {
-        return this._startedAt.value ? Math.floor((Date.now() - this._startedAt.value.getTime()) / 1000) : 0;
+        return this._startedAt ? Math.floor((Date.now() - this._startedAt.getTime()) / 1000) : 0;
     }
 
     get durationInSeconds() {
@@ -60,13 +46,13 @@ class TaskModel {
     }
 
     get isActive() {
-        return !!this._startedAt.value;
+        return !!this._startedAt;
     }
 
     stop() {
-        if (this._startedAt.value) {
+        if (this._startedAt) {
             const interval = new TaskIntervalModel({
-                startedAt: this._startedAt.value,
+                startedAt: this._startedAt,
                 finishedAt: new Date(),
             });
 
@@ -74,15 +60,15 @@ class TaskModel {
 
             this._durationInSeconds += this._additionalDurationInSeconds;
 
-            this._startedAt.value = undefined;
+            this._startedAt = undefined;
         }
     }
 
     toggle() {
-        if (this._startedAt.value) {
+        if (this._startedAt) {
             this.stop();
         } else {
-            this._startedAt.value = new Date();
+            this._startedAt = new Date();
         }
     }
 
@@ -90,9 +76,9 @@ class TaskModel {
      * @returns {TaskIntervalModel[]}
      */
     get intervals() {
-        if (this._startedAt.value) {
+        if (this._startedAt) {
             const lastInterval = new TaskIntervalModel({
-                startedAt: this._startedAt.value,
+                startedAt: this._startedAt,
                 finishedAt: new Date(),
             });
 
