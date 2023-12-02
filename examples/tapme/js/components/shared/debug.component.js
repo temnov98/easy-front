@@ -20,13 +20,6 @@ class DebugComponent extends Component {
 
     toHtml() {
         if (this.expanded) {
-            const debugClasses = {
-                mainClass: 'none',
-                componentsCountClass: 'debug-components-count',
-                handlersCountClass: 'debug-handlers-count',
-                errorsCountClass: 'debug-errors-count',
-            };
-
             const panelClass = this.initial ? 'debug-panel-initial' : 'debug-panel';
 
             return t`
@@ -35,7 +28,7 @@ class DebugComponent extends Component {
                     onclick="${() => this.onClick()}"
                     onmouseleave="${() => this.onLeave()}"
                 >
-                    ${new EasyFrontDebugComponent(debugClasses)}
+                    ${EasyFrontDebugComponent}
                 </div>
             `;
         } else {

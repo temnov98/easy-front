@@ -1,4 +1,4 @@
-class PageComponent extends AutoSubscribeComponent {
+class PageContentComponent extends AutoSubscribeComponent {
     toHtml() {
         const className = `page page--${pageModel.theme}`;
 
@@ -8,6 +8,18 @@ class PageComponent extends AutoSubscribeComponent {
                 ${TasksListComponent}
                 ${ButtonsLineComponent}
                 ${PresetsListComponent}
+                ${SwitchThemeComponent}
+            </div>
+        `;
+    }
+}
+
+class PageComponent extends Component {
+    toHtml() {
+        return t`
+            <div>
+                ${PageContentComponent}
+                ${SwitchThemeComponent}
                 ${DebugComponent}
             </div>
         `;

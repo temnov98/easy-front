@@ -10,6 +10,10 @@ class PageModel extends BaseModel {
         this.theme = this.createObservable(localStorageService.getItem('theme') || 'light', 'theme');
     }
 
+    toggleTheme() {
+        this.theme = this.theme === 'light' ? 'dark' : 'light';
+    }
+
     updateTotalTime() {
         this.totalTimeFormatted = this.getTotalTimeFormatted();
     }
