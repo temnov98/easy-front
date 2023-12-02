@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.1';
+const _easyFrontVersion = '2.0.2';
 
 const _containerTagName = 'easy-front-container';
 
@@ -16,11 +16,17 @@ const _dataAttributeNames = {
 
 class _Logger {
     constructor() {
+        this.warningsCount = 0;
         this.errorsCount = 0;
     }
 
     log(...args) {
         console.log(...args);
+    }
+
+    warn(...args) {
+        this.warningsCount++;
+        console.warn(...args);
     }
 
     error(...args) {
@@ -30,6 +36,8 @@ class _Logger {
 }
 
 const _logger = new _Logger();
+
+_logger.log(`Easy front version: ${_easyFrontVersion}`);
 
 /**
  * @returns {function(prefix: string): string}
@@ -265,7 +273,7 @@ class BaseModel {
 
             return _componentNamesSet.has(componentName);
         } catch (error) {
-            // TODO: add error log
+            _logger.error(`Error on auto subscribe for model ${this.constructor.name}`);
         }
     }
 
@@ -361,7 +369,7 @@ class Component {
      * @returns {string}
      */
     toHtml() {
-        _logger.error('Should implement toHtml()');
+        _logger.warn(`Should implement toHtml() for ${this.constructor.name}`);
 
         return '';
     }
@@ -392,7 +400,7 @@ class Component {
         }
 
         if (!this._rendered) {
-            _logger.log(`Trying redraw unrendered component: ${this.constructor.name}`);
+            _logger.warn(`Trying redraw unrendered component: ${this.constructor.name}`);
             return true;
         }
 
@@ -429,7 +437,7 @@ class Component {
             const handler = _globalFunctions.get(id);
 
             if (!component && !handler) {
-                _logger.error(`Component/handler (id = ${id}) not found for deleting`);
+                _logger.warn(`Component/handler (id = ${id}) not found for deleting in ${this.constructor.name}`);
                 continue;
             }
 
@@ -515,7 +523,7 @@ class Component {
             .childNodes;
 
         if (nodes.length < 1) {
-            _logger.error(`Nodes count in component ${this.constructor.name} should be more than 1`);
+            _logger.warn(`Nodes count in component ${this.constructor.name} should be more than 1`);
 
             return '';
         }
