@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.0';
+const _easyFrontVersion = '2.0.1';
 
 const _containerTagName = 'easy-front-container';
 
@@ -404,7 +404,7 @@ class Component {
 
             return true;
         } catch (error) {
-            _logger.error(`Error on redrawing (id = ${this._id}): ${error.message}`, this);
+            _logger.error(`Error on redrawing (component: ${this.constructor.name}, id = ${this._id}): ${error.message}`, this);
 
             return false;
         }
@@ -453,7 +453,7 @@ class Component {
      * @returns {string[]}
      */
     get _outerIds() {
-        return this._getIdsFormElement(this._element.outerHTML)
+        return this._getIdsFormElement(this._element.outerHTML);
     }
 
     /**
