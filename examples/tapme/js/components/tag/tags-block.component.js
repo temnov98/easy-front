@@ -18,6 +18,7 @@ class TagsBlockComponent extends Component {
                             model: this.model,
                             buttonContainerCssClassName: 'add-tag-button',
                             inputContainerCssClassName: 'tag-item-textbox',
+                            hideButtonByDefault: true,
                         })}
                     </td>
                 </tr>

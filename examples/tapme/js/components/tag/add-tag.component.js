@@ -4,14 +4,16 @@ class AddTagComponent extends Component {
      * @param {TaskModel | PresetModel | PageModel} params.model
      * @param {string} params.buttonContainerCssClassName
      * @param {string} params.inputContainerCssClassName
+     * @param {boolean} params.hideButtonByDefault
      */
-    constructor({ model, buttonContainerCssClassName, inputContainerCssClassName }) {
+    constructor({ model, buttonContainerCssClassName, inputContainerCssClassName, hideButtonByDefault }) {
         super();
 
         this.inputId = getId();
         this.model = model;
         this.buttonContainerCssClassName = buttonContainerCssClassName;
         this.inputContainerCssClassName = inputContainerCssClassName;
+        this.hideButtonByDefault = hideButtonByDefault;
         this.clicked = this.createFullRedrawable(false, 'clicked');
     }
 
@@ -75,8 +77,14 @@ class AddTagComponent extends Component {
             `;
         }
 
+        const className = [
+            this.buttonContainerCssClassName,
+            'add-tag-button-svg',
+            this.hideButtonByDefault ? 'hide-by-default' : '',
+        ].join(' ');
+
         return t`
-            <div class="${this.buttonContainerCssClassName} add-tag-button-svg">
+            <div class="${className}">
                  <svg
                      onclick="${() => this.onClick()}"
                      width="40px"

@@ -24,6 +24,7 @@ class TagsSettingsPanelComponent extends AutoSubscribeComponent {
                          model: pageModel,
                          buttonContainerCssClassName: 'tags-settings-add-tag-button',
                          inputContainerCssClassName: 'tags-settings-tag-item-textbox',
+                         hideButtonByDefault: false,
                      })}
                 </div>
             </div>

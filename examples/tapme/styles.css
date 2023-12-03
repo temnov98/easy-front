@@ -139,7 +139,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     text-align: left;
     resize: none;
     word-break: normal;
-    padding: 10px 12px;
+    padding: 10px 12px 10px 0;
     box-sizing: border-box;
     background: transparent;
     border-radius: 12px;
@@ -709,4 +709,23 @@ body:has(.page--dark) .delete-active-tasks-window {
 .delete-active-tasks-window-green-button {
     background-color: green;
     color: white;
+}
+
+.hide-by-default {
+    visibility: hidden;
+}
+
+.preset-component-container:hover .hide-by-default {
+    visibility: visible;
+}
+
+.task-component-container:hover .hide-by-default {
+    visibility: visible;
+}
+
+.selected-row {
+    min-width: 10px;
+    background-color: #4db925;
+    margin-left: -25px;
+    margin-right: 15px;
 }
