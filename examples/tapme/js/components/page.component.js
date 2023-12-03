@@ -39,6 +39,7 @@ class PageComponent extends Component {
                 ${SwitchThemeComponent}
                 ${DebugComponent}
                 ${TagsSettingsPanelComponent}
+                ${ModalWindowComponent}
             </div>
         `;
     }

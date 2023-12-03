@@ -4,12 +4,25 @@ class PageModel extends BaseModel {
 
         const { tasks, presets, tags } = localStorageService.load();
 
+        this.modalWindowType = this.createObservable(undefined, 'modalWindowType');
         this.tags = this.createObservable(tags, 'tags');
         this.tagsSettingsOpened = this.createObservable(false, 'tagsSettingsOpened');
         this.tasks = this.createObservable(tasks, 'tasks');
         this.presets = this.createObservable(presets, 'presets');
         this.totalTimeFormatted = this.createObservable(this.getTotalTimeFormatted(), 'totalTimeFormatted');
         this.theme = this.createObservable(localStorageService.getItem('theme') || 'light', 'theme');
+    }
+
+    openModal(windowType) {
+        if (windowType !== 'delete-active-tasks') {
+            return;
+        }
+
+        this.modalWindowType = windowType;
+    }
+
+    closeModal() {
+        this.modalWindowType = undefined;
     }
 
     toggleTheme() {
@@ -35,6 +48,13 @@ class PageModel extends BaseModel {
         }));
 
         this.tasks = [...this.tasks, ...tasks];
+
+        this.saveToLocalStorage();
+    }
+
+
+    deleteActiveTasks() {
+        this.tasks = [];
 
         this.saveToLocalStorage();
     }

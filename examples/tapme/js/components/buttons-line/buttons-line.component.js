@@ -7,6 +7,7 @@ class ButtonsLineComponent extends Component {
                 <div>${AddFromPresetsButtonComponent}</div>
                 <div>${new SaveToFileButtonComponent('json')}</div>
                 <div>${new SaveToFileButtonComponent('csv')}</div>
+                <div>${ClearActiveTasksButtonComponent}</div>
                 <div>${TagsSettingsComponent}</div>
             </div>
         `;
