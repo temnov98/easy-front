@@ -586,12 +586,10 @@ body:has(.page--light) .add-tag-input {
 
 body:has(.page--dark) .tags-settings-panel {
     background-color: #282828;
-    transition-duration: 0s;
 }
 
 body:has(.page--light) .tags-settings-panel {
     background-color: #e5e5e5;
-    transition-duration: 0s;
 }
 
 .tags-settings-panel-inner {
