@@ -17,6 +17,7 @@ class JsonExportService extends BaseExportService {
                     finishedAt: interval.finishedAt.getTime(),
                     duration: interval.durationInMilliseconds,
                 })),
+                tags: task.tags.map((tag) => tag.title),
             })),
         };
 

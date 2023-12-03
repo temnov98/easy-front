@@ -5,18 +5,26 @@
  */
 
 /**
+ * @typedef {Object} RawTagValue
+ * @property {string} id
+ * @property {string} title
+ * @property {string} color
+ */
+
+/**
  * @typedef {Object} RawTaskValue
  * @property {string} id
  * @property {string} title
  * @property {number} durationInSeconds
  * @property {string} [startedAt]
  * @property {RawTaskIntervalValue[]} [finishedIntervals]
+ * @property {RawTagValue[]} [tags]
  */
 
 /**
  * @typedef {Object} RawValue
  * @property {Array<RawTaskValue>} tasks
- * @property {Array<{ id: string; title: string }>} presets
+ * @property {Array<{ id: string; title: string; tags?: RawTagValue[] }>} presets
  */
 
 class LocalStorageService {
@@ -47,10 +55,20 @@ class LocalStorageService {
                     durationInSeconds: task.durationInSeconds,
                     startedAt: task.startedAt ? new Date(task.startedAt) : undefined,
                     finishedIntervals: this._getFinishedIntervals(task),
+                    tags: (task.tags ?? []).map((tag) => new TagModel({
+                        id: tag.id,
+                        title: tag.title,
+                        color: tag.color,
+                    })),
                 })),
                 presets: raw.presets.map((preset) => new PresetModel({
                     id: preset.id,
                     title: preset.title,
+                    tags: (preset.tags ?? []).map((tag) => new TagModel({
+                        id: tag.id,
+                        title: tag.title,
+                        color: tag.color,
+                    })),
                 })),
             };
 
@@ -96,10 +114,20 @@ class LocalStorageService {
                         startedAt: interval.startedAt.toISOString(),
                         finishedAt: interval.finishedAt.toISOString(),
                     })),
+                    tags: task.tags.map((tag) => ({
+                        id: tag.id,
+                        title: tag.title,
+                        color: tag.color,
+                    })),
                 })),
                 presets: presets.map((preset) => ({
                     id: preset.id,
                     title: preset.title,
+                    tags: preset.tags.map((tag) => ({
+                        id: tag.id,
+                        title: tag.title,
+                        color: tag.color,
+                    })),
                 })),
             };
 

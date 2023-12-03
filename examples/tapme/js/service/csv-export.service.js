@@ -10,11 +10,19 @@ class CsvExportService extends BaseExportService {
     _getContent(tasks) {
         const separator = ';';
 
-        const header = `Title${separator}Duration in seconds${separator}Duration formatted`;
+        const headerColumns = ['Title', 'Duration in seconds', 'Duration formatted', 'Tags'];
+        const header = headerColumns.join(separator);
 
         const tasksString = tasks
             .map((task) => {
-                return `${task.title}${separator}${task.durationInSeconds}${separator}${task.durationFormatted}`;
+                const columns = [
+                    task.title,
+                    task.durationInSeconds,
+                    task.durationFormatted,
+                    task.tags.map((tag) => tag.title).join(','),
+                ];
+
+                return columns.join(separator);
             })
             .join('\n');
 

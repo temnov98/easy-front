@@ -3,7 +3,7 @@ class PageContentComponent extends AutoSubscribeComponent {
         const className = `page page--${pageModel.theme}`;
 
         return t`
-            <div id="main-content" class="${className}">
+            <div class="${className}">
                 ${HeaderComponent}
                 ${TasksListComponent}
                 ${ButtonsLineComponent}

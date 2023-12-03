@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.2';
+const _easyFrontVersion = '2.0.3';
 
 const _containerTagName = 'easy-front-container';
 
@@ -437,7 +437,8 @@ class Component {
             const handler = _globalFunctions.get(id);
 
             if (!component && !handler) {
-                _logger.warn(`Component/handler (id = ${id}) not found for deleting in ${this.constructor.name}`);
+                // TODO: useless log?
+                // _logger.warn(`Component/handler (id = ${id}) not found for deleting in ${this.constructor.name}`);
                 continue;
             }
 

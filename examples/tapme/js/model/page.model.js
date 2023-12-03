@@ -12,6 +12,8 @@ class PageModel extends BaseModel {
 
     toggleTheme() {
         this.theme = this.theme === 'light' ? 'dark' : 'light';
+
+        localStorageService.setItem('theme', this.theme);
     }
 
     updateTotalTime() {
@@ -25,7 +27,10 @@ class PageModel extends BaseModel {
     }
 
     addTasksFromPresets() {
-        const tasks = this.presets.map((preset) => new TaskModel({ title: preset.title }));
+        const tasks = this.presets.map((preset) => new TaskModel({
+            title: preset.title,
+            tags: preset.tags,
+        }));
 
         this.tasks = [...this.tasks, ...tasks];
 
@@ -123,6 +128,53 @@ class PageModel extends BaseModel {
             tasks: this.tasks,
             presets: this.presets,
         });
+    }
+
+    /**
+     * @param {TaskModel | PresetModel} model
+     * @param {string} title
+     * @return {boolean}
+     */
+    addTag(model, title) {
+        const hasThisTitle = model.tags.some((tag) => tag.title.toLowerCase() === title.toLowerCase());
+        if (hasThisTitle) {
+            return false;
+        }
+
+        const tag = new TagModel({ title, color: this._getTagColor(title) });
+
+        model.tags = [...model.tags, tag];
+
+        this.saveToLocalStorage();
+
+        return true;
+    }
+
+    /**
+     * @param {TaskModel | PresetModel} model
+     * @param {TagModel} tag
+     */
+    deleteTag(model, tag) {
+        model.tags = model.tags.filter((currentTag) => currentTag.id !== tag.id)
+
+        this.saveToLocalStorage();
+    }
+
+    _getTagColor(title) {
+        const allTags = [
+            ...this.tasks.map((task) => task.tags).flat(),
+            ...this.presets.map((preset) => preset.tags).flat(),
+        ];
+
+        const tag = allTags.find((tag) => tag.title.toLowerCase() === title.toLowerCase());
+
+        return tag ? tag.color : this._generateRandomHexColor();
+    }
+
+    _generateRandomHexColor() {
+        const getHex = () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+
+        return `#${getHex()}${getHex()}${getHex()}`;
     }
 }
 

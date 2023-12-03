@@ -13,8 +13,9 @@ class TaskModel extends BaseModel {
      * @param {number} [params.durationInSeconds]
      * @param {Date} [params.startedAt]
      * @param {TaskIntervalModel[]} [params.finishedIntervals]
+     * @param {TagModel[]} [params.tags]
      */
-    constructor({ id, title, durationInSeconds, startedAt, finishedIntervals }) {
+    constructor({ id, title, durationInSeconds, startedAt, finishedIntervals, tags }) {
         super();
 
         this.id = id ?? getId();
@@ -22,6 +23,7 @@ class TaskModel extends BaseModel {
         this._durationInSeconds = durationInSeconds ?? 0;
         this._startedAt = this.createObservable(startedAt, '_startedAt');
         this._finishedIntervals = finishedIntervals ?? [];
+        this.tags = this.createObservable(tags ?? [], 'tags');
     }
 
     get _additionalDurationInSeconds() {
