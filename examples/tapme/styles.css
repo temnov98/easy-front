@@ -578,7 +578,7 @@ body:has(.page--light) .add-tag-input {
 }
 
 .tags-settings-panel {
-    position: absolute;
+    position: fixed;
     height: 100%;
     overflow-y: auto;
     width: 500px;
