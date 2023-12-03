@@ -1,13 +1,13 @@
-class TagModel {
+class TagModel extends BaseModel {
     /**
      * @param {object} params
-     * @param {string} [params.id]
      * @param {string} params.title
      * @param {string} params.color
      */
-    constructor({ id, title, color }) {
-        this.id = id ?? getId();
+    constructor({ title, color }) {
+        super();
+
         this.title = title;
-        this.color = color;
+        this.color = this.createObservable(color, 'color');
     }
 }

@@ -14,7 +14,11 @@ class TagsBlockComponent extends Component {
                 <tr>
                     <td>
                         ${this.model.tags.map((tag) => new TagComponent({ model: this.model, tag }))}
-                        ${new AddTagComponent(this.model)}
+                        ${new AddTagComponent({
+                            model: this.model,
+                            buttonContainerCssClassName: 'add-tag-button',
+                            inputContainerCssClassName: 'tag-item-textbox',
+                        })}
                     </td>
                 </tr>
             </table>

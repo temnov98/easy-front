@@ -25,6 +25,7 @@
  * @typedef {Object} RawValue
  * @property {Array<RawTaskValue>} tasks
  * @property {Array<{ id: string; title: string; tags?: RawTagValue[] }>} presets
+ * @property {Array<RawTagValue>} tags
  */
 
 class LocalStorageService {
@@ -33,7 +34,7 @@ class LocalStorageService {
     }
 
     /**
-     * @returns {{ tasks: TaskModel[]; presets: PresetModel[] }}
+     * @returns {{ tasks: TaskModel[]; presets: PresetModel[]; tags: TagModel[] }}
      */
     load() {
         try {
@@ -47,7 +48,7 @@ class LocalStorageService {
             /** @type {RawValue} **/
             const raw = JSON.parse(rawString);
 
-            /** @type {{ tasks: TaskModel[]; presets: PresetModel[] }} **/
+            /** @type {{ tasks: TaskModel[]; presets: PresetModel[]; tags: TagModel[] }} **/
             const result = {
                 tasks: raw.tasks.map((task) => new TaskModel({
                     id: task.id,
@@ -56,7 +57,6 @@ class LocalStorageService {
                     startedAt: task.startedAt ? new Date(task.startedAt) : undefined,
                     finishedIntervals: this._getFinishedIntervals(task),
                     tags: (task.tags ?? []).map((tag) => new TagModel({
-                        id: tag.id,
                         title: tag.title,
                         color: tag.color,
                     })),
@@ -65,10 +65,13 @@ class LocalStorageService {
                     id: preset.id,
                     title: preset.title,
                     tags: (preset.tags ?? []).map((tag) => new TagModel({
-                        id: tag.id,
                         title: tag.title,
                         color: tag.color,
                     })),
+                })),
+                tags: (raw.tags ?? []).map((tag) => new TagModel({
+                    title: tag.title,
+                    color: tag.color,
                 })),
             };
 
@@ -100,8 +103,9 @@ class LocalStorageService {
      * @param {Object} params
      * @param {TaskModel[]} params.tasks
      * @param {PresetModel[]} params.presets
+     * @param {TagModel[]} params.tags
      */
-    save({ tasks, presets }) {
+    save({ tasks, presets, tags }) {
         try {
             /** @type {RawValue} */
             const raw = {
@@ -115,7 +119,6 @@ class LocalStorageService {
                         finishedAt: interval.finishedAt.toISOString(),
                     })),
                     tags: task.tags.map((tag) => ({
-                        id: tag.id,
                         title: tag.title,
                         color: tag.color,
                     })),
@@ -124,10 +127,13 @@ class LocalStorageService {
                     id: preset.id,
                     title: preset.title,
                     tags: preset.tags.map((tag) => ({
-                        id: tag.id,
                         title: tag.title,
                         color: tag.color,
                     })),
+                })),
+                tags: tags.map((tag) => ({
+                    title: tag.title,
+                    color: tag.color,
                 })),
             };
 

@@ -48,6 +48,18 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     margin: auto;
 }
 
+.page-tags-settings-hided {
+    transform: translateX(0);
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.page-tags-settings-expanded {
+    transform: translateX(-300px);
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
 .row {
     display: flex;
 }
@@ -423,7 +435,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 }
 
 .tags-block {
-    width: 500px;
+    width: 400px;
     height: 100%;
 }
 
@@ -438,6 +450,10 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 
 .tag-item-textbox {
     float: left;
+}
+
+.tags-settings-tag-item-textbox {
+    margin-left: -12px;
 }
 
 .tag-item {
@@ -455,7 +471,34 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     cursor: pointer;
 }
 
-.add-tag-button svg {
+.add-tag-button {
+    min-width: 50px;
+    text-align: center;
+    float: left;
+
+    padding: 3px 10px 5px 10px;
+    height: 25px;
+    font-size: 15pt;
+    margin: 5px;
+    color: white;
+    border-radius: 5px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.tags-settings-add-tag-button {
+    min-width: 50px;
+    text-align: center;
+
+    font-size: 15pt;
+    color: white;
+    border-radius: 5px;
+    width: fit-content;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.add-tag-button-svg svg {
     cursor: pointer;
     margin-top: -5px;
     margin-left: -5px;
@@ -463,24 +506,24 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     border-radius: 10px;
 }
 
-body:has(.page--light) .add-tag-button svg *  {
+body:has(.page--light) .add-tag-button-svg svg *  {
     stroke: #00319f;
 }
 
-body:has(.page--dark) .add-tag-button svg * {
+body:has(.page--dark) .add-tag-button-svg svg * {
     stroke: #0d44be;
 }
 
-.add-tag-button svg:hover {
+.add-tag-button-svg svg:hover {
     background-color: #2067ff;
 }
 
-body:has(.page--light) .add-tag-button svg:hover * {
+body:has(.page--light) .add-tag-button-svg svg:hover * {
     stroke: white;
     transition-duration: 0.1s;
 }
 
-body:has(.page--dark) .add-tag-button svg:hover * {
+body:has(.page--dark) .add-tag-button-svg svg:hover * {
     stroke: white;
     transition-duration: 0.1s;
 }
@@ -506,6 +549,14 @@ body:has(.page--dark) .add-tag-button svg:hover * {
     outline: 2px rgba(40, 184, 78, 0.82) dashed;
 }
 
+body:has(.page--dark) .add-tag-input {
+    color: var(--white);
+}
+
+body:has(.page--light) .add-tag-input {
+    color: var(--black);
+}
+
 .add-tag-input-not-empty {
     margin-top: 5px;
 }
@@ -513,4 +564,92 @@ body:has(.page--dark) .add-tag-button svg:hover * {
 .add-tag-input-empty {
     margin-top: -17px;
     position: absolute;
+}
+
+.tags-settings-panel .add-tag-input-empty {
+    margin-top: 10px;
+}
+
+.tags-settings-panel .add-tag-input-not-empty {
+    margin-top: 10px;
+}
+
+.tags-settings-panel {
+    position: absolute;
+    height: 100%;
+    overflow-y: auto;
+    width: 500px;
+}
+
+body:has(.page--dark) .tags-settings-panel {
+    background-color: #282828;
+}
+
+body:has(.page--light) .tags-settings-panel {
+    background-color: #e5e5e5;
+}
+
+.tags-settings-panel-inner {
+    padding: 20px 30px 10px 30px;
+}
+
+.tags-settings-panel-inactive {
+    width: 0;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    right: -500px;
+    top: 0;
+}
+
+.tags-settings-panel-active {
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+    right: 0;
+    top: 0;
+}
+
+.tag-item-component-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    margin-top: 8px;
+    height: 40px;
+
+    width: 40px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.tag-item-component-input:hover {
+    width: 80px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.tag-item-component-input::-webkit-color-swatch {
+    border-radius: 25px;
+    border: none;
+}
+.tag-item-component-input::-moz-color-swatch {
+    border-radius: 25px;
+    border: none;
+}
+
+.tag-item-component-text {
+    min-width: 50px;
+    text-align: center;
+
+    padding: 3px 10px 5px 10px;
+    height: 28px;
+    font-size: 16pt;
+    margin-top: 10px;
+    color: white;
+    border-radius: 5px;
+    width: fit-content;
+    cursor: pointer;
+    margin-left: 10px;
 }

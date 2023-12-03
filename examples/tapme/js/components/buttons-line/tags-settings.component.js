@@ -1,6 +1,6 @@
 class TagsSettingsComponent extends Component {
     onClick() {
-        alert('Not implemented');
+        pageModel.tagsSettingsOpened = !pageModel.tagsSettingsOpened;
     }
 
     toHtml() {

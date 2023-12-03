@@ -1,12 +1,17 @@
 class AddTagComponent extends Component {
     /**
-     * @param {TaskModel | PresetModel} model
+     * @param {object} params
+     * @param {TaskModel | PresetModel | PageModel} params.model
+     * @param {string} params.buttonContainerCssClassName
+     * @param {string} params.inputContainerCssClassName
      */
-    constructor(model) {
+    constructor({ model, buttonContainerCssClassName, inputContainerCssClassName }) {
         super();
 
         this.inputId = getId();
         this.model = model;
+        this.buttonContainerCssClassName = buttonContainerCssClassName;
+        this.inputContainerCssClassName = inputContainerCssClassName;
         this.clicked = this.createFullRedrawable(false, 'clicked');
     }
 
@@ -58,7 +63,7 @@ class AddTagComponent extends Component {
             const className = tagsCount ? 'add-tag-input add-tag-input-not-empty' : 'add-tag-input add-tag-input-empty';
 
             return t`
-                <div class="tag-item-textbox">
+                <div class="${this.inputContainerCssClassName}">
                     <span role="textbox"
                         contenteditable
                         class="${className}"
@@ -71,7 +76,7 @@ class AddTagComponent extends Component {
         }
 
         return t`
-            <div class="tag-item add-tag-button">
+            <div class="${this.buttonContainerCssClassName} add-tag-button-svg">
                  <svg
                      onclick="${() => this.onClick()}"
                      width="40px"

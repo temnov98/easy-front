@@ -2,8 +2,10 @@ class PageModel extends BaseModel {
     constructor() {
         super();
 
-        const { tasks, presets } = localStorageService.load();
+        const { tasks, presets, tags } = localStorageService.load();
 
+        this.tags = this.createObservable(tags, 'tags');
+        this.tagsSettingsOpened = this.createObservable(false, 'tagsSettingsOpened');
         this.tasks = this.createObservable(tasks, 'tasks');
         this.presets = this.createObservable(presets, 'presets');
         this.totalTimeFormatted = this.createObservable(this.getTotalTimeFormatted(), 'totalTimeFormatted');
@@ -127,6 +129,7 @@ class PageModel extends BaseModel {
         localStorageService.save({
             tasks: this.tasks,
             presets: this.presets,
+            tags: this.tags,
         });
     }
 
@@ -136,14 +139,18 @@ class PageModel extends BaseModel {
      * @return {boolean}
      */
     addTag(model, title) {
-        const hasThisTitle = model.tags.some((tag) => tag.title.toLowerCase() === title.toLowerCase());
-        if (hasThisTitle) {
+        const modelAlreadyHasTitle = model.tags.some((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
+        if (modelAlreadyHasTitle) {
             return false;
         }
 
         const tag = new TagModel({ title, color: this._getTagColor(title) });
-
         model.tags = [...model.tags, tag];
+
+        const alreadyHasTitle = this.tags.some((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
+        if (!alreadyHasTitle) {
+            this.tags = [...this.tags, tag];
+        }
 
         this.saveToLocalStorage();
 
@@ -151,22 +158,67 @@ class PageModel extends BaseModel {
     }
 
     /**
-     * @param {TaskModel | PresetModel} model
+     * @param {TaskModel | PresetModel | PageModel} model
      * @param {TagModel} tag
      */
     deleteTag(model, tag) {
-        model.tags = model.tags.filter((currentTag) => currentTag.id !== tag.id)
+        model.tags = model.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+
+        if (model instanceof PageModel) {
+            for (const task of this.tasks) {
+                task.tags = task.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+            }
+
+            for (const preset of this.presets) {
+                preset.tags = preset.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+            }
+        }
 
         this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {TagModel} tag
+     * @param {string} newColor
+     */
+    changeTagColor(tag, newColor) {
+        /** @type {TagModel[]} */
+        const allTags = [
+            ...this.tasks.map((task) => task.tags).flat(),
+            ...this.presets.map((preset) => preset.tags).flat(),
+            ...this.tags.flat(),
+        ];
+
+        for (const currentTag of allTags) {
+            if (currentTag.title === tag.title) {
+                currentTag.color = newColor;
+            }
+        }
+
+        this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {TagModel} left
+     * @param {TagModel} right
+     * @private
+     */
+    _tagsEqual(left, right) {
+        return this._formatTagTitle(left.title) === this._formatTagTitle(right.title);
+    }
+
+    _formatTagTitle(title) {
+        return title.toLowerCase();
     }
 
     _getTagColor(title) {
         const allTags = [
             ...this.tasks.map((task) => task.tags).flat(),
             ...this.presets.map((preset) => preset.tags).flat(),
+            ...this.tags.flat(),
         ];
 
-        const tag = allTags.find((tag) => tag.title.toLowerCase() === title.toLowerCase());
+        const tag = allTags.find((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
 
         return tag ? tag.color : this._generateRandomHexColor();
     }
