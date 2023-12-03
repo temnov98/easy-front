@@ -42,6 +42,20 @@ class PageModel extends BaseModel {
     /**
      * @param {PresetModel} preset
      */
+    addTaskFromPreset(preset) {
+        const task = new TaskModel({
+            title: preset.title,
+            tags: preset.tags,
+        });
+
+        this.tasks = [...this.tasks, task];
+
+        this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {PresetModel} preset
+     */
     addPreset(preset) {
         this.presets = [...this.presets, preset];
 

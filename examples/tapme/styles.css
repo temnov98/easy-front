@@ -81,6 +81,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 .preset-component {
     min-width: 1000px;
     align-items: center;
+    gap: 16px;
 }
 
 .task-component {

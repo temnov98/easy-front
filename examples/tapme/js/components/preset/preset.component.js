@@ -13,6 +13,7 @@ class PresetComponent extends Component {
             <div class="row">
                 <div class="row preset-component">
                     <div class="padding-5 max-width">${new PresetTextComponent(this.preset)}</div>
+                    <div class="padding-5">${new PresetAddTaskButtonComponent(this.preset)}</div>
                     <div class="padding-5">${new PresetDeleteButtonComponent(this.preset)}</div>
                 </div>
                 <div>
