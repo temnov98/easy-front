@@ -1,45 +1,29 @@
-class PageContentComponent extends Component {
+class PageComponent extends Component {
     constructor() {
         super();
 
-        this.cssClass = new CssClass(this.cssClassName);
-
-        this.subscribe(pageModel.theme).onChange(() => {
-            this.cssClass.className = this.cssClassName;
-        });
-
-        this.subscribe(pageModel.tagsSettingsOpened).onChange(() => {
-            this.cssClass.className = this.cssClassName;
-        });
+        this.activeTab = this.createFullRedrawable(this.pageFromLocation, 'activeTab');
     }
 
-    get cssClassName() {
-        const additional = pageModel.tagsSettingsOpened ? 'page-tags-settings-expanded' : 'page-tags-settings-hided';
-
-        return `page page--${pageModel.theme} ${additional}`;
+    get pageFromLocation() {
+        try {
+            return window.location.href.split('?')[1].split('=')[1];
+        } catch (e) {
+            return 'tracker';
+        }
     }
 
     toHtml() {
-        return t`
-            <div class="${this.cssClass}">
-                ${HeaderComponent}
-                ${TasksListComponent}
-                ${ButtonsLineComponent}
-                ${PresetsListComponent}
-            </div>
-        `;
-    }
-}
+        const pageMapping = {
+            'tracker': TrackerPageComponent,
+            'chart': ChartPageComponent,
+        };
 
-class PageComponent extends Component {
-    toHtml() {
+        const component = pageMapping[this.activeTab] || TrackerPageComponent;
+
         return t`
             <div>
-                ${PageContentComponent}
-                ${SwitchThemeComponent}
-                ${DebugComponent}
-                ${TagsSettingsPanelComponent}
-                ${ModalWindowComponent}
+                ${component}
             </div>
         `;
     }
