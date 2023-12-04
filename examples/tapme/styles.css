@@ -533,6 +533,23 @@ body:has(.page--dark) .add-tag-button-svg svg:hover * {
     transition-duration: 0.1s;
 }
 
+.tag-item svg {
+    width: 0;
+    height: 0;
+    fill: black;
+    display: none;
+}
+
+.tag-item:hover svg {
+    display: initial;
+    width: 28px;
+    height: 28px;
+}
+
+.tag-item:hover .tag-item-title {
+    visibility: hidden;
+}
+
 .add-tag-input {
     position: absolute;
     height: 32px;
@@ -639,24 +656,29 @@ body:has(.page--light) .tags-settings-panel {
     border-radius: 25px;
     border: none;
 }
+
 .tag-item-component-input::-moz-color-swatch {
     border-radius: 25px;
     border: none;
 }
 
 .tag-item-component-text {
-    min-width: 50px;
     text-align: center;
-
     padding: 3px 10px 5px 10px;
     height: 28px;
     font-size: 16pt;
     margin-top: 10px;
     color: white;
     border-radius: 5px;
-    width: fit-content;
-    cursor: pointer;
+    width: 320px;
     margin-left: 10px;
+}
+
+.tag-item-component-delete-button {
+    min-width: 40px;
+    margin-top: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
 }
 
 .modal-window {
