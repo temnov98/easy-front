@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.3';
+const _easyFrontVersion = '2.0.4';
 
 const _containerTagName = 'easy-front-container';
 
@@ -63,6 +63,17 @@ const _globalFunctions = new Map();
  * @typedef {{ _toHtml: () => string } | CssClass | function | ParamType[] | any} ParamType
  */
 
+function __executeHandler(id, event) {
+    const handler = _globalFunctions.get(id);
+    if (typeof handler !== 'function') {
+        _logger.warn(`Trying execute deleted handler: ${id}`);
+
+        return;
+    }
+
+    handler(event);
+}
+
 /**
  * @param {ParamType} param
  * @returns {string}
@@ -93,7 +104,7 @@ function _prepareParam(param) {
 
         _globalFunctions.set(id, param);
 
-        return `_globalFunctions.get('${id}')(event)`;
+        return `__executeHandler('${id}',event)`;
     }
 
     return param;
