@@ -252,7 +252,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     flex-direction: column;
     justify-content: center;
     align-content: center;
-    gap: 16px;
+    gap: 5px;
 }
 
 
