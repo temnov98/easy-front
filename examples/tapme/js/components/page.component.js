@@ -13,6 +13,15 @@ class PageComponent extends Component {
         }
     }
 
+    onSelect(page) {
+        const url = window.location.href;
+        const clearUrl = url.split('?')[0];
+
+        history.replaceState(null, null, `${clearUrl}?page=${page}`);
+
+        this.activeTab = page
+    }
+
     toHtml() {
         const pageMapping = {
             'tracker': TrackerPageComponent,
@@ -23,6 +32,11 @@ class PageComponent extends Component {
 
         return t`
             <div>
+                ${new TabPanelComponent({
+                    tabs: ['tracker', 'chart'],
+                    activeTab: this.activeTab,
+                    onSelect: (title) => this.onSelect(title),
+                })}
                 ${component}
             </div>
         `;
