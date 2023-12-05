@@ -49,7 +49,7 @@ class AddPresetComponent extends Component {
     toHtml() {
         return t`
             <div class="row">
-                <div class="padding-5 max-width">
+                <div class="padding-2 max-width">
                     <textarea
                         id="${this.inputId}"
                         class="preset-text"

@@ -14,9 +14,9 @@ class PresetComponent extends Component {
                 <div class="hide-by-default selected-row"></div>
 
                 <div class="row preset-component">
-                    <div class="padding-5 max-width">${new PresetTextComponent(this.preset)}</div>
-                    <div class="padding-5 hide-by-default">${new PresetAddTaskButtonComponent(this.preset)}</div>
-                    <div class="padding-5 hide-by-default">${new PresetDeleteButtonComponent(this.preset)}</div>
+                    <div class="padding-2 max-width">${new PresetTextComponent(this.preset)}</div>
+                    <div class="padding-2 hide-by-default">${new PresetAddTaskButtonComponent(this.preset)}</div>
+                    <div class="padding-2 hide-by-default">${new PresetDeleteButtonComponent(this.preset)}</div>
                 </div>
 
                 <div>

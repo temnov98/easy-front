@@ -75,6 +75,10 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     padding: 5px 0;
 }
 
+.padding-2 {
+    padding: 2px 0;
+}
+
 .preset-list-component {
     margin-top: 20px;
 }
@@ -140,7 +144,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     text-align: left;
     resize: none;
     word-break: normal;
-    padding: 10px 12px 10px 0;
+    padding: 10px 12px 10px 15px;
     box-sizing: border-box;
     background: transparent;
     border-radius: 12px;
@@ -474,6 +478,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     border-radius: 5px;
     width: fit-content;
     cursor: pointer;
+    line-height: 140%;
 }
 
 .add-tag-button {
