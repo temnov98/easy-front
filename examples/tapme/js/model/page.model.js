@@ -234,9 +234,11 @@ class PageModel extends BaseModel {
      * @return {boolean}
      */
     changeTagTitle(tag, newTitle) {
-        const alreadyHasTitle = this.tags.some((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(newTitle));
-        if (alreadyHasTitle) {
-            return false;
+        if (this._formatTagTitle(tag.title) !== this._formatTagTitle(newTitle)) {
+            const alreadyHasTitle = this.tags.some((currentTag) => this._formatTagTitle(currentTag.title) === this._formatTagTitle(newTitle));
+            if (alreadyHasTitle) {
+                return false;
+            }
         }
 
         const allTags = this._getAllTags();
