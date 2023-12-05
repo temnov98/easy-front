@@ -41,7 +41,7 @@ class LocalStorageService {
             if (!rawString) {
                 console.log(`Local storage is empty`);
 
-                return { tasks: [], presets: [] };
+                return { tasks: [], presets: [], tags: [] };
             }
 
             /** @type {RawValue} **/
