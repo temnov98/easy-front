@@ -678,6 +678,20 @@ body:has(.page--light) .tags-settings-panel {
     width: 320px;
     margin-left: 10px;
     line-height: 140%;
+    border: none;
+}
+
+.tag-item-component-text:focus {
+    background-color: rgba(255, 255, 255, 0) !important;
+    outline: 2px rgba(40, 184, 78, 0.82) dashed;
+}
+
+body:has(.page--dark) .tag-item-component-text:focus {
+    color: white !important;
+}
+
+body:has(.page--light) .tag-item-component-text:focus {
+    color: black !important;
 }
 
 .tag-item-component-delete-button {

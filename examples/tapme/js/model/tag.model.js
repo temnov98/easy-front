@@ -7,7 +7,7 @@ class TagModel extends BaseModel {
     constructor({ title, color }) {
         super();
 
-        this.title = title;
+        this.title = this.createObservable(title, 'title');
         this.color = this.createObservable(color, 'color');
     }
 }

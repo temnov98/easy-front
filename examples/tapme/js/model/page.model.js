@@ -168,7 +168,7 @@ class PageModel extends BaseModel {
     }
 
     /**
-     * @param {TaskModel | PresetModel} model
+     * @param {TaskModel | PresetModel | PageModel} model
      * @param {string} title
      * @return {boolean}
      */
@@ -216,20 +216,51 @@ class PageModel extends BaseModel {
      * @param {string} newColor
      */
     changeTagColor(tag, newColor) {
-        /** @type {TagModel[]} */
-        const allTags = [
-            ...this.tasks.map((task) => task.tags).flat(),
-            ...this.presets.map((preset) => preset.tags).flat(),
-            ...this.tags.flat(),
-        ];
+        const allTags = this._getAllTags();
 
         for (const currentTag of allTags) {
-            if (currentTag.title === tag.title) {
+            if (this._tagsEqual(currentTag, tag)) {
                 currentTag.color = newColor;
             }
         }
 
         this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {TagModel} tag
+     * @param {string} newTitle
+     * @return {boolean}
+     */
+    changeTagTitle(tag, newTitle) {
+        const alreadyHasTitle = this.tags.some((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(newTitle));
+        if (alreadyHasTitle) {
+            return false;
+        }
+
+        const allTags = this._getAllTags();
+
+        for (const currentTag of allTags) {
+            if (this._tagsEqual(currentTag, tag)) {
+                currentTag.title = newTitle;
+            }
+        }
+
+        this.saveToLocalStorage();
+
+        return true;
+    }
+
+    /**
+     * @private
+     * @return {TagModel[]}
+     */
+    _getAllTags() {
+        return [
+            ...this.tasks.map((task) => task.tags).flat(),
+            ...this.presets.map((preset) => preset.tags).flat(),
+            ...this.tags.flat(),
+        ];
     }
 
     /**

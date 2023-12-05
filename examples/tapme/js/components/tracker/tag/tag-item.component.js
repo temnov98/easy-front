@@ -29,12 +29,7 @@ class TagItemComponent extends AutoSubscribeComponent {
                     value="${this.tag.color}"
                     onchange="${() => this.onChangeColor()}"
                 />
-                <div
-                    class="tag-item-component-text"
-                    style="background-color: ${this.tag.color}"
-                >
-                    ${this.tag.title}
-                </div>
+                ${new TagItemTextComponent(this.tag)}
                 <button
                     class="icon-button icon-button--red tag-item-component-delete-button"
                     onclick="${() => pageModel.deleteTag(pageModel, this.tag)}"

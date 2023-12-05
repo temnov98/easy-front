@@ -6,7 +6,6 @@
 
 /**
  * @typedef {Object} RawTagValue
- * @property {string} id
  * @property {string} title
  * @property {string} color
  */
