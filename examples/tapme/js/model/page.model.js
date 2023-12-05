@@ -234,8 +234,10 @@ class PageModel extends BaseModel {
      * @return {boolean}
      */
     changeTagTitle(tag, newTitle) {
-        if (this._formatTagTitle(tag.title) !== this._formatTagTitle(newTitle)) {
-            const alreadyHasTitle = this.tags.some((currentTag) => this._formatTagTitle(currentTag.title) === this._formatTagTitle(newTitle));
+        const oltTitle = tag.title;
+
+        if (!this._tagTitlesEqual(oltTitle, newTitle)) {
+            const alreadyHasTitle = this.tags.some((currentTag) => this._tagTitlesEqual(currentTag.title, newTitle));
             if (alreadyHasTitle) {
                 return false;
             }
@@ -244,7 +246,7 @@ class PageModel extends BaseModel {
         const allTags = this._getAllTags();
 
         for (const currentTag of allTags) {
-            if (this._tagsEqual(currentTag, tag)) {
+            if (this._tagTitlesEqual(currentTag.title, oltTitle)) {
                 currentTag.title = newTitle;
             }
         }
@@ -264,6 +266,15 @@ class PageModel extends BaseModel {
             ...this.presets.map((preset) => preset.tags).flat(),
             ...this.tags.flat(),
         ];
+    }
+
+    /**
+     * @param {string} left
+     * @param {string} right
+     * @private
+     */
+    _tagTitlesEqual(left, right) {
+        return this._formatTagTitle(left) === this._formatTagTitle(right);
     }
 
     /**
