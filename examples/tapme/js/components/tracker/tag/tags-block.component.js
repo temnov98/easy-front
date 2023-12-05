@@ -1,4 +1,4 @@
-class TagsBlockComponent extends Component {
+class TagsBlockComponent extends AutoSubscribeComponent {
     /**
      * @param {TaskModel | PresetModel} model
      */

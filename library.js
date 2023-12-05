@@ -1,4 +1,12 @@
-const _easyFrontVersion = '2.0.4';
+const _easyFrontVersion = '2.0.5';
+
+const _easyFrontConfig = {
+    logging: {
+        renderComponents: false,
+        executeHandlers: false,
+        autoSubscribing: false,
+    },
+};
 
 const _containerTagName = 'easy-front-container';
 
@@ -22,6 +30,12 @@ class _Logger {
 
     log(...args) {
         console.log(...args);
+    }
+
+    logIf(condition, ...args) {
+        if (condition) {
+            this.log(...args);
+        }
     }
 
     warn(...args) {
@@ -194,6 +208,8 @@ class ObservableValue {
         this._value = value;
 
         for (const subscriber of this._subscribers) {
+            _logger.logIf(_easyFrontConfig.logging.executeHandlers, `[EXECUTING] ${subscriber.id}`);
+
             subscriber.handler(value);
         }
     }
@@ -517,16 +533,19 @@ class Component {
      * @returns {string}
      */
     _toHtml() {
+        _logger.logIf(_easyFrontConfig.logging.renderComponents, `[RENDER] ${this.constructor.name} ${this._id}`);
+
         this._rendered = true;
 
-        let html;
+        BaseModel.startAutoSubscribe(this);
+        const html = this.toHtml();
+        const observableFields = BaseModel.stopAutoSubscribe();
 
         if (this._autoSubscribeEnabled) {
-            BaseModel.startAutoSubscribe(this);
-            html = this.toHtml();
-            this._autoSubscribe(BaseModel.stopAutoSubscribe());
-        } else {
-            html = this.toHtml();
+            _logger.logIf(_easyFrontConfig.logging.autoSubscribing, `[AUTO SUBSCRIBED] ${this.constructor.name} ${this._id}`);
+            _logger.logIf(_easyFrontConfig.logging.autoSubscribing, observableFields);
+
+            this._autoSubscribe(observableFields);
         }
 
         const nodes = new DOMParser()
