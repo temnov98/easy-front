@@ -677,6 +677,7 @@ body:has(.page--light) .tags-settings-panel {
     border-radius: 5px;
     width: 320px;
     margin-left: 10px;
+    line-height: 140%;
 }
 
 .tag-item-component-delete-button {
