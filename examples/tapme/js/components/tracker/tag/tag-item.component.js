@@ -1,4 +1,4 @@
-class TagItemComponent extends AutoSubscribeComponent {
+class TagItemColorComponent extends AutoSubscribeComponent {
     /**
      * @param {TagModel} tag
      */
@@ -21,14 +21,31 @@ class TagItemComponent extends AutoSubscribeComponent {
 
     toHtml() {
         return t`
+            <input
+                class="tag-item-component-input"
+                id="${this.inputId}"
+                type="color"
+                value="${this.tag.color}"
+                onchange="${() => this.onChangeColor()}"
+            />
+        `;
+    }
+}
+
+class TagItemComponent extends Component {
+    /**
+     * @param {TagModel} tag
+     */
+    constructor(tag) {
+        super();
+
+        this.tag = tag;
+    }
+
+    toHtml() {
+        return t`
             <div class="row tag-item-component-container">
-                <input
-                    class="tag-item-component-input"
-                    id="${this.inputId}"
-                    type="color"
-                    value="${this.tag.color}"
-                    onchange="${() => this.onChangeColor()}"
-                />
+                ${new TagItemColorComponent(this.tag)}
                 ${new TagItemTextComponent(this.tag)}
                 <button
                     class="icon-button icon-button--red tag-item-component-delete-button"
