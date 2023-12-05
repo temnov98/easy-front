@@ -55,6 +55,7 @@ class PageModel extends BaseModel {
 
     deleteActiveTasks() {
         this.tasks = [];
+        this.updateTotalTime();
 
         this.saveToLocalStorage();
     }
