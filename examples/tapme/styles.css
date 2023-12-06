@@ -813,7 +813,32 @@ body:has(.page--dark) .tab-button:hover {
 }
 
 .chart-page-component {
-    font-size: 30pt;
-    padding-top: 300px;
-    text-align: center;
+    margin: 0 50px 0 110px;
 }
+
+.chart-js-custom-tooltip {
+    background-color: white;
+    font-size: 16pt;
+    padding: 15px;
+}
+
+.tooltip-tag {
+    padding-top: 10px;
+}
+
+.chart-tags-panel {
+    margin-top: 15px;
+    width: 100%;
+    font-size: 16pt;
+}
+
+.chart-page-component button {
+    font-size: 15pt;
+    padding: 15px;
+}
+
+.chart-tags-panel input {
+    width: 30px;
+    height: 30px;
+}
+
