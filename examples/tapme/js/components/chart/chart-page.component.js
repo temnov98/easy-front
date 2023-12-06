@@ -29,6 +29,11 @@ function generateRandomHexColor() {
 class TaskData {
     constructor({ tags, seconds }) {
         this.tags = (tags ?? ['No tag']).sort();
+
+        if (!this.tags.length) {
+            this.tags.push('No tag');
+        }
+
         this.seconds = seconds;
     }
 
@@ -61,6 +66,26 @@ function realDataToDayData(date, data) {
             tags: task.tags,
             seconds: task.duration,
         })),
+    });
+}
+
+function realCsvDataToDayData(date, data) {
+    const lines = data.split('\n').filter((line, index) => index !== 0 && !!line.length);
+
+    const tasks = [];
+
+    for (const line of lines) {
+        const [title, seconds, formatted, tags] = line.split(';');
+
+        tasks.push(new TaskData({
+            tags: tags ? tags.split(',') : undefined,
+            seconds: (+seconds) * 1000,
+        }));
+    }
+
+    return new DayData({
+        date,
+        tasks,
     });
 }
 
@@ -238,7 +263,8 @@ class ChartPageComponent extends Component {
                 {
                     description: 'JSON Files',
                     accept: {
-                        'application/json': ['.json'],
+                        'application/json': ['.tapme.json'],
+                        'text/csv': ['.tapme.csv'],
                     },
                 },
             ],
@@ -251,8 +277,16 @@ class ChartPageComponent extends Component {
             const file = files[index];
             const content = filesContents[index];
 
+            const extension = file.name.split('.').pop();
             const [day, month, year] = file.name.split(' ')[0].split('-');
-            testData.push(realDataToDayData(new Date(`${year}-${month}-${day}`), JSON.parse(content)));
+
+            const date = new Date(`${year}-${month}-${day}`);
+
+            if (extension === 'json') {
+                testData.push(realDataToDayData(date, JSON.parse(content)));
+            } else if (extension === 'csv') {
+                testData.push(realCsvDataToDayData(date, content));
+            }
         }
 
         refreshConstants();
