@@ -116,6 +116,22 @@ function filterTags(tags) {
     return tags.filter((tag) => activeTags.has(tag));
 }
 
+function getColor(tags) {
+    if (tags.length !== 1) {
+        return generateRandomHexColor();
+    }
+
+    const [tag] = tags;
+
+    for (const currentTag of pageModel.tags) {
+        if (currentTag.title === tag) {
+            return currentTag.color;
+        }
+    }
+
+    return generateRandomHexColor();
+}
+
 class ChartPageComponent extends Component {
     constructor() {
         super();
@@ -166,7 +182,7 @@ class ChartPageComponent extends Component {
                 xAxisKey: 'date',
                 yAxisKey: 'seconds',
             },
-            backgroundColor: generateRandomHexColor(),
+            backgroundColor: getColor(groupToTags.get(group)),
             fill: true,
         }));
 
@@ -221,11 +237,18 @@ class ChartPageComponent extends Component {
                             // Display, position, and set styles for font
                             tooltipEl.style.opacity = 1;
                             tooltipEl.style.position = 'absolute';
-                            tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
                             tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
                             tooltipEl.style.font = bodyFont.string;
                             tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
                             tooltipEl.style.pointerEvents = 'none';
+
+                            let leftPosition = position.left + window.pageXOffset + tooltipModel.caretX;
+
+                            leftPosition = leftPosition > (window.innerWidth / 2)
+                                ? leftPosition - tooltipEl.offsetWidth - 20
+                                : leftPosition + 20;
+
+                            tooltipEl.style.left = leftPosition + 'px';
                         },
                     },
                 },

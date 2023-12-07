@@ -465,6 +465,10 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     margin-left: -12px;
 }
 
+.tags-settings-tag-item-textbox .add-tag-input {
+    width: 440px;
+}
+
 .tag-item {
     min-width: 50px;
     text-align: center;
