@@ -9,13 +9,17 @@ function getTooltip(value) {
     const { tags, seconds } = value;
 
     const tagComponents = tags.map((tag) => `
-        <div class="tooltip-tag">${'#' + tag}</div>
+        <div class="tooltip-tag" style="background-color: ${getColor([tag])}">${tag}</div>
     `).join('');
 
     return `
         <div class="chart-js-custom-tooltip">
-            <div>${seconds.toFixed(2)}h</div>
-            ${tagComponents}
+            <div class="tooltip-line">
+                ${value.date.toLocaleDateString()} 
+                (${value.date.toLocaleString(window.navigator.language, { weekday: 'short' })})
+            </div>
+            <div class="tooltip-line">${timeFormatService.durationFormatted(seconds)}</div>
+            <div class="tooltip-line">${tagComponents}</div>
         </div>
     `;
 }
@@ -162,9 +166,8 @@ class ChartPageComponent extends Component {
         const datasets = [...groups].map((group) => ({
             label: group,
             data: [
-                ...testData.map((item) => ({
-                    date: item.date.toLocaleDateString(),
-                    seconds: +(sumOfSeconds(
+                ...testData.map((item) => {
+                    const milliseconds = sumOfSeconds(
                         item.tasks
                             .filter((task) => {
                                 if (!filterTags(task.tags).length) {
@@ -174,13 +177,20 @@ class ChartPageComponent extends Component {
                                 return getGroup(filterTags(task.tags)) === group;
                             })
                             .map((task) => task.seconds)
-                    ) / 1000 / 60 / 60).toFixed(2),
-                    tags: filterTags(groupToTags.get(group)),
-                })),
+                    );
+
+                    return {
+                        date: item.date,
+                        label: item.date.toLocaleDateString(),
+                        hours: (milliseconds / 1000 / 60 / 60).toFixed(2),
+                        seconds: milliseconds / 1000,
+                        tags: filterTags(groupToTags.get(group)),
+                    };
+                }),
             ],
             parsing: {
-                xAxisKey: 'date',
-                yAxisKey: 'seconds',
+                xAxisKey: 'label',
+                yAxisKey: 'hours',
             },
             backgroundColor: getColor(groupToTags.get(group)),
             fill: true,

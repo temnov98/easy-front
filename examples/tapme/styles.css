@@ -823,11 +823,19 @@ body:has(.page--dark) .tab-button:hover {
 .chart-js-custom-tooltip {
     background-color: white;
     font-size: 16pt;
-    padding: 15px;
+    padding: 10px 15px 1px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.6);
 }
 
 .tooltip-tag {
-    padding-top: 10px;
+    padding: 10px 10px 10px 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.tooltip-line {
+    margin-bottom: 15px;
 }
 
 .chart-tags-panel {

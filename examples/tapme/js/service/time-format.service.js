@@ -40,7 +40,7 @@ class TimeFormatService {
      * @returns {string}
      */
     _getSecondsFormatted(durationInSeconds) {
-        const seconds = durationInSeconds % 60;
+        const seconds = Math.floor(durationInSeconds % 60);
 
         return seconds ? `${seconds}s` : '';
     }
