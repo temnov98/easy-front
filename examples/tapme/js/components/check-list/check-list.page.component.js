@@ -3,6 +3,8 @@ class CheckListPageComponent extends Component {
         return t`
             <div class="check-list-page-component">
                 <h1>Coming soon 😉</h1>
+
+                ${DebugComponent}
             </div>
         `;
     }
