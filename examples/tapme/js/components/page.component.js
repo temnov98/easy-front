@@ -26,6 +26,7 @@ class PageComponent extends Component {
         const pageMapping = {
             'tracker': TrackerPageComponent,
             'chart': ChartPageComponent,
+            'lists': CheckListPageComponent,
         };
 
         const component = pageMapping[this.activeTab] || TrackerPageComponent;
@@ -33,7 +34,7 @@ class PageComponent extends Component {
         return t`
             <div>
                 ${new TabPanelComponent({
-                    tabs: ['tracker', 'chart'],
+                    tabs: ['tracker', 'chart', 'lists'],
                     activeTab: this.activeTab,
                     onSelect: (title) => this.onSelect(title),
                 })}
