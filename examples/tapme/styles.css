@@ -839,9 +839,24 @@ body:has(.page--dark) .tab-button:hover {
 }
 
 .chart-tags-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     margin-top: 15px;
     width: 100%;
     font-size: 16pt;
+}
+
+.chart-tags-panel__tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.chart-tags-panel__tag label {
+    background-color: rgba(var(--color), 0.8);
+    padding: 4px 8px;
+    border-radius: 4px;
 }
 
 .chart-page-component button {
@@ -852,6 +867,7 @@ body:has(.page--dark) .tab-button:hover {
 .chart-tags-panel input {
     width: 30px;
     height: 30px;
+    margin: 0;
 }
 
 .check-list-page-component {

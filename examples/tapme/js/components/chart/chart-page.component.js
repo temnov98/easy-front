@@ -6,17 +6,17 @@
  * @return {string}
  */
 function getTooltip(value) {
-    const { tags, seconds } = value;
+    const {tags, seconds} = value;
 
     const tagComponents = tags.map((tag) => `
-        <div class="tooltip-tag" style="background-color: ${getColor([tag])}">${tag}</div>
+        <div class="tooltip-tag" style="background-color: ${tagToColor(tag)}">${tag}</div>
     `).join('');
 
     return `
         <div class="chart-js-custom-tooltip">
             <div class="tooltip-line">
                 ${value.date.toLocaleDateString()} 
-                (${value.date.toLocaleString(window.navigator.language, { weekday: 'short' })})
+                (${value.date.toLocaleString(window.navigator.language, {weekday: 'short'})})
             </div>
             <div class="tooltip-line">${timeFormatService.durationFormatted(seconds)}</div>
             <div class="tooltip-line">${tagComponents}</div>
@@ -31,7 +31,7 @@ function generateRandomHexColor() {
 }
 
 class TaskData {
-    constructor({ tags, seconds }) {
+    constructor({tags, seconds}) {
         this.tags = (tags ?? ['No tag']).sort();
 
         if (!this.tags.length) {
@@ -50,7 +50,7 @@ class TaskData {
 }
 
 class DayData {
-    constructor({ date, tasks }) {
+    constructor({date, tasks}) {
         this.date = date;
         this.tasks = tasks;
     }
@@ -120,17 +120,54 @@ function filterTags(tags) {
     return tags.filter((tag) => activeTags.has(tag));
 }
 
-function getColor(tags) {
-    if (tags.length !== 1) {
-        return generateRandomHexColor();
+function drawPattern(colors) {
+    // Create a canvas and get its context
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+
+    const edgeSize = Math.max(window.innerWidth, window.innerWidth);
+    // Set canvas dimensions
+    canvas.width = edgeSize;
+    canvas.height = edgeSize;
+
+    // Draw diagonal lines on the canvas
+    let lineWidth = 5; // Change this to adjust the width of the lines
+    ctx.lineWidth = lineWidth;
+
+    for (let x = 0; x <= canvas.width * 2; x += lineWidth) {
+        ctx.strokeStyle = colors[(x / lineWidth) % colors.length];
+        ctx.beginPath();
+        ctx.moveTo(x - canvas.width, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
     }
 
-    const [tag] = tags;
+    let dataUrl = canvas.toDataURL('image/png');
 
+    let img = new Image();
+    img.src = dataUrl;
+
+    return new Promise(resolve => img.onload = () => resolve(img));
+}
+
+function tagToColor(tag) {
     for (const currentTag of pageModel.tags) {
         if (currentTag.title === tag) {
             return currentTag.color;
         }
+    }
+
+    return generateRandomHexColor();
+}
+
+async function getColor(tags, context) {
+    if (tags.length === 1) {
+        return tagToColor(tags[0]);
+    }
+
+    if (tags.length > 1) {
+        const colors = tags.map((tag) => tagToColor(tag));
+        return context.createPattern(await this.drawPattern(colors), 'repeat');
     }
 
     return generateRandomHexColor();
@@ -143,8 +180,8 @@ class ChartPageComponent extends Component {
         this.canvasId = getId();
     }
 
-    onRender() {
-        const ctx = document.getElementById(this.canvasId);
+    async onRender() {
+        const ctx = document.getElementById(this.canvasId).getContext('2d');
 
         const labels = testData.map((item) => item.date.toLocaleDateString());
 
@@ -163,7 +200,7 @@ class ChartPageComponent extends Component {
 
         const sumOfSeconds = (items) => items.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-        const datasets = [...groups].map((group) => ({
+        const datasetsPromises = [...groups].map(async (group) => ({
             label: group,
             data: [
                 ...testData.map((item) => {
@@ -192,9 +229,11 @@ class ChartPageComponent extends Component {
                 xAxisKey: 'label',
                 yAxisKey: 'hours',
             },
-            backgroundColor: getColor(groupToTags.get(group)),
+            backgroundColor: await getColor(groupToTags.get(group), ctx),
             fill: true,
         }));
+
+        const datasets = await Promise.all(datasetsPromises);
 
         new Chart(ctx, {
             type: 'bar',
@@ -204,17 +243,20 @@ class ChartPageComponent extends Component {
             },
             options: {
                 animations: false,
-                "plugins": {
+                plugins: {
                     legend: {
                         display: false,
                     },
-                    "title": {
-                        "display": true,
+                    colors: {
+                        enabled: false
+                    },
+                    title: {
+                        display: true,
                     },
                     tooltip: {
                         enabled: false,
                         position: 'nearest',
-                        external: function(context) {
+                        external: function (context) {
                             // Tooltip Element
                             let tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -341,13 +383,14 @@ class ChartPageComponent extends Component {
         setTimeout(() => this.onRender(), 0);
 
         const tagsComponents = allTags.map((tag) => t`
-            <div style="float: left">
+            <div class="chart-tags-panel__tag" style="--color: ${hexToRgb(tagToColor(tag))}">
                 <input
+                    id="chart-tags-panel--${tag}"
                     type="checkbox"
                     onchange="${(event) => this.onClickTag(tag, event.target.checked)}"
                     ${activeTags.has(tag) ? 'checked' : ''}
                 />
-                ${tag}
+                <label for="chart-tags-panel--${tag}">${tag.trim()}</label>
             </div>
         `);
 
@@ -366,4 +409,11 @@ class ChartPageComponent extends Component {
             </div>
         `;
     }
+}
+
+function hexToRgb(hex) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    return `${r}, ${g}, ${b}`;
 }
