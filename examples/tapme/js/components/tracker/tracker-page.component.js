@@ -37,7 +37,6 @@ class TrackerPageComponent extends Component {
             <div>
                 ${TrackerPageInnerComponent}
                 ${SwitchThemeComponent}
-                ${DebugComponent}
                 ${TagsSettingsPanelComponent}
                 ${ModalWindowComponent}
             </div>

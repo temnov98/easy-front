@@ -39,6 +39,7 @@ class PageComponent extends Component {
                     onSelect: (title) => this.onSelect(title),
                 })}
                 ${component}
+                ${DebugComponent}
             </div>
         `;
     }

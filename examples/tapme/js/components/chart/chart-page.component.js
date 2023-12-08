@@ -363,8 +363,6 @@ class ChartPageComponent extends Component {
                 </div>
 
                 <canvas id="${this.canvasId}"></canvas>
-
-                ${DebugComponent}
             </div>
         `;
     }
