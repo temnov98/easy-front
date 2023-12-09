@@ -3,8 +3,10 @@ class ChartRangeComponent extends Component {
         return t`
             <div>
                 ${new RangeComponent({
-                    min: chartModel.min,
-                    max: chartModel.max,
+                    min: 0,
+                    max: chartModel._days.length - 1,
+                    minValue: chartModel.min,
+                    maxValue: chartModel.max,
                     onChange: ({ min, max }) => chartModel.setInterval({ min, max }),
                 })}
             </div>

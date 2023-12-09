@@ -2,13 +2,18 @@ class RangeComponent extends Component {
     /**
      * @param {number} min
      * @param {number} max
+     * @param {number} minValue
+     * @param {number} maxValue
      * @param {(params: { min: number; max: number }) => void} onChange
      */
-    constructor({ min, max, onChange }) {
+    constructor({ min, max, minValue, maxValue, onChange }) {
         super();
 
         this.min = min;
         this.max = max;
+
+        this.minValue = minValue;
+        this.maxValue = maxValue;
 
         this.minId = getId();
         this.maxId = getId();
@@ -52,7 +57,7 @@ class RangeComponent extends Component {
                         type="range"
                         min="${this.min}"
                         max="${this.max}" 
-                        value="${this.min}" 
+                        value="${this.minValue}" 
                         class="range-component__slider"
                         onchange="${() => this.onMinChange()}"
                         title="${this.min}"
@@ -62,7 +67,7 @@ class RangeComponent extends Component {
                         type="range"
                         min="${this.min}"
                         max="${this.max}" 
-                        value="${this.max}" 
+                        value="${this.maxValue}" 
                         class="range-component__slider" 
                         onchange="${() => this.onMaxChange()}"
                         title="${this.max}"
