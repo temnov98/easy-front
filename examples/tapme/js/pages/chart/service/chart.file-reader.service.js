@@ -1,0 +1,73 @@
+// TODO: Нужно перестать ориентироваться на имена файлов
+
+class ChartFileReaderService {
+    /**
+     * @param {{ name: string }[]} files
+     * @param {string[]} filesContents
+     * @return {ChartDayModel[]}
+     */
+    static readFiles({ files, filesContents }) {
+        /** @type {ChartDayModel[]} */
+        const days = [];
+
+        for (let index = 0; index < files.length; index++) {
+            const file = files[index];
+            const content = filesContents[index];
+
+            const extension = file.name.split('.').pop();
+            const [day, month, year] = file.name.split(' ')[0].split('-');
+
+            const date = new Date(`${year}-${month}-${day}`);
+
+            if (extension === 'json') {
+                days.push(this._jsonDataToDayModel(date, JSON.parse(content)));
+            } else if (extension === 'csv') {
+                days.push(this._csvDataToDayModel(date, content));
+            }
+        }
+
+        return days;
+    }
+
+    /**
+     * @param {Date} date
+     * @param {object} data
+     * @return {ChartDayModel}
+     * @private
+     */
+    static _jsonDataToDayModel(date, data) {
+        return new ChartDayModel({
+            date,
+            tasks: data.tasks.map((task) => new ChartTaskModel({
+                tags: task.tags,
+                seconds: task.duration / 1000,
+            })),
+        })
+    }
+
+    /**
+     * @param {Date} date
+     * @param {string} data
+     * @return {ChartDayModel}
+     * @private
+     */
+    static _csvDataToDayModel(date, data) {
+        const lines = data.split('\n').filter((line, index) => index !== 0 && !!line.length);
+
+        const tasks = [];
+
+        for (const line of lines) {
+            const [title, seconds, formatted, tags] = line.split(';');
+
+            tasks.push(new ChartTaskModel({
+                tags: tags ? tags.split(',') : undefined,
+                seconds: +seconds,
+            }));
+        }
+
+        return new ChartDayModel({
+            date,
+            tasks,
+        });
+    }
+}
