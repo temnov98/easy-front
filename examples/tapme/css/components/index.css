@@ -1,3 +1,8 @@
 @import "icon-button.css";
 @import "black-switch.css";
 @import "black-switch.css";
+@import "debug.component.css";
+@import "range.component.css";
+@import "tab-panel.component.css";
+@import "switcher.component.css";
+@import "modal-window.component.css";

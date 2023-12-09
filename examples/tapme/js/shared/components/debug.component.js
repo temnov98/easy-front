@@ -1,4 +1,4 @@
-class EasyFrontDebugComponent extends AutoSubscribeComponent {
+class DebugInnerComponent extends AutoSubscribeComponent {
     constructor() {
         super();
 
@@ -11,17 +11,17 @@ class EasyFrontDebugComponent extends AutoSubscribeComponent {
 
     toHtml() {
         return t`
-            <div class="none">
-                <div class="debug-components-count">
+            <div>
+                <div class="debug-component__components-count">
                     Components count: ${_idToComponentMapping.size}
                 </div>
-                <div class="debug-handlers-count">
+                <div class="debug-component__handlers-count">
                     Handlers count: ${_globalFunctions.size}
                 </div>
-                 <div class="debug-warnings-count">
+                 <div class="debug-component__warnings-count">
                     Warnings count: ${_logger.warningsCount}
                 </div>
-                <div class="debug-errors-count">
+                <div class="debug-component__errors-count">
                     Errors count: ${_logger.errorsCount}
                 </div>
             </div>
@@ -51,7 +51,7 @@ class DebugComponent extends Component {
 
     toHtml() {
         if (this.expanded) {
-            const panelClass = this.initial ? 'debug-panel-initial' : 'debug-panel';
+            const panelClass = this.initial ? 'debug-component__panel-initial' : 'debug-component__panel';
 
             return t`
                 <div 
@@ -59,13 +59,13 @@ class DebugComponent extends Component {
                     onclick="${() => this.onClick()}"
                     onmouseleave="${() => this.onLeave()}"
                 >
-                    ${EasyFrontDebugComponent}
+                    ${DebugInnerComponent}
                 </div>
             `;
         } else {
             return t`
-                <div class="debug-icon" onclick="${() => this.onClick()}">
-                    <img class="debug-image-active" src="images/debug.svg" alt="Image">
+                <div class="debug-component__icon" onclick="${() => this.onClick()}">
+                    <img class="debug-component__image-active" src="images/debug.svg" alt="Debug info">
                 </div>
             `;
         }

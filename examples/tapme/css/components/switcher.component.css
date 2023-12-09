@@ -1,0 +1,35 @@
+.switcher-component__container-active {
+    border-radius: 25px;
+    background-color: var(--switcher--color-container-active, red);
+    height: 50px;
+    width: 110px;
+    cursor: pointer;
+}
+
+.switcher-component__container-inactive {
+    border-radius: 25px;
+    background-color: var(--switcher--color-container-inactive, blue);
+    height: 50px;
+    width: 110px;
+    cursor: pointer;
+}
+
+.switcher-component__circle-active {
+    border: solid 4px var(--switcher--color-circle-active-border, black);
+    border-radius: 25px;
+    background-color: var(--switcher--color-circle-active, grey);
+    height: 42px;
+    width: 42px;
+    margin-left: 0;
+    transition-duration: 300ms;
+}
+
+.switcher-component__circle-inactive {
+    border: solid 4px var(--switcher--color-circle-inactive-border, yellow);
+    border-radius: 30px;
+    background-color: var(--switcher--color-circle-inactive, green);
+    height: 42px;
+    width: 42px;
+    margin-left: 60px;
+    transition-duration: 300ms;
+}

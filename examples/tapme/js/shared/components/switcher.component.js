@@ -15,11 +15,11 @@ class SwitcherComponent extends Component {
     }
 
     get currentSwitcherClass() {
-        return this.active ? 'switcher-circle-active switcher-circle' : 'switcher-circle-inactive switcher-circle';
+        return this.active ? 'switcher-component__circle-active' : 'switcher-component__circle-inactive';
     }
 
     get currentSwitcherContainerClass() {
-        return this.active ? 'switcher-container-active' : 'switcher-container-inactive';
+        return this.active ? 'switcher-component__container-active' : 'switcher-component__container-inactive';
     }
 
     toggle() {

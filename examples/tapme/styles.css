@@ -259,118 +259,19 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     gap: 5px;
 }
 
-
-
 .switch-theme-container {
     position: fixed;
     left: -5px;
     top: 20px;
     transform: scale(0.8, 0.8);
+
+    --switcher--color-container-active: #d0d0d0;
+    --switcher--color-container-inactive: #363636;
+    --switcher--color-circle-active-border: #a8a8a8;
+    --switcher--color-circle-active: #ffffff;
+    --switcher--color-circle-inactive-border: #5b5b5b;
+    --switcher--color-circle-inactive: #1f1f1f;
 }
-
-
-.debug-panel-initial {
-    cursor: pointer;
-    position: fixed;
-    left: 10px;
-    bottom: 10px;
-    font-size: 20px;
-    background-color: rgba(188, 188, 188, 0.45);
-    padding: 10px;
-}
-
-.debug-panel {
-    cursor: pointer;
-    position: fixed;
-    left: 10px;
-    bottom: 10px;
-    font-size: 20px;
-    background-color: rgba(188, 188, 188, 0.45);
-    padding: 10px;
-    transition-duration: 1s;
-}
-
-.debug-panel:hover {
-    padding: 5px;
-    transition-duration: 0.5s;
-}
-
-.debug-icon {
-    cursor: pointer;
-    position: fixed;
-    left: 20px;
-    bottom: 10px;
-    padding: 10px;
-}
-
-.debug-image-active {
-    width: 40px;
-    height: 40px;
-    transition-duration: 500ms;
-}
-
-.debug-image-active:hover {
-    width: 50px;
-    height: 50px;
-    transition-duration: 500ms;
-}
-
-.debug-components-count {
-    color: #183ce5;
-}
-
-.debug-handlers-count {
-    color: #64a833;
-}
-
-.debug-errors-count {
-    color: red;
-}
-
-.debug-warnings-count {
-    color: #ff5700;
-}
-
-
-
-.switcher-container-active {
-    border-radius: 25px;
-    background-color: #d0d0d0;
-    height: 50px;
-    width: 110px;
-    cursor: pointer;
-}
-
-.switcher-container-inactive {
-    border-radius: 25px;
-    background-color: #363636;
-    height: 50px;
-    width: 110px;
-    cursor: pointer;
-}
-
-.switcher-circle-active {
-    border: solid 4px #a8a8a8;
-    border-radius: 25px;
-    background-color: #ffffff;
-    height: 42px;
-    width: 42px;
-    margin-left: 0;
-    transition-duration: 300ms;
-}
-
-.switcher-circle-inactive {
-    border: solid 4px #5b5b5b;
-    border-radius: 30px;
-    background-color: #1f1f1f;
-    height: 42px;
-    width: 42px;
-    margin-left: 60px;
-    transition-duration: 300ms;
-}
-
-
-
 
 .task-placeholder {
     background-color: #b7deb733;
@@ -705,16 +606,6 @@ body:has(.page--light) .tag-item-component-text:focus {
     margin-right: 8px;
 }
 
-.modal-window {
-    position: fixed;
-    left: 0;
-    top: 0;
-    background-color: rgba(00, 00, 00, 0.75);
-    width: 100%;
-    height: 100%;
-    padding-top: 300px;
-}
-
 .delete-active-tasks-window {
     margin: auto;
     background-color: rgb(255, 255, 255);
@@ -778,44 +669,6 @@ body:has(.page--dark) .delete-active-tasks-window {
     margin-right: 15px;
 }
 
-.tab-panel {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100px;
-    height: 100%;
-    background-color: #f2f2f2;
-    padding: 100px 0 10px 0;
-}
-
-.tab-button {
-    width: 100px;
-    font-size: 20pt;
-    text-align: center;
-    padding: 20px 0;
-    cursor: pointer;
-}
-
-.tab-button-active {
-    background-color: #d0d0d0;
-}
-
-.tab-button:hover {
-    background-color: #d0d0d0;
-}
-
-body:has(.page--dark) .tab-panel {
-    background-color: #282828;
-}
-
-body:has(.page--dark) .tab-button-active {
-    background-color: #1c1d1f;
-}
-
-body:has(.page--dark) .tab-button:hover {
-    background-color: #1c1d1f;
-}
-
 .chart-page-component {
     margin: 0 50px 0 110px;
 }
@@ -876,37 +729,3 @@ body:has(.page--dark) .tab-button:hover {
     text-align: center;
 }
 
-.slide-container {
-    width: 100%;
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 25px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #04AA6D;
-    cursor: pointer;
-}

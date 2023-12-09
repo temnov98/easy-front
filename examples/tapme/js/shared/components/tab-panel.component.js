@@ -16,7 +16,7 @@ class TabButtonComponent extends Component {
     toHtml() {
         return t`
             <div
-                class="tab-button ${this.isActive ? 'tab-button-active' : ''}"
+                class="tab-panel-component__button ${this.isActive ? 'tab-panel-component__button-active' : ''}"
                 onclick="${() => this.isActive ? undefined : this.onClick()}"
             >
                 ${this.title}
@@ -48,7 +48,7 @@ class TabPanelComponent extends Component {
         }));
 
         return t`
-            <div class="tab-panel">
+            <div class="tab-panel-component">
                 ${tabComponents}
             <div>
         `;

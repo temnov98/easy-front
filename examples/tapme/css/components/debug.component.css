@@ -1,0 +1,61 @@
+.debug-component__components-count {
+    color: #183ce5;
+}
+
+.debug-component__handlers-count {
+    color: #64a833;
+}
+
+.debug-component__warnings-count {
+    color: #ff5700;
+}
+
+.debug-component__errors-count {
+    color: red;
+}
+
+.debug-component__panel-initial {
+    cursor: pointer;
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    font-size: 20px;
+    background-color: rgba(188, 188, 188, 0.45);
+    padding: 10px;
+}
+
+.debug-component__panel {
+    cursor: pointer;
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    font-size: 20px;
+    background-color: rgba(188, 188, 188, 0.45);
+    padding: 10px;
+    transition-duration: 1s;
+}
+
+.debug-component__panel:hover {
+    padding: 5px;
+    transition-duration: 0.5s;
+}
+
+.debug-component__icon {
+    cursor: pointer;
+    position: fixed;
+    left: 20px;
+    bottom: 10px;
+    padding: 10px;
+}
+
+.debug-component__image-active {
+    width: 40px;
+    height: 40px;
+    transition-duration: 500ms;
+}
+
+.debug-component__image-active:hover {
+    width: 50px;
+    height: 50px;
+    transition-duration: 500ms;
+}

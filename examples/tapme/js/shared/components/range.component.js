@@ -31,13 +31,13 @@ class RangeComponent extends Component {
         });
     }
 
-    onMaxChange(event) {
+    onMaxChange() {
         this.maxElement.value = Math.max(this.minElement.value, this.maxElement.value);
 
         this.callOnChange();
     }
 
-    onMinChange(event) {
+    onMinChange() {
         this.minElement.value = Math.min(this.minElement.value, this.maxElement.value);
 
         this.callOnChange();
@@ -46,15 +46,15 @@ class RangeComponent extends Component {
     toHtml() {
         return t`
             <div>
-                <div class="slide-container">
+                <div class="range-component">
                     <input
                         id="${this.minId}"
                         type="range"
                         min="${this.min}"
                         max="${this.max}" 
                         value="${this.min}" 
-                        class="slider"
-                        onchange="${(event) => this.onMinChange(event)}"
+                        class="range-component__slider"
+                        onchange="${() => this.onMinChange()}"
                         title="${this.min}"
                     >
                     <input
@@ -63,8 +63,8 @@ class RangeComponent extends Component {
                         min="${this.min}"
                         max="${this.max}" 
                         value="${this.max}" 
-                        class="slider" 
-                        onchange="${(event) => this.onMaxChange(event)}"
+                        class="range-component__slider" 
+                        onchange="${() => this.onMaxChange()}"
                         title="${this.max}"
                     >
                 </div>
