@@ -35,7 +35,7 @@ class ChartComponent extends Component {
         this.canvasId = getId();
         this.chart = undefined;
 
-        this.subscribe(chartModel.chartData).onChange(() => this.onChange());
+        this.subscribe(chartModel.chartData).onChange(() => this.updateChart());
     }
 
     onDestroy() {
@@ -46,7 +46,7 @@ class ChartComponent extends Component {
         this.chart.destroy();
     }
 
-    async onChange() {
+    async updateChart() {
         if (!this.chart) {
             return;
         }
@@ -77,6 +77,12 @@ class ChartComponent extends Component {
     }
 
     async onRender() {
+        if (this.chart) {
+            await this.updateChart();
+
+            return;
+        }
+
         const { labels, datasets, ctx } = await this.getChartData();
 
         this.chart = new Chart(ctx, {
