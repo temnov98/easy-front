@@ -9,7 +9,7 @@ class TaskToggleButtonComponent extends AutoSubscribeComponent {
     }
 
     toHtml() {
-        const component = trackerPageModel.theme === 'dark'
+        const component = themeModel.theme === 'dark'
             ? new TaskToggleButtonDarkComponent(this.task)
             : new TaskToggleButtonLightComponent(this.task);
 

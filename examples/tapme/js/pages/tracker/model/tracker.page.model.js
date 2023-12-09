@@ -9,13 +9,6 @@ class TrackerPageModel extends BaseModel {
         this.tasks = this.createObservable(tasks, 'tasks');
         this.presets = this.createObservable(presets, 'presets');
         this.totalTimeFormatted = this.createObservable(this.getTotalTimeFormatted(), 'totalTimeFormatted');
-        this.theme = this.createObservable(trackerLocalStorageService.getItem('theme') || 'light', 'theme');
-    }
-
-    toggleTheme() {
-        this.theme = this.theme === 'light' ? 'dark' : 'light';
-
-        trackerLocalStorageService.setItem('theme', this.theme);
     }
 
     updateTotalTime() {

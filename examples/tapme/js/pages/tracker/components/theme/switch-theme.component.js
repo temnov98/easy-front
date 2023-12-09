@@ -1,8 +1,8 @@
 class SwitchThemeComponent extends Component {
     toHtml() {
         const switcher = new SwitcherComponent({
-            onClick: () => trackerPageModel.toggleTheme(),
-            defaultState: trackerPageModel.theme === 'light',
+            onClick: () => themeModel.toggleTheme(),
+            defaultState: themeModel.theme === 'light',
         });
 
         return t`

@@ -145,21 +145,6 @@ class TrackerLocalStorageService {
             console.error(`Error saving to local storage: ${error.message}`);
         }
     }
-
-    /**
-     * @param {string} key
-     */
-    getItem(key) {
-        return localStorage.getItem(this.storageKey + '-' + key);
-    }
-
-    /**
-     * @param {string} key
-     * @param {string} value
-     */
-    setItem(key, value) {
-        localStorage.setItem(this.storageKey + '-' + key, value);
-    }
 }
 
 const trackerLocalStorageService = new TrackerLocalStorageService();
