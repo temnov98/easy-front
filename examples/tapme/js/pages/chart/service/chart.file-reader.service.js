@@ -2,11 +2,25 @@
 
 class ChartFileReaderService {
     /**
-     * @param {{ name: string }[]} files
-     * @param {string[]} filesContents
-     * @return {ChartDayModel[]}
+     * @return {Promise<ChartDayModel[]>}
      */
-    static readFiles({ files, filesContents }) {
+    static async readFiles() {
+        const handles = await window.showOpenFilePicker({
+            multiple: true,
+            types: [
+                {
+                    description: 'JSON Files',
+                    accept: {
+                        'application/json': ['.tapme.json'],
+                        'text/csv': ['.tapme.csv'],
+                    },
+                },
+            ],
+        });
+
+        const files = await Promise.all(handles.map((handle) => handle.getFile()));
+        const filesContents = await Promise.all(files.map((file) => file.text()));
+
         /** @type {ChartDayModel[]} */
         const days = [];
 
