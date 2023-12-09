@@ -6,7 +6,7 @@ class SwitchThemeComponent extends Component {
         });
 
         return t`
-            <div class="switch-theme-container">
+            <div class="switch-theme-component__container">
                 ${switcher}
             </div>
         `;

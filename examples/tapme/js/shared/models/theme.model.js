@@ -19,6 +19,8 @@ class ThemeModel extends BaseModel {
 
     _saveTheme() {
         localStorage.setItem(this.themeStorageKey, this.theme);
+
+        console.log(`Saved theme to local storage at ${new Date().toLocaleString()}`);
     }
 }
 

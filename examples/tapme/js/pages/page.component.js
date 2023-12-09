@@ -3,6 +3,16 @@ class PageComponent extends Component {
         super();
 
         this.activeTab = this.createFullRedrawable(this.pageFromLocation, 'activeTab');
+
+        this.cssClass = new CssClass(this.cssClassName);
+
+        this.subscribe(themeModel.theme).onChange(() => {
+            this.cssClass.className = this.cssClassName;
+        });
+    }
+
+    get cssClassName() {
+        return `page--${themeModel.theme}`;
     }
 
     get pageFromLocation() {
@@ -32,14 +42,16 @@ class PageComponent extends Component {
         const component = pageMapping[this.activeTab] || TrackerPageComponent;
 
         return t`
-            <div>
+            <div class="${this.cssClass}">
                 ${new TabPanelComponent({
                     tabs: ['tracker', 'chart', 'lists'],
                     activeTab: this.activeTab,
                     onSelect: (title) => this.onSelect(title),
                 })}
+                ${SwitchThemeComponent}
                 ${component}
                 ${DebugComponent}
+                ${ModalWindowComponent}
             </div>
         `;
     }

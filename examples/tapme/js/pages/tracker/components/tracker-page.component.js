@@ -4,10 +4,6 @@ class TrackerPageInnerComponent extends Component {
 
         this.cssClass = new CssClass(this.cssClassName);
 
-        this.subscribe(themeModel.theme).onChange(() => {
-            this.cssClass.className = this.cssClassName;
-        });
-
         this.subscribe(trackerPageModel.tagsSettingsOpened).onChange(() => {
             this.cssClass.className = this.cssClassName;
         });
@@ -16,7 +12,7 @@ class TrackerPageInnerComponent extends Component {
     get cssClassName() {
         const additional = trackerPageModel.tagsSettingsOpened ? 'page-tags-settings-expanded' : 'page-tags-settings-hided';
 
-        return `page page--${themeModel.theme} ${additional}`;
+        return `page ${additional}`;
     }
 
     toHtml() {
@@ -36,9 +32,7 @@ class TrackerPageComponent extends Component {
         return t`
             <div>
                 ${TrackerPageInnerComponent}
-                ${SwitchThemeComponent}
                 ${TagsSettingsPanelComponent}
-                ${ModalWindowComponent}
             </div>
         `;
     }
