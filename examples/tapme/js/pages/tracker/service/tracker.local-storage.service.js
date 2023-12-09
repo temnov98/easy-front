@@ -162,4 +162,4 @@ class TrackerLocalStorageService {
     }
 }
 
-const localStorageService = new TrackerLocalStorageService();
+const trackerLocalStorageService = new TrackerLocalStorageService();

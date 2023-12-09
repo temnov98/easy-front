@@ -4,19 +4,19 @@ class TrackerPageInnerComponent extends Component {
 
         this.cssClass = new CssClass(this.cssClassName);
 
-        this.subscribe(pageModel.theme).onChange(() => {
+        this.subscribe(trackerPageModel.theme).onChange(() => {
             this.cssClass.className = this.cssClassName;
         });
 
-        this.subscribe(pageModel.tagsSettingsOpened).onChange(() => {
+        this.subscribe(trackerPageModel.tagsSettingsOpened).onChange(() => {
             this.cssClass.className = this.cssClassName;
         });
     }
 
     get cssClassName() {
-        const additional = pageModel.tagsSettingsOpened ? 'page-tags-settings-expanded' : 'page-tags-settings-hided';
+        const additional = trackerPageModel.tagsSettingsOpened ? 'page-tags-settings-expanded' : 'page-tags-settings-hided';
 
-        return `page page--${pageModel.theme} ${additional}`;
+        return `page page--${trackerPageModel.theme} ${additional}`;
     }
 
     toHtml() {

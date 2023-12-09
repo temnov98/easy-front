@@ -1,21 +1,21 @@
-class PageModel extends BaseModel {
+class TrackerPageModel extends BaseModel {
     constructor() {
         super();
 
-        const { tasks, presets, tags } = localStorageService.load();
+        const { tasks, presets, tags } = trackerLocalStorageService.load();
 
         this.tags = this.createObservable(tags, 'tags');
         this.tagsSettingsOpened = this.createObservable(false, 'tagsSettingsOpened');
         this.tasks = this.createObservable(tasks, 'tasks');
         this.presets = this.createObservable(presets, 'presets');
         this.totalTimeFormatted = this.createObservable(this.getTotalTimeFormatted(), 'totalTimeFormatted');
-        this.theme = this.createObservable(localStorageService.getItem('theme') || 'light', 'theme');
+        this.theme = this.createObservable(trackerLocalStorageService.getItem('theme') || 'light', 'theme');
     }
 
     toggleTheme() {
         this.theme = this.theme === 'light' ? 'dark' : 'light';
 
-        localStorageService.setItem('theme', this.theme);
+        trackerLocalStorageService.setItem('theme', this.theme);
     }
 
     updateTotalTime() {
@@ -148,7 +148,7 @@ class PageModel extends BaseModel {
     }
 
     saveToLocalStorage() {
-        localStorageService.save({
+        trackerLocalStorageService.save({
             tasks: this.tasks,
             presets: this.presets,
             tags: this.tags,
@@ -156,7 +156,7 @@ class PageModel extends BaseModel {
     }
 
     /**
-     * @param {TaskModel | PresetModel | PageModel} model
+     * @param {TaskModel | PresetModel | TrackerPageModel} model
      * @param {string} title
      * @return {boolean}
      */
@@ -180,13 +180,13 @@ class PageModel extends BaseModel {
     }
 
     /**
-     * @param {TaskModel | PresetModel | PageModel} model
+     * @param {TaskModel | PresetModel | TrackerPageModel} model
      * @param {TagModel} tag
      */
     deleteTag(model, tag) {
         model.tags = model.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
 
-        if (model instanceof PageModel) {
+        if (model instanceof TrackerPageModel) {
             for (const task of this.tasks) {
                 task.tags = task.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
             }
@@ -296,5 +296,5 @@ class PageModel extends BaseModel {
     }
 }
 
-const pageModel = new PageModel();
+const trackerPageModel = new TrackerPageModel();
 

@@ -19,7 +19,7 @@ class AddNewTaskComponent extends Component {
 
         this.clear();
 
-        pageModel.addTask(new TaskModel({ title }));
+        trackerPageModel.addTask(new TaskModel({ title }));
     }
 
     onKeyDown(event) {

@@ -30,4 +30,4 @@ class TrackerCsvExportService extends TrackerBaseExportService {
     }
 }
 
-const csvExportService = new TrackerCsvExportService();
+const trackerCsvExportService = new TrackerCsvExportService();

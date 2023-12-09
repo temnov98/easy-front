@@ -34,9 +34,9 @@ class PresetTextComponent extends Component {
 
     onFocusOut() {
         if (this.inputValue.trim()) {
-            pageModel.changePresetText(this.preset, this.inputValue);
+            trackerPageModel.changePresetText(this.preset, this.inputValue);
         } else {
-            pageModel.deletePreset(this.preset);
+            trackerPageModel.deletePreset(this.preset);
         }
     }
 

@@ -2,7 +2,7 @@ class PresetsInnerListComponent extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <div>
-                ${pageModel.presets.map((preset) => [new PresetComponent(preset)])}
+                ${trackerPageModel.presets.map((preset) => [new PresetComponent(preset)])}
             </div>
         `;
     }

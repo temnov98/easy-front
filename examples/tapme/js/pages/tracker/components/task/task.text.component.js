@@ -32,7 +32,7 @@ class TaskTextComponent extends Component {
     }
 
     onFocusOut() {
-        pageModel.changeTaskText(this.task, this.inputValue);
+        trackerPageModel.changeTaskText(this.task, this.inputValue);
     }
 
     toHtml() {

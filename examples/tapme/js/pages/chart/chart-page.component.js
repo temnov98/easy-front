@@ -152,7 +152,7 @@ function drawPattern(colors) {
 }
 
 function tagToColor(tag) {
-    for (const currentTag of pageModel.tags) {
+    for (const currentTag of trackerPageModel.tags) {
         if (currentTag.title === tag) {
             return currentTag.color;
         }

@@ -9,7 +9,7 @@ class TaskSaveAsPresetButtonComponent extends Component {
     }
 
     addPreset() {
-        pageModel.addPreset(new PresetModel({
+        trackerPageModel.addPreset(new PresetModel({
             title: this.task.title,
             tags: this.task.tags,
         }));

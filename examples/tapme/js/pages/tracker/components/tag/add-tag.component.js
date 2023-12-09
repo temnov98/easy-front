@@ -1,7 +1,7 @@
 class AddTagComponent extends Component {
     /**
      * @param {object} params
-     * @param {TaskModel | PresetModel | PageModel} params.model
+     * @param {TaskModel | PresetModel | TrackerPageModel} params.model
      * @param {string} params.buttonContainerCssClassName
      * @param {string} params.inputContainerCssClassName
      * @param {boolean} params.hideButtonByDefault
@@ -43,7 +43,7 @@ class AddTagComponent extends Component {
                 return;
             }
 
-            const tagAdded = pageModel.addTag(this.model, value);
+            const tagAdded = trackerPageModel.addTag(this.model, value);
             if (!tagAdded) {
                 this.input.blur();
             }

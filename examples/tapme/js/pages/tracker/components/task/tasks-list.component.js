@@ -1,6 +1,6 @@
 class TasksListComponent extends AutoSubscribeComponent {
     toHtml() {
-        if (!pageModel.tasks.length) {
+        if (!trackerPageModel.tasks.length) {
             return t`
                 <div>
                     ${TaskPlaceholderComponent}
@@ -10,7 +10,7 @@ class TasksListComponent extends AutoSubscribeComponent {
 
         return t`
             <div class="task-container">
-                ${pageModel.tasks.map((task) => [
+                ${trackerPageModel.tasks.map((task) => [
                     new TaskComponent(task),
                 ])}
             </div>

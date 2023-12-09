@@ -34,7 +34,7 @@ class TagItemTextComponent extends AutoSubscribeComponent {
                 return;
             }
 
-            const changeTitleResult = pageModel.changeTagTitle(this.tag, this.inputValue);
+            const changeTitleResult = trackerPageModel.changeTagTitle(this.tag, this.inputValue);
             if (!changeTitleResult) {
                 this.element.value = this.tag.title;
                 this.element.blur();

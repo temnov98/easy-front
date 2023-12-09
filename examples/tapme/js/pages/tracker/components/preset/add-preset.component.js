@@ -37,7 +37,7 @@ class AddPresetComponent extends Component {
 
     onFocusOut() {
         if (this.lastKey === 'Enter' && this.inputValue.trim()) {
-            pageModel.addPreset(new PresetModel({ title: this.inputValue }));
+            trackerPageModel.addPreset(new PresetModel({ title: this.inputValue }));
 
             this.element.value = '';
             this.element.focus();

@@ -25,4 +25,4 @@ class TrackerJsonExportService extends TrackerBaseExportService {
     }
 }
 
-const jsonExportService = new TrackerJsonExportService();
+const trackerJsonExportService = new TrackerJsonExportService();

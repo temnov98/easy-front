@@ -9,7 +9,7 @@ class TaskToggleButtonComponent extends AutoSubscribeComponent {
     }
 
     toHtml() {
-        const component = pageModel.theme === 'dark'
+        const component = trackerPageModel.theme === 'dark'
             ? new TaskToggleButtonDarkComponent(this.task)
             : new TaskToggleButtonLightComponent(this.task);
 
@@ -37,7 +37,7 @@ class TaskToggleButtonLightComponent extends AutoSubscribeComponent {
         return t`
             <button
                 class="${buttonCssClass}"
-                onmousedown="${() => pageModel.toggle(this.task)}">
+                onmousedown="${() => trackerPageModel.toggle(this.task)}">
                 ${new Timer(this.task)}
             </button>
         `;
@@ -85,7 +85,7 @@ class ToggleInput extends AutoSubscribeComponent {
         return t`
             <input
                 type="checkbox"  
-                onchange="${() => pageModel.toggle(this.task)}"
+                onchange="${() => trackerPageModel.toggle(this.task)}"
                 ${isChecked && 'checked'}
                 >
         `;
@@ -128,7 +128,7 @@ class Timer extends Component {
     startRedrawing() {
         this.timer = setInterval(() => {
             const redrawResult = this.redraw();
-            pageModel.updateTotalTime();
+            trackerPageModel.updateTotalTime();
 
             if (!redrawResult) {
                 this.stopRedrawing();

@@ -30,9 +30,9 @@ class SaveToFileButtonComponent extends Component {
 
     exportData() {
         if (this.type === 'csv') {
-            csvExportService.export(pageModel.tasks);
+            trackerCsvExportService.export(trackerPageModel.tasks);
         } else {
-            jsonExportService.export(pageModel.tasks);
+            trackerJsonExportService.export(trackerPageModel.tasks);
         }
     }
 

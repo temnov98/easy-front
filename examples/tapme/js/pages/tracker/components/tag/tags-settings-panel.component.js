@@ -4,13 +4,13 @@ class TagsSettingsPanelComponent extends AutoSubscribeComponent {
 
         this.cssClass = new CssClass(this.cssClassName);
 
-        this.subscribe(pageModel.tagsSettingsOpened).onChange(() => {
+        this.subscribe(trackerPageModel.tagsSettingsOpened).onChange(() => {
             this.cssClass.className = this.cssClassName;
         });
     }
 
     get cssClassName() {
-        return pageModel.tagsSettingsOpened
+        return trackerPageModel.tagsSettingsOpened
             ? 'tags-settings-panel tags-settings-panel-active'
             : 'tags-settings-panel tags-settings-panel-inactive';
     }
@@ -19,9 +19,9 @@ class TagsSettingsPanelComponent extends AutoSubscribeComponent {
         return t`
             <div class="${this.cssClass}">
                 <div class="tags-settings-panel-inner">
-                    ${pageModel.tags.map((tag) => new TagItemComponent(tag))}
+                    ${trackerPageModel.tags.map((tag) => new TagItemComponent(tag))}
                      ${new AddTagComponent({
-                         model: pageModel,
+                         model: trackerPageModel,
                          buttonContainerCssClassName: 'tags-settings-add-tag-button',
                          inputContainerCssClassName: 'tags-settings-tag-item-textbox',
                          hideButtonByDefault: false,

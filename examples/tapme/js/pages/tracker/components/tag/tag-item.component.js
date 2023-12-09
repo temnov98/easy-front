@@ -16,7 +16,7 @@ class TagItemColorComponent extends AutoSubscribeComponent {
     onChangeColor() {
         const value = this.input.value;
 
-        pageModel.changeTagColor(this.tag, value);
+        trackerPageModel.changeTagColor(this.tag, value);
     }
 
     toHtml() {
@@ -49,7 +49,7 @@ class TagItemComponent extends Component {
                 ${new TagItemTextComponent(this.tag)}
                 <button
                     class="icon-button icon-button--red tag-item-component-delete-button"
-                    onclick="${() => pageModel.deleteTag(pageModel, this.tag)}"
+                    onclick="${() => trackerPageModel.deleteTag(trackerPageModel, this.tag)}"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
                         <g id="trash_24">

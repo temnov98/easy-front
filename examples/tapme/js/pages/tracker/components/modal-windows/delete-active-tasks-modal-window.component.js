@@ -1,6 +1,6 @@
 class DeleteActiveTasksModalWindowComponent extends Component {
     onDeleteTasks() {
-        pageModel.deleteActiveTasks();
+        trackerPageModel.deleteActiveTasks();
         modalWindowModel.closeModal();
     }
 

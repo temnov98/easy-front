@@ -1,6 +1,6 @@
 class TagsSettingsComponent extends Component {
     onClick() {
-        pageModel.tagsSettingsOpened = !pageModel.tagsSettingsOpened;
+        trackerPageModel.tagsSettingsOpened = !trackerPageModel.tagsSettingsOpened;
     }
 
     toHtml() {
