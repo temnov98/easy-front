@@ -133,9 +133,10 @@ function drawPattern(colors) {
     // Draw diagonal lines on the canvas
     let lineWidth = 5; // Change this to adjust the width of the lines
     ctx.lineWidth = lineWidth;
+    const space = 0;
 
-    for (let x = 0; x <= canvas.width * 2; x += lineWidth) {
-        ctx.strokeStyle = colors[(x / lineWidth) % colors.length];
+    for (let x = 0; x <= canvas.width * 2; x += (lineWidth + space)) {
+        ctx.strokeStyle = colors[(x / (lineWidth + space)) % colors.length];
         ctx.beginPath();
         ctx.moveTo(x - canvas.width, 0);
         ctx.lineTo(x, canvas.height);

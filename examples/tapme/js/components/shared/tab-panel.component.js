@@ -17,7 +17,7 @@ class TabButtonComponent extends Component {
         return t`
             <div
                 class="tab-button ${this.isActive ? 'tab-button-active' : ''}"
-                onclick="${() => this.onClick()}"
+                onclick="${() => this.isActive ? undefined : this.onClick()}"
             >
                 ${this.title}
             <div>
