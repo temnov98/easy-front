@@ -1,4 +1,4 @@
-class CsvExportService extends BaseExportService {
+class TrackerCsvExportService extends TrackerBaseExportService {
     constructor() {
         super('csv');
     }
@@ -30,4 +30,4 @@ class CsvExportService extends BaseExportService {
     }
 }
 
-const csvExportService = new CsvExportService();
+const csvExportService = new TrackerCsvExportService();

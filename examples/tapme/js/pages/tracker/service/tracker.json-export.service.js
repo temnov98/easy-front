@@ -1,4 +1,4 @@
-class JsonExportService extends BaseExportService {
+class TrackerJsonExportService extends TrackerBaseExportService {
     constructor() {
         super('json');
     }
@@ -25,4 +25,4 @@ class JsonExportService extends BaseExportService {
     }
 }
 
-const jsonExportService = new JsonExportService();
+const jsonExportService = new TrackerJsonExportService();

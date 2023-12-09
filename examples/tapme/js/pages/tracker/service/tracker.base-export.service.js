@@ -1,4 +1,4 @@
-class BaseExportService {
+class TrackerBaseExportService {
     /**
      * @param {string} extension
      */

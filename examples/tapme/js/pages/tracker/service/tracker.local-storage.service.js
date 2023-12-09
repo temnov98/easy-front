@@ -27,7 +27,7 @@
  * @property {Array<RawTagValue>} tags
  */
 
-class LocalStorageService {
+class TrackerLocalStorageService {
     constructor() {
         this.storageKey = 'time-tracker-local-storage-key';
     }
@@ -162,4 +162,4 @@ class LocalStorageService {
     }
 }
 
-const localStorageService = new LocalStorageService();
+const localStorageService = new TrackerLocalStorageService();
