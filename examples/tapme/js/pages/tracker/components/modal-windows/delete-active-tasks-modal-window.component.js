@@ -21,8 +21,10 @@ class DeleteActiveTasksModalWindowComponent extends Component {
                     >
                         No, close window
                     </button>
-                <div>
+                </div>
             </div>
         `;
     }
 }
+
+modalWindowModel.registerModal('DeleteActiveTasksModalWindowComponent', DeleteActiveTasksModalWindowComponent);

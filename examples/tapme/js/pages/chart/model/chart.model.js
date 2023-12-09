@@ -87,11 +87,15 @@ class ChartModel extends BaseModel {
     }
 
     async selectFiles() {
-        const days = await ChartFileReaderService.readFiles();
+        try {
+            const days = await ChartFileReaderService.readFiles();
 
-        this._setDays(days);
-        this._updateChartData();
-        this._saveToStorage();
+            this._setDays(days);
+            this._updateChartData();
+            this._saveToStorage();
+        } catch (error) {
+            modalWindowModel.openModal('ErrorModalComponent', 'Error on reading files');
+        }
     }
 
     /**

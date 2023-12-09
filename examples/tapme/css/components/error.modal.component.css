@@ -1,0 +1,40 @@
+.error-modal-window__container {
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    width: 600px;
+    padding: 50px;
+    border-radius: 20px;
+    color: black;
+}
+
+body:has(.page--dark) .error-modal-window__container {
+    background-color: #d3d3d3;
+}
+
+.error-modal-window__container h1 {
+    text-align: center;
+}
+
+.error-modal-window__container div {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+}
+
+.error-modal-window__ok_button {
+    font-size: 30px;
+    margin-top: 50px;
+    height: 70px;
+    border: none;
+    width: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #74bb74;
+    color: white;
+    transition-duration: 0.5s;
+}
+
+.error-modal-window__ok_button:hover {
+    border-radius: 30px;
+    transition-duration: 0.5s;
+}
