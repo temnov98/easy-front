@@ -13,10 +13,11 @@ class ChartDatasetsPreparerService {
     /**
      * @param {ChartDayModel[]} days
      * @param {Set<string>} activeTags
+     * @param {Map<string, string>} tagToColorMap
      * @param {any} ctx
      * @return {Promise<object[]>}
      */
-    static async getDatasets({ days, activeTags, ctx }) {
+    static async getDatasets({ days, activeTags, tagToColorMap, ctx }) {
         const groups = new Set();
         const groupToTags = new Map();
 
@@ -43,6 +44,7 @@ class ChartDatasetsPreparerService {
             group,
             groupToTags,
             activeTags,
+            tagToColorMap,
         }));
 
         return await Promise.all(datasetsPromises);
@@ -53,13 +55,15 @@ class ChartDatasetsPreparerService {
      * @param {string} group
      * @param {Map<string, string[]>} groupToTags
      * @param {Set<string>} activeTags
+     * @param {Map<string, string>} tagToColorMap
      * @param {object} ctx
      * @return {Promise<object>}
      * @private
      */
-    static async _getDatasetItem({ days, group, groupToTags, activeTags, ctx }) {
+    static async _getDatasetItem({ days, group, groupToTags, activeTags, tagToColorMap, ctx }) {
         const backgroundColor = await this._getColor({
             tags: groupToTags.get(group),
+            tagToColorMap,
             ctx,
         });
 
@@ -146,17 +150,18 @@ class ChartDatasetsPreparerService {
 
     /**
      * @param {string[]} tags
+     * @param {Map<string, string>} tagToColorMap
      * @param {object} ctx
      * @return {Promise<CanvasPattern|string>}
      * @private
      */
-    static async _getColor({ tags, ctx }) {
+    static async _getColor({ tags, tagToColorMap, ctx }) {
         if (tags.length === 1) {
-            return trackerPageModel.getTagColor(tags[0]);
+            return tagToColorMap.get(tags[0]) || generateRandomHexColor();
         }
 
         if (tags.length > 1) {
-            const colors = tags.map((tag) => trackerPageModel.getTagColor(tag));
+            const colors = tags.map((tag) => tagToColorMap.get(tag) || generateRandomHexColor());
             const pattern = await this._drawPattern(colors);
 
             return ctx.createPattern(pattern, 'repeat');

@@ -279,6 +279,13 @@ class TrackerPageModel extends BaseModel {
 
         return tag ? tag.color : generateRandomHexColor();
     }
+
+    /**
+     * @return {Map<string, string>}
+     */
+    getTagToColorMap() {
+        return new Map(this.tags.map((tag) => [tag.title, tag.color]));
+    }
 }
 
 const trackerPageModel = new TrackerPageModel();

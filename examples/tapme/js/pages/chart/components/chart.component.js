@@ -72,6 +72,7 @@ class ChartComponent extends Component {
         const datasets = await ChartDatasetsPreparerService.getDatasets({
             days: chartModel.chartData.days,
             activeTags: chartModel.chartData.activeTags,
+            tagToColorMap: trackerPageModel.getTagToColorMap(),
             ctx,
         });
 
