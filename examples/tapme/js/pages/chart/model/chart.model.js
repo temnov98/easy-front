@@ -1,3 +1,7 @@
+// TODO: Refactor this file.
+//  1) Поля названы не самым очевидным способом.
+//  2) Из-за структуры observable полей тут происходят не самые оптимальные ререндеры компонентов.
+
 class ChartModel extends BaseModel {
     constructor() {
         super();
