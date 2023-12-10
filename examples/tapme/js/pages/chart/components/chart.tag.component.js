@@ -14,7 +14,7 @@ class ChartTagComponent extends Component {
 
     toHtml() {
         return t`
-            <div class="chart-tags-panel__tag" style="--color: ${hexToRgb(tagToColor(this.tag))}">
+            <div class="chart-tags-panel__tag" style="--color: ${hexToRgb(trackerPageModel.getTagColor(this.tag))}">
                 <input
                     id="chart-tags-panel--${this.tag}"
                     type="checkbox"

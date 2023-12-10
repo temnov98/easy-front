@@ -159,7 +159,7 @@ class TrackerPageModel extends BaseModel {
             return false;
         }
 
-        const tag = new TagModel({ title, color: this._getTagColor(title) });
+        const tag = new TagModel({ title, color: this.getTagColor(title) });
         model.tags = [...model.tags, tag];
 
         const alreadyHasTitle = this.tags.some((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
@@ -270,22 +270,14 @@ class TrackerPageModel extends BaseModel {
         return title.toLowerCase();
     }
 
-    _getTagColor(title) {
-        const allTags = [
-            ...this.tasks.map((task) => task.tags).flat(),
-            ...this.presets.map((preset) => preset.tags).flat(),
-            ...this.tags.flat(),
-        ];
+    /**
+     * @param {string} title
+     * @return {string}
+     */
+    getTagColor(title) {
+        const tag = this.tags.find((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
 
-        const tag = allTags.find((tag) => this._formatTagTitle(tag.title) === this._formatTagTitle(title));
-
-        return tag ? tag.color : this._generateRandomHexColor();
-    }
-
-    _generateRandomHexColor() {
-        const getHex = () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-
-        return `#${getHex()}${getHex()}${getHex()}`;
+        return tag ? tag.color : generateRandomHexColor();
     }
 }
 

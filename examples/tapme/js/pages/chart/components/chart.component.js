@@ -13,7 +13,7 @@ function getTooltip(value) {
     const { tags, seconds } = value;
 
     const tagComponents = tags.map((tag) => `
-        <div class="tooltip-tag" style="background-color: ${tagToColor(tag)}">${tag}</div>
+        <div class="tooltip-tag" style="background-color: ${trackerPageModel.getTagColor(tag)}">${tag}</div>
     `).join('');
 
     return `

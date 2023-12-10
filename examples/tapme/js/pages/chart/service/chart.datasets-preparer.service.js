@@ -1,19 +1,3 @@
-function generateRandomHexColor() {
-    const getHex = () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
-
-    return `#${getHex()}${getHex()}${getHex()}`;
-}
-
-function tagToColor(tag) {
-    for (const currentTag of trackerPageModel.tags) {
-        if (currentTag.title === tag) {
-            return currentTag.color;
-        }
-    }
-
-    return generateRandomHexColor();
-}
-
 class ChartDatasetsPreparerService {
     static _patternLineWidth = 5;
     static _patternLineSpace = 0;
@@ -168,11 +152,11 @@ class ChartDatasetsPreparerService {
      */
     static async _getColor({ tags, ctx }) {
         if (tags.length === 1) {
-            return tagToColor(tags[0]);
+            return trackerPageModel.getTagColor(tags[0]);
         }
 
         if (tags.length > 1) {
-            const colors = tags.map((tag) => tagToColor(tag));
+            const colors = tags.map((tag) => trackerPageModel.getTagColor(tag));
             const pattern = await this._drawPattern(colors);
 
             return ctx.createPattern(pattern, 'repeat');
