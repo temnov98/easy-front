@@ -8,6 +8,7 @@ class ChartModel extends BaseModel {
         this._activeTags = new Set();
         this.min = 0;
         this.max = 0;
+        this.daysCount = this.createObservable(0, 'daysCount');
 
         this._setDays(days);
 
@@ -108,6 +109,7 @@ class ChartModel extends BaseModel {
 
         this.min = 0;
         this.max = this._days.length - 1;
+        this.daysCount = this._days.length;
     }
 
     _saveToStorage() {
