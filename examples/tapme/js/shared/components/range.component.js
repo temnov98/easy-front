@@ -4,9 +4,10 @@ class RangeComponent extends Component {
      * @param {number} max
      * @param {number} minValue
      * @param {number} maxValue
+     * @param {number} [timeout]
      * @param {(params: { min: number; max: number }) => void} onChange
      */
-    constructor({ min, max, minValue, maxValue, onChange }) {
+    constructor({ min, max, minValue, maxValue, timeout, onChange }) {
         super();
 
         this.min = min;
@@ -19,6 +20,9 @@ class RangeComponent extends Component {
         this.maxId = getId();
 
         this.onChange = onChange;
+
+        this.hasTimeout = false;
+        this.timeout = timeout;
     }
 
     get minElement() {
@@ -48,6 +52,20 @@ class RangeComponent extends Component {
         this.callOnChange();
     }
 
+    onMove() {
+        if (this.hasTimeout || !this.timeout) {
+            return;
+        }
+
+        this.hasTimeout = true;
+
+        setTimeout(() => {
+            this.hasTimeout = false;
+
+            this.callOnChange();
+        }, this.timeout);
+    }
+
     toHtml() {
         return t`
             <div>
@@ -59,8 +77,8 @@ class RangeComponent extends Component {
                         max="${this.max}" 
                         value="${this.minValue}" 
                         class="range-component__slider"
+                        oninput="${() => this.onMove()}"
                         onchange="${() => this.onMinChange()}"
-                        title="${this.min}"
                     >
                     <input
                         id="${this.maxId}"
@@ -69,8 +87,8 @@ class RangeComponent extends Component {
                         max="${this.max}" 
                         value="${this.maxValue}" 
                         class="range-component__slider" 
+                        oninput="${() => this.onMove()}"
                         onchange="${() => this.onMaxChange()}"
-                        title="${this.max}"
                     >
                 </div>
             </div>

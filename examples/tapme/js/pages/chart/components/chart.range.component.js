@@ -7,6 +7,7 @@ class ChartRangeComponent extends AutoSubscribeComponent {
                     max: chartModel.daysCount - 1,
                     minValue: chartModel.min,
                     maxValue: chartModel.max,
+                    timeout: 100,
                     onChange: ({ min, max }) => chartModel.setInterval({ min, max }),
                 })}
             </div>
