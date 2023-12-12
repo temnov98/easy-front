@@ -4,10 +4,34 @@ class ChartDatasetsPreparerService {
 
     /**
      * @param {ChartDayModel[]} days
+     * @param {boolean} showEmptyDays
      * @return {string[]}
      */
-    static getLabels(days) {
-        return days.map((item) => this._getLabel(item.date));
+    static getLabels(days, showEmptyDays) {
+        if (!showEmptyDays) {
+            return days.map((item) => this._getLabel(item.date));
+        }
+
+        if (!days.length) {
+            return [];
+        }
+
+        const first = days[0];
+        const last = days[days.length - 1];
+
+        const millisecondsInDay = 24 * 60 * 60 * 1000;
+
+        const result = [];
+
+        for (
+            let timestamp = first.date.getTime();
+            timestamp < last.date.getTime() + millisecondsInDay;
+            timestamp += millisecondsInDay
+        ) {
+            result.push(this._getLabel(new Date(timestamp)));
+        }
+
+        return result;
     }
 
     /**

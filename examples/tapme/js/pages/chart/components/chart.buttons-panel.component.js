@@ -30,6 +30,7 @@ class ChartButtonsPanelComponent extends Component {
         super();
 
         this.selectId = getId();
+        this.checkboxId = getId();
     }
 
     get selectElement() {
@@ -58,6 +59,19 @@ class ChartButtonsPanelComponent extends Component {
                 >
                     Clear
                 </button>
+
+                <div class="chart__buttons-panel__show-empty-days">
+                    <input
+                        id="${this.checkboxId}"
+                        type="checkbox"
+                        ${chartModel.showEmptyDays ? 'checked' : ''}
+                        onchange="${(event) => chartModel.setShowEmptyDays(event.target.checked)}"
+                    />
+                    <label for="${this.checkboxId}">
+                        Show empty days
+                    </label>
+                </div>
+                
 
                 <select
                     id="${this.selectId}"

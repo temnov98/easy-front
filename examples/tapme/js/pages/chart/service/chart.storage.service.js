@@ -5,18 +5,21 @@
 class ChartStorageService {
     constructor() {
         this.chartDaysStorageKey = 'time-tracker-local-storage-key:chart:days';
+        this.chartShowEmptyDaysStorageKey = 'time-tracker-local-storage-key:chart:showEmptyDays';
     }
 
     /**
-     * @returns {{ days: ChartDayModel[] }}
+     * @returns {{ days: ChartDayModel[]; showEmptyDays: boolean }}
      */
     load() {
         try {
+            const showEmptyDaysRaw = localStorage.getItem(this.chartShowEmptyDaysStorageKey);
+
             const rawString = localStorage.getItem(this.chartDaysStorageKey);
             if (!rawString) {
                 console.log(`Chart local storage is empty`);
 
-                return { days: [] };
+                return { days: [], showEmptyDays: false };
             }
 
             /** @type {RawChartDaysModel} */
@@ -26,24 +29,29 @@ class ChartStorageService {
 
             console.log(`Loaded chart from local storage`);
 
-            return { days };
+            return {
+                days,
+                showEmptyDays: showEmptyDaysRaw === 'true',
+            };
         } catch (error) {
             console.log(`Error loading chart from local storage: ${error.message}`);
 
-            return { days: [] };
+            return { days: [], showEmptyDays: false };
         }
     }
 
     /**
      * @param {object} params
      * @param {ChartDayModel[]} params.days
+     * @param {boolean} params.showEmptyDays
      */
-    save({ days }) {
+    save({ days, showEmptyDays }) {
         try {
             /** @type {RawChartDaysModel} */
             const rawDays = days.map((day) => day.toRaw());
 
             localStorage.setItem(this.chartDaysStorageKey, JSON.stringify(rawDays));
+            localStorage.setItem(this.chartShowEmptyDaysStorageKey, JSON.stringify(showEmptyDays));
         } catch (error) {
             console.log(`Error saving chart to local storage: ${error.message}`);
         }

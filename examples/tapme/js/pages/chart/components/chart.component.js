@@ -66,7 +66,7 @@ class ChartComponent extends Component {
     async getChartData() {
         const ctx = document.getElementById(this.canvasId).getContext('2d');
 
-        const labels = ChartDatasetsPreparerService.getLabels(chartModel.chartData.days);
+        const labels = ChartDatasetsPreparerService.getLabels(chartModel.chartData.days, chartModel.showEmptyDays);
 
         const datasets = await ChartDatasetsPreparerService.getDatasets({
             days: chartModel.chartData.days,

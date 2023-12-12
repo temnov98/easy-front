@@ -1,6 +1,6 @@
 .chart__buttons-panel__container {
     display: grid;
-    grid-template-columns: 140px 130px auto;
+    grid-template-columns: 140px 130px auto auto;
     gap: 16px;
 }
 
@@ -9,4 +9,18 @@
     font-size: 14pt;
     justify-self: end;
     padding-left: 10px;
+}
+
+.chart__buttons-panel__show-empty-days {
+    font-size: 20pt;
+    justify-self: end;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.chart__buttons-panel__show-empty-days input {
+    width: 30px;
+    height: 30px;
 }

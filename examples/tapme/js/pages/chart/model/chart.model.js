@@ -6,7 +6,9 @@ class ChartModel extends BaseModel {
     constructor() {
         super();
 
-        const { days } = chartStorageService.load();
+        const { days, showEmptyDays } = chartStorageService.load();
+
+        this.showEmptyDays = this.createObservable(showEmptyDays, 'showEmptyDays');
 
         this._days = [];
         this._activeTags = new Set();
@@ -17,6 +19,15 @@ class ChartModel extends BaseModel {
         this._setDays(days);
 
         this.chartData = this.createObservable(this._getChartData(), 'chartData');
+    }
+
+    /**
+     * @param {boolean} showEmptyDays
+     */
+    setShowEmptyDays(showEmptyDays) {
+        this.showEmptyDays = showEmptyDays;
+
+        this._updateChartData();
     }
 
     setPreDefinedInterval(interval) {
@@ -154,6 +165,7 @@ class ChartModel extends BaseModel {
     _saveToStorage() {
         chartStorageService.save({
             days: this._days,
+            showEmptyDays: this.showEmptyDays,
         });
     }
 }
