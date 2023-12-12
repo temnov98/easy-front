@@ -7,7 +7,7 @@ class ChartDatasetsPreparerService {
      * @return {string[]}
      */
     static getLabels(days) {
-        return days.map((item) => item.date.toLocaleDateString());
+        return days.map((item) => this._getLabel(item.date));
     }
 
     /**
@@ -80,7 +80,7 @@ class ChartDatasetsPreparerService {
                             tags: groupToTags.get(group),
                             activeTags,
                         }),
-                        label: day.date.toLocaleDateString(),
+                        label: this._getLabel(day.date),
                         hours: (seconds / 60 / 60).toFixed(2),
                     };
                 }),
@@ -92,6 +92,18 @@ class ChartDatasetsPreparerService {
             backgroundColor,
             fill: true,
         };
+    }
+
+    /**
+     * @param {Date} date
+     * @return {string}
+     * @private
+     */
+    static _getLabel(date) {
+        const dateFormatted = date.toLocaleDateString();
+        const dayOfWeek = date.toLocaleString(window.navigator.language, { weekday: 'short' });
+
+        return `${dateFormatted} (${dayOfWeek})`;
     }
 
     /**

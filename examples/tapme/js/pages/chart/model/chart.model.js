@@ -19,6 +19,41 @@ class ChartModel extends BaseModel {
         this.chartData = this.createObservable(this._getChartData(), 'chartData');
     }
 
+    setPreDefinedInterval(interval) {
+        const millisecondsInDay = 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        const currentDay = new Date().getDay();
+        const currentDate = new Date().getDate();
+
+        const daysAgo = (date) => (now / millisecondsInDay) - (date.getTime() / millisecondsInDay);
+
+        /** @type {Record<string, (ChartDayModel) => boolean>} */
+        const filterMapping = {
+            [ChartLastInterval.All]: () => true,
+            [ChartLastInterval.Today]: (day) => daysAgo(day.date) < 1,
+            [ChartLastInterval.ThisWeek]: (day) => daysAgo(day.date) < 7 && day.date.getDay() <= currentDay,
+            [ChartLastInterval.ThisMonth]: (day) => daysAgo(day.date) < 31 && day.date.getDate() <= currentDate,
+            [ChartLastInterval.Last7Days]: (day) => daysAgo(day.date) < 7,
+            [ChartLastInterval.Last14Days]: (day) => daysAgo(day.date) < 14,
+            [ChartLastInterval.Last30Days]: (day) => daysAgo(day.date) < 30,
+        };
+
+        const filterHandler = filterMapping[interval];
+        if (!filterHandler) {
+            return;
+        }
+
+        const count = this._days.filter(filterHandler).length;
+
+        this.setInterval({
+            min: this.daysCount - count,
+            max: this.daysCount - 1,
+        });
+
+        // TODO: this fix for rerender ChartRangeComponent. This is not okay.
+        this.daysCount = this.daysCount;
+    }
+
     /**
      * @param {ChartDayModel[]} days
      * @return {string[]}

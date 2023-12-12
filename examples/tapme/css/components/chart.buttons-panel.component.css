@@ -1,0 +1,12 @@
+.chart__buttons-panel__container {
+    display: grid;
+    grid-template-columns: 140px 130px auto;
+    gap: 16px;
+}
+
+.chart__buttons-panel__container select {
+    width: 200px;
+    font-size: 14pt;
+    justify-self: end;
+    padding-left: 10px;
+}

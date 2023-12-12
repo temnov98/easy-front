@@ -12,7 +12,7 @@ function hexToRgb(hex) {
  * @return {string}
  */
 function getTooltip(value) {
-    const { tags, seconds } = value;
+    const { tags, seconds, label } = value;
 
     const tagComponents = tags.map((tag) => `
         <div class="tooltip-tag" style="background-color: ${trackerPageModel.getTagColor(tag)}">${tag}</div>
@@ -21,8 +21,7 @@ function getTooltip(value) {
     return `
         <div class="chart-js-custom-tooltip">
             <div class="tooltip-line">
-                ${value.date.toLocaleDateString()} 
-                (${value.date.toLocaleString(window.navigator.language, { weekday: 'short' })})
+                ${label}    
             </div>
             <div class="tooltip-line">${timeFormatService.durationFormatted(seconds)}</div>
             <div class="tooltip-line">${tagComponents}</div>
