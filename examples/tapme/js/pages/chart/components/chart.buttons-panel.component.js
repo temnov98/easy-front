@@ -7,9 +7,13 @@ class ChartIntervalOptionComponent extends Component {
             [ChartLastInterval.Today]: 'Today',
             [ChartLastInterval.ThisWeek]: 'This week',
             [ChartLastInterval.ThisMonth]: 'This month',
+            [ChartLastInterval.ThisYear]: 'This year',
             [ChartLastInterval.Last7Days]: 'Last 7 days',
             [ChartLastInterval.Last14Days]: 'Last 14 days',
             [ChartLastInterval.Last30Days]: 'Last 30 days',
+            [ChartLastInterval.Last90Days]: 'Last 90 days',
+            [ChartLastInterval.Last180Days]: 'Last 180 days',
+            [ChartLastInterval.Last365Days]: 'Last 365 days',
         };
 
         this.title = titleMapping[interval];

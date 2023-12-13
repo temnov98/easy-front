@@ -35,6 +35,7 @@ class ChartModel extends BaseModel {
         const now = Date.now();
         const currentDay = new Date().getDay();
         const currentDate = new Date().getDate();
+        const currentYear = new Date().getFullYear();
 
         const daysAgo = (date) => (now / millisecondsInDay) - (date.getTime() / millisecondsInDay);
 
@@ -44,9 +45,13 @@ class ChartModel extends BaseModel {
             [ChartLastInterval.Today]: (day) => daysAgo(day.date) < 1,
             [ChartLastInterval.ThisWeek]: (day) => daysAgo(day.date) < 7 && day.date.getDay() <= currentDay,
             [ChartLastInterval.ThisMonth]: (day) => daysAgo(day.date) < 31 && day.date.getDate() <= currentDate,
+            [ChartLastInterval.ThisYear]: (day) => daysAgo(day.date) < 365 && day.date.getFullYear() <= currentYear,
             [ChartLastInterval.Last7Days]: (day) => daysAgo(day.date) < 7,
             [ChartLastInterval.Last14Days]: (day) => daysAgo(day.date) < 14,
             [ChartLastInterval.Last30Days]: (day) => daysAgo(day.date) < 30,
+            [ChartLastInterval.Last90Days]: (day) => daysAgo(day.date) < 90,
+            [ChartLastInterval.Last180Days]: (day) => daysAgo(day.date) < 180,
+            [ChartLastInterval.Last365Days]: (day) => daysAgo(day.date) < 365,
         };
 
         const filterHandler = filterMapping[interval];
