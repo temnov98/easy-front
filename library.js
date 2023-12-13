@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.5';
+const _easyFrontVersion = '2.0.6';
 
 const _easyFrontConfig = {
     logging: {
@@ -158,10 +158,12 @@ const _componentNamesSet = new Set();
 class Subscriber {
     /**
      * @param {(value: any) => void} handler
+     * @param {string} [componentName]
      */
-    constructor(handler) {
+    constructor(handler, componentName) {
         this.id = _getId(_subscriberIdPrefix);
         this.handler = handler;
+        this.componentName = componentName;
     }
 }
 
@@ -208,7 +210,7 @@ class ObservableValue {
         this._value = value;
 
         for (const subscriber of this._subscribers) {
-            _logger.logIf(_easyFrontConfig.logging.executeHandlers, `[EXECUTING] ${subscriber.id}`);
+            _logger.logIf(_easyFrontConfig.logging.executeHandlers, `[EXECUTING] ${subscriber.id} for ${subscriber.componentName}`);
 
             subscriber.handler(value);
         }
@@ -704,7 +706,7 @@ class Component {
             return;
         }
 
-        const subscriber = new Subscriber(handler);
+        const subscriber = new Subscriber(handler, this.constructor.name);
 
         model.connect(fieldName, subscriber);
 
