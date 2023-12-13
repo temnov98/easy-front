@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.6';
+const _easyFrontVersion = '2.0.7';
 
 const _easyFrontConfig = {
     logging: {
@@ -386,6 +386,7 @@ class Component {
         this._id = _getId(_componentIdPrefix);
         this._idDestroyed = false;
         this._rendered = false;
+        this._rendering = false;
         this._unsubscribeHandlers = [];
 
         _idToComponentMapping.set(this._id, this);
@@ -433,6 +434,13 @@ class Component {
             return true;
         }
 
+        if (this._rendering) {
+            _logger.warn(`Trying to redraw a component while rendering: ${this.constructor.name}`);
+            return true;
+        }
+
+        this._rendering = true;
+
         try {
             const idsBefore = this._outerIds;
             this._element.outerHTML = this._toHtml();
@@ -444,6 +452,8 @@ class Component {
             _logger.error(`Error on redrawing (component: ${this.constructor.name}, id = ${this._id}): ${error.message}`, this);
 
             return false;
+        } finally {
+            this._rendering = false;
         }
     }
 
