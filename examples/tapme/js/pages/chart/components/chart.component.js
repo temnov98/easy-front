@@ -35,6 +35,7 @@ class ChartComponent extends Component {
 
         this.canvasId = getId();
         this.chart = undefined;
+        this.rendering = false;
 
         this.subscribe(chartModel.chartData).onChange(() => this.updateChart());
     }
@@ -52,12 +53,20 @@ class ChartComponent extends Component {
             return;
         }
 
+        if (this.rendering) {
+            return;
+        }
+
+        this.rendering = true;
+
         const { labels, datasets } = await this.getChartData();
 
         this.chart.data.labels = labels;
         this.chart.data.datasets = datasets;
 
         this.chart.update();
+
+        this.rendering = false;
     }
 
     /**
