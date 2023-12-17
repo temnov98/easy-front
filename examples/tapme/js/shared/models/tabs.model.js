@@ -1,3 +1,10 @@
+const AvailableTabs = {
+    Tracker: 'tracker',
+    Chart: 'chart',
+    CheckLists: 'check-lists',
+    Notifications: 'notifications',
+};
+
 class TabsModel extends BaseModel {
     constructor() {
         super();
@@ -19,9 +26,15 @@ class TabsModel extends BaseModel {
 
     _getPageFromLocation() {
         try {
-            return window.location.href.split('?')[1].split('=')[1];
+            const result = window.location.href.split('?')[1].split('=')[1];
+
+            if (Object.values(AvailableTabs).includes(result)) {
+                return result;
+            }
+
+            return AvailableTabs.Tracker;
         } catch (e) {
-            return 'tracker';
+            return AvailableTabs.Tracker;
         }
     }
 }

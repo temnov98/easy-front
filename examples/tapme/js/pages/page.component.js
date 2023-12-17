@@ -28,19 +28,19 @@ class PageTabsComponent extends Component {
         const tabs = new TabPanelComponent({
             tabs: [
                 {
-                    key: 'tracker',
+                    key: AvailableTabs.Tracker,
                     content: themeModel.theme === 'light' ? icons.tracker.light : icons.tracker.dark,
                 },
                 {
-                    key: 'chart',
+                    key: AvailableTabs.Chart,
                     content: themeModel.theme === 'light' ? icons.chart.light : icons.chart.dark,
                 },
                 {
-                    key: 'lists',
+                    key: AvailableTabs.CheckLists,
                     content: themeModel.theme === 'light' ? icons.checkLists.light : icons.checkLists.dark,
                 },
                 {
-                    key: 'notifications',
+                    key: AvailableTabs.Notifications,
                     content: themeModel.theme === 'light' ? icons.notifications.light : icons.notifications.dark,
                 },
             ],
@@ -71,10 +71,10 @@ class PageComponent extends Component {
 
     toHtml() {
         const pageMapping = {
-            'tracker': TrackerPageComponent,
-            'chart': ChartPageComponent,
-            'lists': CheckListPageComponent,
-            'notifications': NotificationsPageComponent,
+            [AvailableTabs.Tracker]: TrackerPageComponent,
+            [AvailableTabs.Chart]: ChartPageComponent,
+            [AvailableTabs.CheckLists]: CheckListPageComponent,
+            [AvailableTabs.Notifications]: NotificationsPageComponent,
         };
 
         const component = pageMapping[tabsModel.activeTabKey] || TrackerPageComponent;
