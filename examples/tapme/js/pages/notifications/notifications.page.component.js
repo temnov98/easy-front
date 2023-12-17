@@ -1,8 +1,8 @@
-class CheckListPageComponent extends Component {
+class NotificationsPageComponent extends Component {
     toHtml() {
         return t`
             <div class="empty-page-component">
-                <h1>Check lists coming soon 😉</h1>
+                <h1>Notifications coming soon 😉</h1>
             </div>
         `;
     }

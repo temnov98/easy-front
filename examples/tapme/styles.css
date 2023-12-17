@@ -709,7 +709,7 @@ body:has(.page--dark) .delete-active-tasks-window {
     margin: 0;
 }
 
-.check-list-page-component {
+.empty-page-component {
     font-size: 30pt;
     padding-top: 300px;
     text-align: center;
