@@ -30,7 +30,7 @@ class TrackerPageInnerComponent extends Component {
 class TrackerPageComponent extends Component {
     toHtml() {
         return t`
-            <div>
+            <div class="tracker-page">
                 ${TrackerPageInnerComponent}
                 ${TagsSettingsPanelComponent}
             </div>

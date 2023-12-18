@@ -2,7 +2,11 @@
 @import "css/index.css";
 
 body {
-    margin: 8px 0 0 0;
+    margin: 0;
+}
+
+.tracker-page {
+    margin-top: 8px;
 }
 
 body:has(.page--dark) {
@@ -656,7 +660,7 @@ body:has(.page--dark) .delete-active-tasks-window {
 }
 
 .chart-page-component {
-    margin: 0 50px 0 110px;
+    margin: 8px 50px 0 110px;
 }
 
 .chart-js-custom-tooltip {
