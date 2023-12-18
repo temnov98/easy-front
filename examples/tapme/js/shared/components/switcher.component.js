@@ -3,6 +3,7 @@ class SwitcherComponent extends Component {
      * @param {Object} [params]
      * @param {() => void} [params.onClick]
      * @param {boolean} [params.defaultState]
+     * @param {Component} [params.content]
      */
     constructor(params) {
         super();
@@ -12,6 +13,7 @@ class SwitcherComponent extends Component {
         this.active = this.params?.defaultState ?? false;
         this.switherClass = new CssClass(this.currentSwitcherClass);
         this.switherContainerClass = new CssClass(this.currentSwitcherContainerClass);
+        this.content = params.content;
     }
 
     get currentSwitcherClass() {
@@ -38,7 +40,9 @@ class SwitcherComponent extends Component {
     toHtml() {
         return t`
             <div class="${this.switherContainerClass}" onmousedown="${() => this.onClick()}">
-                <div class="${this.switherClass}"></div>
+                <div class="${this.switherClass}">
+                    ${this.content ?? ''}
+                </div>
             </div>
         `;
     }

@@ -6,8 +6,8 @@
 
     --switcher--color-container-active: #d0d0d0;
     --switcher--color-container-inactive: #363636;
-    --switcher--color-circle-active-border: #a8a8a8;
+    --switcher--color-circle-active-border: rgba(0, 0, 0, 0);
     --switcher--color-circle-active: #ffffff;
-    --switcher--color-circle-inactive-border: #5b5b5b;
+    --switcher--color-circle-inactive-border: rgba(0, 0, 0, 0);
     --switcher--color-circle-inactive: #1f1f1f;
 }
