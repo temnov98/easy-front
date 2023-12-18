@@ -49,9 +49,25 @@ class CheckListTaskItemComponent extends Component {
         this.inputId = getId();
     }
 
+    get input() {
+        return document.getElementById(this.inputId);
+    }
+
+    onClick(event) {
+        if (
+            event.target.className === 'check-lists-task-item__checkbox' ||
+            event.target.className === 'check-lists-task-item__text'
+        ) {
+            return;
+        }
+
+        event.stopPropagation();
+        this.input.checked = !this.input.checked;
+    }
+
     toHtml() {
         return t`
-            <div class="check-lists-task-item">
+            <div class="check-lists-task-item" onclick="${(event) => this.onClick(event)}">
                 <input
                     id="${this.inputId}"
                     class="check-lists-task-item__checkbox"
