@@ -4,19 +4,89 @@
     display: grid;
     grid-template-columns: 35% 65%;
     height: 100vh;
+
+    grid-template-areas:
+        'saved active'
+        'saved history';
 }
 
 .check-lists-page-content__saved-lists {
+    grid-area: saved;
     padding: 70px 0 0 0;
     overflow-y: scroll;
     max-height: calc(100vh - 100px);
 }
 
 .check-lists-page-content__right-column {
+    grid-area: active;
     margin-top: 0;
     padding: 50px 50px 50px 100px;
     background-color: #f2f2f2;
     overflow-y: scroll;
+}
+
+.check-lists-page-content__right-column__closed {
+    padding: 0 50px 0 100px;
+    transition-duration: 0.5s;
+    height: 0;
+}
+
+.check-lists-page-content__right-column__opened {
+    transition-duration: 0.5s;
+    height: calc(100vh - 200px);
+}
+
+.check-lists-page__history {
+    grid-area: history;
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+body:has(.page--dark) .check-lists-page__history {
+    background-color: #282828;
+}
+
+.check-lists-page__history h1 {
+    font-size: 20pt;
+    line-height: 100px;
+    margin: 0;
+    font-weight: lighter;
+}
+
+.check-lists-page__history__closed {
+    height: 100px;
+    transition-duration: 0.5s;
+}
+
+.check-lists-page__history__opened {
+    height: 100vh;
+    transition-duration: 0.5s;
+}
+
+.check-lists-page__history-header {
+    height: 100px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    box-shadow: 20px 0 30px 0 #c4c4c4;
+}
+
+body:has(.page--dark) .check-lists-page__history-header {
+    box-shadow: 20px 0 30px 0 #1C1D1F;
+}
+
+.check-lists-page__history-header:hover {
+    background-color: #dcdcdc;
+    transition-duration: 0.5s;
+    box-shadow: none;
+}
+
+body:has(.page--dark) .check-lists-page__history-header:hover {
+    background-color: #1C1D1F;
+}
+
+.check-lists-page__history-content {
+    padding: 150px 50px;
+    font-size: 30px;
 }
 
 body:has(.page--dark) .check-lists-page-content__right-column {

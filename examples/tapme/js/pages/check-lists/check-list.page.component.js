@@ -85,7 +85,65 @@ class CheckListTaskItemComponent extends Component {
     }
 }
 
+class CheckListsModel extends BaseModel {
+    constructor() {
+        super();
+
+        this.historyOpened = this.createObservable(false, 'historyOpened');
+    }
+}
+
+const checkListsModel = new CheckListsModel();
+
+class CheckListHistoryHeaderComponent extends AutoSubscribeComponent {
+    onHistoryClick() {
+        checkListsModel.historyOpened = !checkListsModel.historyOpened;
+    }
+
+    toHtml() {
+        return t`
+            <div
+                class="check-lists-page__history-header"
+                onclick="${() => this.onHistoryClick()}"
+            >
+                <h1>
+                    ${checkListsModel.historyOpened ? 'Close history' : 'Open history'}
+                </h1>
+                <div class="check-lists-page__history-content">
+                    Empty😉
+                </div>
+            </div>
+        `;
+    }
+}
+
 class CheckListPageComponent extends Component {
+    constructor() {
+        super();
+
+        this.activeTaskCssClass = new CssClass(this.activeTaskCssClassName);
+        this.historyCssClass = new CssClass(this.historyCssClassName);
+
+        this.subscribe(checkListsModel.historyOpened).onChange(() => {
+            this.activeTaskCssClass.className = this.activeTaskCssClassName;
+            this.historyCssClass.className = this.historyCssClassName;
+        });
+    }
+
+    get activeTaskCssClassName() {
+        const additional = checkListsModel.historyOpened
+            ? 'check-lists-page-content__right-column__closed'
+            : 'check-lists-page-content__right-column__opened';
+
+        return `check-lists-page-content__right-column ${additional}`;
+    }
+
+    get historyCssClassName() {
+        const additional = checkListsModel.historyOpened ? 'check-lists-page__history__opened' : 'check-lists-page__history__closed';
+
+        return `check-lists-page__history ${additional}`;
+    }
+
     toHtml() {
         setTimeout(() => {
             if (!this._idDestroyed) {
@@ -101,7 +159,7 @@ class CheckListPageComponent extends Component {
                     ${new CheckListItemComponent({ title: 'Finishing a task', selected: true })}
                     ${new CheckListItemComponent({ title: 'Something else', selected: false })}
                 </div>
-                <div class="check-lists-page-content__right-column">
+                <div class="${this.activeTaskCssClass}">
                     <div class="check-lists-page-content__right-column__active-list">
                         <h1>Finishing a task</h1>
                         ${new CheckListTaskItemComponent({ title: 'Check the code', selected: true })}
@@ -110,6 +168,9 @@ class CheckListPageComponent extends Component {
                         ${new CheckListTaskItemComponent({ title: 'Set "review" status for a task', selected: false })}
                         ${new CheckListTaskItemComponent({ title: 'Inform the reviewer if the task is important', selected: false })}
                     </div>
+                </div>
+                <div class="${this.historyCssClass}">
+                    ${CheckListHistoryHeaderComponent}
                 </div>
             </div>
         `;
