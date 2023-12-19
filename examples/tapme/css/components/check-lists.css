@@ -82,6 +82,8 @@ body:has(.page--dark) .check-lists-page__history-header {
 
 body:has(.page--dark) .check-lists-page__history-header:hover {
     background-color: #1C1D1F;
+    transition-duration: 0.5s;
+    box-shadow: none;
 }
 
 .check-lists-page__history-content {
@@ -141,6 +143,7 @@ body:has(.page--dark) .check-lists-task-item__checkbox {
 }
 
 .check-lists-task-item__text {
+    user-select: none;
     font-size: 18pt;
     cursor: pointer;
     height: 100%;
