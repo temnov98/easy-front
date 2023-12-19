@@ -109,9 +109,6 @@ class CheckListHistoryHeaderComponent extends AutoSubscribeComponent {
                 <h1>
                     ${checkListsModel.historyOpened ? 'Close history' : 'Open history'}
                 </h1>
-                <div class="check-lists-page__history-content">
-                    Empty😉
-                </div>
             </div>
         `;
     }
