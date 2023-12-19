@@ -8,11 +8,12 @@ class TasksListComponent extends AutoSubscribeComponent {
             `;
         }
 
+        const tasks = trackerPageModel.tasks.map((task) => [new TaskComponent(task)]);
+        const list = new MovableListComponent(tasks, (target) => target.className.includes('selected-row'));
+
         return t`
             <div class="task-container">
-                ${trackerPageModel.tasks.map((task) => [
-                    new TaskComponent(task),
-                ])}
+                ${list}
             </div>
         `;
     }

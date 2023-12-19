@@ -16,16 +16,19 @@ class TagsSettingsPanelComponent extends AutoSubscribeComponent {
     }
 
     toHtml() {
+        const tags = trackerPageModel.tags.map((tag) => new TagItemComponent(tag));
+        const list = new MovableListComponent(tags, (target) => target.className.includes('tag-item-component-input'));
+
         return t`
             <div class="${this.cssClass}">
                 <div class="tags-settings-panel-inner">
-                    ${trackerPageModel.tags.map((tag) => new TagItemComponent(tag))}
-                     ${new AddTagComponent({
-                         model: trackerPageModel,
-                         buttonContainerCssClassName: 'tags-settings-add-tag-button',
-                         inputContainerCssClassName: 'tags-settings-tag-item-textbox',
-                         hideButtonByDefault: false,
-                     })}
+                    ${list}
+                    ${new AddTagComponent({
+                        model: trackerPageModel,
+                        buttonContainerCssClassName: 'tags-settings-add-tag-button',
+                        inputContainerCssClassName: 'tags-settings-tag-item-textbox',
+                        hideButtonByDefault: false,
+                    })}
                 </div>
             </div>
         `;

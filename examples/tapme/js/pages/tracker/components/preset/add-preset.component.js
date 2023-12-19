@@ -48,7 +48,7 @@ class AddPresetComponent extends Component {
 
     toHtml() {
         return t`
-            <div class="row">
+            <div class="row preset-text-container">
                 <div class="padding-2 max-width">
                     <textarea
                         id="${this.inputId}"

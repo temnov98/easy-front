@@ -21,7 +21,9 @@ class TaskPlaceholderComponent extends Component {
     toHtml() {
         return t`
             <div class="task-placeholder">
-                Add something${this.dots}
+                <span>
+                    Add something${this.dots}
+                </span>
             </div>
         `;
     }

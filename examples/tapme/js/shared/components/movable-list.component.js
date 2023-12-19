@@ -1,12 +1,16 @@
 class MovableListComponent extends Component {
     /**
      * @param {Component[]} items
+     * @param {(target) => boolean} [checkAvailability]
      */
-    constructor(items) {
+    constructor(items, checkAvailability) {
         super();
 
         this.items = items;
         this.itemsAfters = items.map(() => undefined);
+        this.itemToId = new Map(items.map((item) => [item, getId()]));
+
+        this.checkAvailability = checkAvailability;
 
         this.containerId = getId();
 
@@ -19,6 +23,16 @@ class MovableListComponent extends Component {
      * @param {Component} item
      */
     onMouseDown(event, item) {
+        if (this.checkAvailability) {
+            try {
+                if (!this.checkAvailability(event.target)) {
+                    return;
+                }
+            } catch (error) {
+                return;
+            }
+        }
+
         const element = document.getElementById(this.getItemId(item));
 
         this.diffY = event.clientY - element.getBoundingClientRect().top;
@@ -70,9 +84,12 @@ class MovableListComponent extends Component {
         let index = Math.floor((event.clientY - containerRect.top) / elementHeight);
         index = Math.max(0, Math.min(index, this.items.length - 1));
 
-        if (!this.itemsAfters[index]) {
-            this.removeAndInsert({ index, currentItemIndex })
-        }
+        // TODO: так было бы лучше, но не всегда корректно работает.
+        // if (!this.itemsAfters[index]) {
+        //     this.removeAndInsert({ index, currentItemIndex });
+        // }
+
+        this.removeAndInsert({ index, currentItemIndex });
 
         const element = document.getElementById(this.getItemId(item));
 
@@ -114,7 +131,7 @@ class MovableListComponent extends Component {
      * @return {string}
      */
     getItemId(item) {
-        return `custom-id-${item._id}`;
+        return this.itemToId.get(item);
     }
 
     toHtml() {
