@@ -33,6 +33,7 @@ class TrackerPageComponent extends Component {
             <div class="tracker-page">
                 ${TrackerPageInnerComponent}
                 ${TagsSettingsPanelComponent}
+                ${UpdatesNotifierComponent}
             </div>
         `;
     }
