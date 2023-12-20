@@ -140,6 +140,48 @@ class TrackerPageModel extends BaseModel {
         this.saveToLocalStorage();
     }
 
+    /**
+     * @param {number} from
+     * @param {number} to
+     */
+    moveTasks({ from, to }) {
+        this.tasks = moveArrayItem({
+            array: this.tasks,
+            from,
+            to,
+        });
+
+        this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {number} from
+     * @param {number} to
+     */
+    movePresets({ from, to }) {
+        this.presets = moveArrayItem({
+            array: this.presets,
+            from,
+            to,
+        });
+
+        this.saveToLocalStorage();
+    }
+
+    /**
+     * @param {number} from
+     * @param {number} to
+     */
+    moveTags({ from, to }) {
+        this.tags = moveArrayItem({
+            array: this.tags,
+            from,
+            to,
+        });
+
+        this.saveToLocalStorage();
+    }
+
     saveToLocalStorage() {
         trackerLocalStorageService.save({
             tasks: this.tasks,

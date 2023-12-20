@@ -1,10 +1,11 @@
 class MovableListComponent extends Component {
     /**
      * @param {Component[]} items
-     * @param {(target) => boolean} [checkAvailability]
-     * @param {(components: Component[]) => void} [onChange]
+     * @param {(target: Element) => boolean} [checkAvailability]
+     * @param {({ from: number; to: number }) => void} [onChange]
+     * @param {boolean} [disableRedrawOnChange]
      */
-    constructor(items, checkAvailability, onChange) {
+    constructor({ items, checkAvailability, onChange, disableRedrawOnChange }) {
         super();
 
         this.items = items;
@@ -13,6 +14,7 @@ class MovableListComponent extends Component {
 
         this.checkAvailability = checkAvailability;
         this.onChange = onChange;
+        this.disableRedrawOnChange = disableRedrawOnChange;
 
         this.containerId = getId();
 
@@ -65,16 +67,21 @@ class MovableListComponent extends Component {
             return;
         }
 
+        const from = currentItemIndex;
+        const to = placeholderItemIndex;
+
         this.items = moveArrayItem({
             array: this.items,
-            from: currentItemIndex,
-            to: placeholderItemIndex,
+            from,
+            to,
         });
 
-        this.redraw();
+        if (!this.disableRedrawOnChange) {
+            this.redraw();
+        }
 
         if (this.onChange) {
-            this.onChange(this.items);
+            this.onChange({ from, to });
         }
     }
 

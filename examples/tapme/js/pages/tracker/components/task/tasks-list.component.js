@@ -8,8 +8,12 @@ class TasksListComponent extends AutoSubscribeComponent {
             `;
         }
 
-        const tasks = trackerPageModel.tasks.map((task) => [new TaskComponent(task)]);
-        const list = new MovableListComponent(tasks, (target) => target.className.includes('selected-row'));
+        const list = new MovableListComponent({
+            items: trackerPageModel.tasks.map((task) => new TaskComponent(task)),
+            checkAvailability: (target) => target.className.includes('selected-row'),
+            onChange: ({ from, to }) => trackerPageModel.moveTasks({ from, to }),
+            disableRedrawOnChange: true,
+        });
 
         return t`
             <div class="task-container">
