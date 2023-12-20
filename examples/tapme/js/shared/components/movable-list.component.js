@@ -2,15 +2,17 @@ class MovableListComponent extends Component {
     /**
      * @param {Component[]} items
      * @param {(target) => boolean} [checkAvailability]
+     * @param {(components: Component[]) => void} [onChange]
      */
-    constructor(items, checkAvailability) {
+    constructor(items, checkAvailability, onChange) {
         super();
 
         this.items = items;
-        this.itemsAfters = items.map(() => undefined);
+        this.placeholders = items.map(() => undefined);
         this.itemToId = new Map(items.map((item) => [item, getId()]));
 
         this.checkAvailability = checkAvailability;
+        this.onChange = onChange;
 
         this.containerId = getId();
 
@@ -51,7 +53,11 @@ class MovableListComponent extends Component {
         this.selectedItem = undefined;
 
         const currentItemIndex = this.items.findIndex((i) => i === item);
-        const placeholderItemIndex = this.itemsAfters.findIndex((i) => !!i);
+        const placeholderItemIndex = this.placeholders.findIndex((i) => !!i);
+
+        if (placeholderItemIndex < 0) {
+            return;
+        }
 
         if (currentItemIndex === placeholderItemIndex) {
             this.redraw();
@@ -59,12 +65,17 @@ class MovableListComponent extends Component {
             return;
         }
 
-        const newItems = this.items.filter((i, index) => index !== currentItemIndex);
-        newItems.splice(placeholderItemIndex, 0, item);
-
-        this.items = newItems;
+        this.items = moveArrayItem({
+            array: this.items,
+            from: currentItemIndex,
+            to: placeholderItemIndex,
+        });
 
         this.redraw();
+
+        if (this.onChange) {
+            this.onChange(this.items);
+        }
     }
 
     /**
@@ -85,7 +96,7 @@ class MovableListComponent extends Component {
         index = Math.max(0, Math.min(index, this.items.length - 1));
 
         // TODO: так было бы лучше, но не всегда корректно работает.
-        // if (!this.itemsAfters[index]) {
+        // if (!this.placeholders[index]) {
         //     this.removeAndInsert({ index, currentItemIndex });
         // }
 
@@ -103,10 +114,10 @@ class MovableListComponent extends Component {
      * @param {number} currentItemIndex
      */
     removeAndInsert({ index, currentItemIndex }) {
-        for (let afterIndex = 0; afterIndex < this.itemsAfters.length; afterIndex++) {
-            if (this.itemsAfters[afterIndex]) {
-                this.itemsAfters[afterIndex].remove();
-                this.itemsAfters[afterIndex] = undefined;
+        for (let placeholderIndex = 0; placeholderIndex < this.placeholders.length; placeholderIndex++) {
+            if (this.placeholders[placeholderIndex]) {
+                this.placeholders[placeholderIndex].remove();
+                this.placeholders[placeholderIndex] = undefined;
             }
         }
 
@@ -123,7 +134,7 @@ class MovableListComponent extends Component {
             element.after(newDiv);
         }
 
-        this.itemsAfters[index] = newDiv;
+        this.placeholders[index] = newDiv;
     }
 
     /**
