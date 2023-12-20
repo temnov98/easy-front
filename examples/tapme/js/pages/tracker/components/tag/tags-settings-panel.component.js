@@ -16,8 +16,7 @@ class TagsSettingsPanelComponent extends AutoSubscribeComponent {
     }
 
     toHtml() {
-        const tags = trackerPageModel.tags.map((tag) => new TagItemComponent(tag));
-        const list = new MovableListComponent(tags, (target) => target.className.includes('tag-item-component-input'));
+        const list = trackerPageModel.tags.map((tag) => new TagItemComponent(tag));
 
         return t`
             <div class="${this.cssClass}">
