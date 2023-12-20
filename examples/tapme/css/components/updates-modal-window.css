@@ -1,0 +1,30 @@
+.updates-modal-window__container {
+    font-family: Arial;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    width: 600px;
+    padding: 10px 50px 50px 50px;
+    border-radius: 20px;
+    color: black;
+
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.updates-modal-window__container h2 {
+    font-size: 24pt;
+    text-align: center;
+}
+
+.updates-modal-window__item {
+    margin-top: 30px;
+    font-size: 18pt;
+}
+
+.updates-modal-window__item h5 {
+    margin-top: 10px;
+}
+
+.updates-modal-window__item__item {
+    margin-top: 10px;
+}

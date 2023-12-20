@@ -1,0 +1,42 @@
+.updates-notifier {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+body:has(.tags-settings-panel-active) .updates-notifier {
+    right: 515px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.updates-notifier:hover {
+    transition-duration: 0.5s;
+    width: 60px;
+    height: 60px;
+    right: 5px;
+    top: 5px;
+}
+
+.updates-notifier-animation svg {
+    animation: updates-notifier-animation 1s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes updates-notifier-animation {
+    0% {
+        transform: rotate(50deg);
+    }
+    50% {
+        transform: rotate(-50deg);
+    }
+    100% {
+        transform: rotate(50deg);
+    }
+}

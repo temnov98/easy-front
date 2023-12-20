@@ -85,6 +85,7 @@ class PageComponent extends Component {
                 ${SwitchThemeComponent}
                 ${component}
                 ${DebugComponent}
+                ${UpdatesNotifierComponent}
                 ${ModalWindowComponent}
             </div>
         `;
