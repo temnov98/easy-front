@@ -1,3 +1,6 @@
+// https://stackoverflow.com/questions/6073505/what-is-the-difference-between-screenx-y-clientx-y-and-pagex-y
+// https://developer.mozilla.org/ru/docs/Web/API/Element/getBoundingClientRect
+
 class MovableListComponent extends Component {
     /**
      * @param {Component[]} items
@@ -19,6 +22,7 @@ class MovableListComponent extends Component {
         this.containerId = getId();
 
         this.selectedItem = undefined;
+        // количество пикселей между top элемента и местом, где был клик по нему.
         this.diffY = 0;
     }
 
@@ -39,6 +43,7 @@ class MovableListComponent extends Component {
 
         const element = document.getElementById(this.getItemId(item));
 
+        // Оба значения (clientY и top) относительно окна браузера (viewport) считаются, поэтому работает
         this.diffY = event.clientY - element.getBoundingClientRect().top;
         this.selectedItem = item;
     }
@@ -99,6 +104,7 @@ class MovableListComponent extends Component {
         const containerRect = document.getElementById(this.containerId).getBoundingClientRect();
 
         const elementHeight = containerRect.height / this.items.length;
+        // Оба значения (clientY и top) относительно окна браузера (viewport) считаются, поэтому работает
         let index = Math.floor((event.clientY - containerRect.top) / elementHeight);
         index = Math.max(0, Math.min(index, this.items.length - 1));
 
