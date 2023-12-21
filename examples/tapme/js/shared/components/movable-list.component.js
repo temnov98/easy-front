@@ -112,8 +112,8 @@ class MovableListComponent extends Component {
         const element = document.getElementById(this.getItemId(item));
 
         element.style.zIndex = '100';
-        element.style.position = 'absolute';
-        element.style.top = (event.clientY - this.diffY) + 'px';
+        element.style.position = 'fixed';
+        element.style.top = (event.pageY - this.diffY) + 'px';
     }
 
     /**
