@@ -1,6 +1,25 @@
 // https://stackoverflow.com/questions/6073505/what-is-the-difference-between-screenx-y-clientx-y-and-pagex-y
 // https://developer.mozilla.org/ru/docs/Web/API/Element/getBoundingClientRect
 
+class MovableListModel extends BaseModel {
+    constructor() {
+        super();
+
+        this.mouseMoveEvent = this.createObservable(undefined, 'mouseMoveEvent');
+        this.mouseUpEvent = this.createObservable(undefined, 'mouseUpEvent');
+
+        window.addEventListener('mousemove', (event) => {
+            this.mouseMoveEvent = event;
+        });
+
+        window.addEventListener('mouseup', (event) => {
+            this.mouseUpEvent = event;
+        });
+    }
+}
+
+const movableListModel = new MovableListModel();
+
 class MovableListComponent extends Component {
     /**
      * @param {Component[]} items
@@ -24,6 +43,9 @@ class MovableListComponent extends Component {
         this.selectedItem = undefined;
         // количество пикселей между top элемента и местом, где был клик по нему.
         this.diffY = 0;
+
+        this.subscribe(movableListModel.mouseMoveEvent).onChange(() => this.onMouseMove(movableListModel.mouseMoveEvent));
+        this.subscribe(movableListModel.mouseUpEvent).onChange(() => this.onMouseUp());
     }
 
     /**
@@ -48,15 +70,12 @@ class MovableListComponent extends Component {
         this.selectedItem = item;
     }
 
-    /**
-     * @param event
-     * @param {Component} item
-     */
-    onMouseUp(event, item) {
+    onMouseUp() {
         if (!this.selectedItem) {
             return;
         }
 
+        const item = this.selectedItem;
         this.selectedItem = undefined;
 
         const currentItemIndex = this.items.findIndex((i) => i === item);
@@ -92,14 +111,13 @@ class MovableListComponent extends Component {
 
     /**
      * @param event
-     * @param {Component} item
      */
-    onMouseMove(event, item) {
-        if (this.selectedItem !== item) {
+    onMouseMove(event) {
+        if (!this.selectedItem) {
             return;
         }
 
-        const currentItemIndex = this.items.findIndex((i) => i === item);
+        const currentItemIndex = this.items.findIndex((i) => i === this.selectedItem);
 
         const containerRect = document.getElementById(this.containerId).getBoundingClientRect();
 
@@ -115,7 +133,7 @@ class MovableListComponent extends Component {
 
         this.removeAndInsert({ index, currentItemIndex });
 
-        const element = document.getElementById(this.getItemId(item));
+        const element = document.getElementById(this.getItemId(this.selectedItem));
 
         element.style.zIndex = '100';
         element.style.position = 'fixed';
@@ -163,9 +181,6 @@ class MovableListComponent extends Component {
             <div
                 id="${this.getItemId(item)}"
                 onmousedown="${(event) => this.onMouseDown(event, item)}"
-                onmouseup="${(event) => this.onMouseUp(event, item)}"
-                onmousemove="${(event) => this.onMouseMove(event, item)}"
-                onmouseleave="${(event) => this.onMouseUp(event, item)}"
             >
                 ${item}
             </div>

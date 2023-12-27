@@ -1,5 +1,14 @@
 const updatesList = [
     {
+        id: 4,
+        content: {
+            date: 'Dec 28, 2023',
+            lines: [
+                'Improve tasks and templates moving',
+            ],
+        },
+    },
+    {
         id: 3,
         content: {
             date: 'Dec 21, 2023',
