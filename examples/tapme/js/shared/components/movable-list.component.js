@@ -43,6 +43,7 @@ class MovableListComponent extends Component {
         this.selectedItem = undefined;
         // количество пикселей между top элемента и местом, где был клик по нему.
         this.diffY = 0;
+        this.diffX = 0;
 
         this.subscribe(movableListModel.mouseMoveEvent).onChange(() => this.onMouseMove(movableListModel.mouseMoveEvent));
         this.subscribe(movableListModel.mouseUpEvent).onChange(() => this.onMouseUp());
@@ -65,8 +66,12 @@ class MovableListComponent extends Component {
 
         const element = document.getElementById(this.getItemId(item));
 
+        const rect = element.getBoundingClientRect();
+
         // Оба значения (clientY и top) относительно окна браузера (viewport) считаются, поэтому работает
-        this.diffY = event.clientY - element.getBoundingClientRect().top;
+        this.diffY = event.clientY - rect.top;
+        this.diffX = event.clientX;
+
         this.selectedItem = item;
     }
 
@@ -138,6 +143,7 @@ class MovableListComponent extends Component {
         element.style.zIndex = '100';
         element.style.position = 'fixed';
         element.style.top = (event.pageY - this.diffY) + 'px';
+        // element.style.left = (event.pageX - this.diffX) + 'px';
     }
 
     /**
