@@ -42,6 +42,13 @@ class TagItemComponent extends Component {
         this.tag = tag;
     }
 
+    openDeleteModal() {
+        modalWindowModel.openModal('DeleteModalWindowComponent', {
+            onDelete: () => trackerPageModel.deleteTag(trackerPageModel, this.tag),
+            title: 'Do you want to delete the tag?',
+        });
+    }
+
     toHtml() {
         return t`
             <div class="row tag-item-component-container">
@@ -49,7 +56,7 @@ class TagItemComponent extends Component {
                 ${new TagItemTextComponent(this.tag)}
                 <button
                     class="icon-button icon-button--red tag-item-component-delete-button"
-                    onclick="${() => trackerPageModel.deleteTag(trackerPageModel, this.tag)}"
+                    onclick="${() => this.openDeleteModal()}"
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="black" xmlns="http://www.w3.org/2000/svg">
                         <g id="trash_24">

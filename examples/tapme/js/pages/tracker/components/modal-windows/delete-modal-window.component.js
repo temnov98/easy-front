@@ -1,17 +1,28 @@
-class DeleteActiveTasksModalWindowComponent extends Component {
-    onDeleteTasks() {
-        trackerPageModel.deleteActiveTasks();
+class DeleteModalWindowComponent extends Component {
+    /**
+     * @param {() => void} onDelete
+     * @param {string} title
+     */
+    constructor({ onDelete, title }) {
+        super();
+
+        this.onDelete = onDelete;
+        this.title = title;
+    }
+
+    onDeleteClick() {
+        this.onDelete();
         modalWindowModel.closeModal();
     }
 
     toHtml() {
         return t`
             <div class="delete-active-tasks-window">
-                <h1>Do you want to clear the list of active tasks?</h1>
+                <h1>${this.title}</h1>
                 <div>
                      <button
                          class="delete-active-tasks-window-red-button"
-                         onclick="${() => this.onDeleteTasks()}"
+                         onclick="${() => this.onDeleteClick()}"
                      >
                         Yes, delete
                     </button>
@@ -27,4 +38,4 @@ class DeleteActiveTasksModalWindowComponent extends Component {
     }
 }
 
-modalWindowModel.registerModal('DeleteActiveTasksModalWindowComponent', DeleteActiveTasksModalWindowComponent);
+modalWindowModel.registerModal('DeleteModalWindowComponent', DeleteModalWindowComponent);

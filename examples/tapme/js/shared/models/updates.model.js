@@ -1,5 +1,14 @@
 const updatesList = [
     {
+        id: 5,
+        content: {
+            date: 'Jan 11, 2024',
+            lines: [
+                'Added a question before deleting tasks, presets and tags',
+            ],
+        },
+    },
+    {
         id: 4,
         content: {
             date: 'Dec 28, 2023',
