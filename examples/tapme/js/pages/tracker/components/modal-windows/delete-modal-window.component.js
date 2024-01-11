@@ -2,12 +2,14 @@ class DeleteModalWindowComponent extends Component {
     /**
      * @param {() => void} onDelete
      * @param {Record<string, string>} title
+     * @param {Record<string, string> | string} [subtitle]
      */
-    constructor({ onDelete, title }) {
+    constructor({ onDelete, title, subtitle }) {
         super();
 
         this.onDelete = onDelete;
         this.title = title;
+        this.subtitle = subtitle;
 
         this.subscribe(languageModel.language).redrawOnChange();
     }
@@ -18,9 +20,14 @@ class DeleteModalWindowComponent extends Component {
     }
 
     toHtml() {
+        const subtitle = this.subtitle
+            ? `<p>${languageModel.t(this.subtitle)}</p>`
+            : '';
+
         return t`
             <div class="delete-active-tasks-window">
                 <h1>${languageModel.t(this.title)}</h1>
+                ${subtitle}
                 <div>
                      <button
                          class="delete-active-tasks-window-red-button"

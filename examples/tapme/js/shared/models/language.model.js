@@ -9,9 +9,13 @@ class LanguageModel extends BaseModel {
     }
 
     /**
-     * @param {Record<string, string>} locale
+     * @param {Record<string, string> | string} locale
      */
     t(locale) {
+        if (typeof locale === 'string') {
+            return locale;
+        }
+
         return locale[this.language];
     }
 

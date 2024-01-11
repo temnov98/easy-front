@@ -12,6 +12,7 @@ class PresetDeleteButtonComponent extends Component {
         modalWindowModel.openModal('DeleteModalWindowComponent', {
             onDelete: () => trackerPageModel.deletePreset(this.preset),
             title: locales.deleteModalWindow.deletePresetTitle,
+            subtitle: this.preset.title,
         });
     }
 

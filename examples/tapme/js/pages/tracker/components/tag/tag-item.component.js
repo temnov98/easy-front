@@ -46,6 +46,7 @@ class TagItemComponent extends Component {
         modalWindowModel.openModal('DeleteModalWindowComponent', {
             onDelete: () => trackerPageModel.deleteTag(trackerPageModel, this.tag),
             title: locales.deleteModalWindow.deleteTagTitle,
+            subtitle: this.tag.title,
         });
     }
 

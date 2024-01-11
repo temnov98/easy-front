@@ -614,6 +614,10 @@ body:has(.page--light) .tag-item-component-text:focus {
     color: black;
 }
 
+.delete-active-tasks-window p {
+    font-size: 16pt;
+}
+
 body:has(.page--dark) .delete-active-tasks-window {
     background-color: #d3d3d3;
 }

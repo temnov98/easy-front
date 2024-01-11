@@ -12,6 +12,7 @@ class TaskDeleteButtonComponent extends Component {
         modalWindowModel.openModal('DeleteModalWindowComponent', {
             onDelete: () => trackerPageModel.deleteTask(this.task),
             title: locales.deleteModalWindow.deleteTaskTitle,
+            subtitle: this.task.title,
         });
     }
 
