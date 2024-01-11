@@ -143,7 +143,7 @@ class CheckListPageComponent extends Component {
 
     toHtml() {
         setTimeout(() => {
-            if (!this._idDestroyed) {
+            if (!this.isComponentDestroyed()) {
                 alert('This is an example of what this page will look like once implemented');
             }
         }, 1000);

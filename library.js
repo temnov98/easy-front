@@ -1,4 +1,4 @@
-const _easyFrontVersion = '2.0.7';
+const _easyFrontVersion = '2.0.8';
 
 const _easyFrontConfig = {
     logging: {
@@ -419,6 +419,10 @@ class Component {
 
         this._idDestroyed = true;
         this.onDestroy();
+    }
+
+    isComponentDestroyed() {
+        return this._idDestroyed;
     }
 
     /**
