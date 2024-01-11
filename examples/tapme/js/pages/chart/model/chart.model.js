@@ -150,7 +150,10 @@ class ChartModel extends BaseModel {
             this._updateChartData();
             this._saveToStorage();
         } catch (error) {
-            modalWindowModel.openModal('ErrorModalComponent', 'Error on reading files');
+            modalWindowModel.openModal('ErrorModalComponent', {
+                message: locales.chart.errorOnReadingFiles.title,
+                okButtonTitle: locales.chart.errorOnReadingFiles.okButtonTitle,
+            });
         }
     }
 

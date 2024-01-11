@@ -83,6 +83,7 @@ class PageComponent extends Component {
             <div class="${this.cssClass}">
                 ${PageTabsComponent}
                 ${SwitchThemeComponent}
+                ${ChangeLanguageComponent}
                 ${component}
                 ${DebugComponent}
                 ${ModalWindowComponent}

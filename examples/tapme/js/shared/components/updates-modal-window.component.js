@@ -1,4 +1,8 @@
 class UpdatesItemComponent extends Component {
+    /**
+     * @param {Record<string, string>} date
+     * @param {Record<string, string>[]}lines
+     */
     constructor({ date, lines }) {
         super();
 
@@ -7,11 +11,17 @@ class UpdatesItemComponent extends Component {
     }
 
     toHtml() {
+        const lines = this.lines.map((line) => {
+            const lineLocale = languageModel.t(line);
+
+            return `<div class="updates-modal-window__item__item">- ${lineLocale}</div>`;
+        });
+
         return t`
             <div class="updates-modal-window__item">
-                <h4>${this.date}:</h4>
+                <h4>${languageModel.t(this.date)}:</h4>
                 <div>
-                    ${this.lines.map((line) => `<div class="updates-modal-window__item__item">- ${line}</div>`)}
+                    ${lines}
                 </div>
             </div>
         `;
@@ -19,12 +29,18 @@ class UpdatesItemComponent extends Component {
 }
 
 class UpdatesModalWindowComponent extends Component {
+    constructor() {
+        super();
+
+        this.subscribe(languageModel.language).redrawOnChange();
+    }
+
     toHtml() {
         const items = updatesList.map((item) => new UpdatesItemComponent(item.content));
 
         return t`
             <div class="updates-modal-window__container">
-                <h2>What's new?</h2>
+                <h2>${languageModel.t(locales.whatsNew.title)}</h2>
                 ${items}
             </div>
         `;

@@ -2,7 +2,7 @@ class ClearActiveTasksButtonComponent extends Component {
     openModal() {
         modalWindowModel.openModal('DeleteModalWindowComponent', {
             onDelete: () => trackerPageModel.deleteActiveTasks(),
-            title: 'Do you want to clear the list of active tasks?',
+            title: locales.deleteModalWindow.deleteActiveTasksTitle,
         });
     }
 

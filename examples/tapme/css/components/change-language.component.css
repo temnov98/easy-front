@@ -1,0 +1,34 @@
+.change-language-component__container {
+    position: fixed;
+    left: 10px;
+    top: 90px;
+    font-family: Arial;
+}
+
+.change-language-component__container select {
+    font-size: 16pt;
+    width: 80px;
+    height: 50px;
+    text-align: center;
+
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #f2f2f2;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+body:has(.page--dark) .change-language-component__container select {
+    background-color: #282828;
+    color: #f2f2f2;
+}
+
+.change-language-component__container select:hover {
+    background-color: white;
+}
+
+body:has(.page--dark) .change-language-component__container select:hover {
+    background-color: #1c1d1f;
+}

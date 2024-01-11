@@ -4,6 +4,8 @@ class AddPresetComponent extends Component {
 
         this.inputId = `create-preset-input-id-${_getId()}`;
         this.lastKey = '';
+
+        this.subscribe(languageModel.language).redrawOnChange();
     }
 
     get element() {
@@ -47,6 +49,8 @@ class AddPresetComponent extends Component {
     }
 
     toHtml() {
+        const title = languageModel.t(locales.addPresetTitle);
+
         return t`
             <div class="row preset-text-container">
                 <div class="padding-2 max-width">
@@ -55,7 +59,7 @@ class AddPresetComponent extends Component {
                         class="preset-text"
                         onblur="${() => this.onFocusOut()}"
                         onkeydown="${(event) => this.onKeyDown(event)}"
-                        placeholder="Add preset..."
+                        placeholder="${title}..."
                     ></textarea>
                 </div>
             </div>

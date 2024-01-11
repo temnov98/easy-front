@@ -1,49 +1,27 @@
 const updatesList = [
     {
+        id: 6,
+        content: locales.whatsNew._6,
+    },
+    {
         id: 5,
-        content: {
-            date: 'Jan 11, 2024',
-            lines: [
-                'Added a question before deleting tasks, presets and tags',
-            ],
-        },
+        content: locales.whatsNew._5,
     },
     {
         id: 4,
-        content: {
-            date: 'Dec 28, 2023',
-            lines: [
-                'Improve tasks and templates moving',
-            ],
-        },
+        content: locales.whatsNew._4,
     },
     {
         id: 3,
-        content: {
-            date: 'Dec 21, 2023',
-            lines: [
-                'Tasks and templates can now be moved! Drag the green bar to the left of the line.',
-                `Added 'What's new?'`,
-            ],
-        },
+        content: locales.whatsNew._3,
     },
     {
         id: 2,
-        content: {
-            date: 'Oct 8, 2023',
-            lines: [
-                'Added dark theme.',
-            ],
-        },
+        content: locales.whatsNew._2,
     },
     {
         id: 1,
-        content: {
-            date: 'March 6, 2023',
-            lines: [
-                'Release of time tracker.',
-            ],
-        },
+        content: locales.whatsNew._1,
     },
 ];
 

@@ -3,20 +3,20 @@ class ChartIntervalOptionComponent extends Component {
         super();
 
         const titleMapping = {
-            [ChartLastInterval.All]: 'All',
-            [ChartLastInterval.Today]: 'Today',
-            [ChartLastInterval.ThisWeek]: 'This week',
-            [ChartLastInterval.ThisMonth]: 'This month',
-            [ChartLastInterval.ThisYear]: 'This year',
-            [ChartLastInterval.Last7Days]: 'Last 7 days',
-            [ChartLastInterval.Last14Days]: 'Last 14 days',
-            [ChartLastInterval.Last30Days]: 'Last 30 days',
-            [ChartLastInterval.Last90Days]: 'Last 90 days',
-            [ChartLastInterval.Last180Days]: 'Last 180 days',
-            [ChartLastInterval.Last365Days]: 'Last 365 days',
+            [ChartLastInterval.All]: locales.chart.chartInterval.all,
+            [ChartLastInterval.Today]: locales.chart.chartInterval.today,
+            [ChartLastInterval.ThisWeek]: locales.chart.chartInterval.thisWeek,
+            [ChartLastInterval.ThisMonth]: locales.chart.chartInterval.thisMonth,
+            [ChartLastInterval.ThisYear]: locales.chart.chartInterval.thisYear,
+            [ChartLastInterval.Last7Days]: locales.chart.chartInterval.last7Days,
+            [ChartLastInterval.Last14Days]: locales.chart.chartInterval.last14Days,
+            [ChartLastInterval.Last30Days]: locales.chart.chartInterval.last30Days,
+            [ChartLastInterval.Last90Days]: locales.chart.chartInterval.last90Days,
+            [ChartLastInterval.Last180Days]: locales.chart.chartInterval.last180Days,
+            [ChartLastInterval.Last365Days]: locales.chart.chartInterval.last365Days,
         };
 
-        this.title = titleMapping[interval];
+        this.title = languageModel.t(titleMapping[interval]);
         this.value = interval;
     }
 
@@ -35,6 +35,8 @@ class ChartButtonsPanelComponent extends Component {
 
         this.selectId = getId();
         this.checkboxId = getId();
+
+        this.subscribe(languageModel.language).redrawOnChange();
     }
 
     get selectElement() {
@@ -55,13 +57,13 @@ class ChartButtonsPanelComponent extends Component {
                 <button
                     onclick="${() => chartModel.selectFiles()}"
                 >
-                    Select files
+                    ${languageModel.t(locales.chart.selectFilesButtonTitle)}
                 </button>
 
                 <button
                     onclick="${() => chartModel.clearChart()}"
                 >
-                    Clear
+                    ${languageModel.t(locales.chart.clearButtonTitle)}
                 </button>
 
                 <div class="chart__buttons-panel__show-empty-days">
@@ -72,7 +74,7 @@ class ChartButtonsPanelComponent extends Component {
                         onchange="${(event) => chartModel.setShowEmptyDays(event.target.checked)}"
                     />
                     <label for="${this.checkboxId}">
-                        Show empty days
+                        ${languageModel.t(locales.chart.showEmptyDaysCheckboxTitle)}
                     </label>
                 </div>
                 

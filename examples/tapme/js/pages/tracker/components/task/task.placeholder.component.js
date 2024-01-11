@@ -4,6 +4,8 @@ class TaskPlaceholderComponent extends Component {
 
         this.dots = this.createRedrawable('', 'dots');
         this.timer = setInterval(() => this.tick(), 500);
+
+        this.subscribe(languageModel.language).redrawOnChange();
     }
 
     onDestroy() {
@@ -19,10 +21,12 @@ class TaskPlaceholderComponent extends Component {
     }
 
     toHtml() {
+        const title = languageModel.t(locales.addSomethingTitle);
+
         return t`
             <div class="task-placeholder">
                 <span>
-                    Add something${this.dots}
+                    ${title}${this.dots}
                 </span>
             </div>
         `;
