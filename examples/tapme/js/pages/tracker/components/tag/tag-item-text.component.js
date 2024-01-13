@@ -60,7 +60,7 @@ class TagItemTextComponent extends AutoSubscribeComponent {
             <input
                 id="${this.inputId}"
                 style="background-color: ${this.tag.color}"
-                class="tag-item-component-text"
+                class="tag-item-component-text ym-disable-keys"
                 onblur="${() => this.onFocusOut()}"
                 onkeydown="${(event) => this.onKeyDown(event)}"
                 value="${this.tag.title}"

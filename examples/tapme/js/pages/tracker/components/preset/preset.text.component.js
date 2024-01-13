@@ -44,7 +44,7 @@ class PresetTextComponent extends Component {
         return t`
             <textarea
                 id="${this.inputId}"
-                class="preset-text"
+                class="preset-text ym-disable-keys"
                 onblur="${() => this.onFocusOut()}"
                 onkeydown="${(event) => this.onKeyDown(event)}"
             >${this.preset.title.trim()}</textarea>

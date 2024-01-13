@@ -56,7 +56,7 @@ class AddPresetComponent extends Component {
                 <div class="padding-2 max-width">
                     <textarea
                         id="${this.inputId}"
-                        class="preset-text"
+                        class="preset-text ym-disable-keys"
                         onblur="${() => this.onFocusOut()}"
                         onkeydown="${(event) => this.onKeyDown(event)}"
                         placeholder="${title}..."

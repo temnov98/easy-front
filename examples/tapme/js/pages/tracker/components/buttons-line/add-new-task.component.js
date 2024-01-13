@@ -31,7 +31,10 @@ class AddNewTaskComponent extends Component {
     toHtml() {
         return t`
             <div class="row add-new-task">
-                <input onkeydown="${(event) => this.onKeyDown(event)}">
+                <input
+                    class="ym-disable-keys"
+                    onkeydown="${(event) => this.onKeyDown(event)}"
+                >
                 <button onclick="${() => this.addTask()}">
                     +
                 </button>
