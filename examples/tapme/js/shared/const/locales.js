@@ -18,24 +18,6 @@ const locales = {
             [Language.Kazakh]: 'Тапсырмалар тізімін тазалау керек пе?',
             [Language.Georgian]: 'გსურთ ამოცანების სიის გასუფთავება?',
         },
-        deleteTaskTitle: {
-            [Language.English]: 'Do you want to delete the task?',
-            [Language.Russian]: 'Удалить задачу?',
-            [Language.Kazakh]: 'Тапсырманы жою керек пе?',
-            [Language.Georgian]: 'წაშალოთ დავალება?',
-        },
-        deletePresetTitle: {
-            [Language.English]: 'Do you want to delete the preset?',
-            [Language.Russian]: 'Удалить шаблон?',
-            [Language.Kazakh]: 'Үлгіні жою керек пе?',
-            [Language.Georgian]: 'წაშალოთ შაბლონი?',
-        },
-        deleteTagTitle: {
-            [Language.English]: 'Do you want to delete the tag?',
-            [Language.Russian]: 'Удалить тэг?',
-            [Language.Kazakh]: 'Тегті жою керек пе?',
-            [Language.Georgian]: 'წაშალოთ ტეგი?',
-        },
         yesButtonTitleTitle: {
             [Language.English]: 'Yes, delete',
             [Language.Russian]: 'Да, удалить',
