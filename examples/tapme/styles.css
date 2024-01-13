@@ -547,11 +547,10 @@ body:has(.page--light) .tags-settings-panel {
     border: none;
     cursor: pointer;
 
-    margin-top: 8px;
     height: 40px;
 
     width: 40px;
-    transition-duration: 0.5s;
+    transition-duration: 0.5s !important;
     transition-timing-function: ease;
 }
 
@@ -576,11 +575,9 @@ body:has(.page--light) .tags-settings-panel {
     padding: 3px 10px 5px 10px;
     height: 28px;
     font-size: 16pt;
-    margin-top: 10px;
     color: white;
     border-radius: 5px;
     width: 320px;
-    margin-left: 10px;
     line-height: 140%;
     border: none;
 }
@@ -598,11 +595,11 @@ body:has(.page--light) .tag-item-component-text:focus {
     color: black !important;
 }
 
-.tag-item-component-delete-button {
-    min-width: 40px;
-    margin-top: 8px;
-    margin-left: 8px;
-    margin-right: 8px;
+.tag-item-component-container {
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .delete-active-tasks-window {

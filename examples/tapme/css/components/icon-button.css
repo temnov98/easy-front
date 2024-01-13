@@ -19,10 +19,11 @@
 .icon-button svg {
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 .icon-button svg * {
-  transition: fill 0.1s linear;
+  transition: fill 0.1s linear, transform 0.2s linear;
   fill: #3c7d05;
 }
 
@@ -81,4 +82,13 @@
 .tags-settings-icon-button:hover svg * {
   fill: #3c7d05;
   stroke: white;
+}
+
+/*animate trash can*/
+.icon-button--trash-bin svg path:first-child {
+  transform-origin: top right;
+}
+
+.icon-button--trash-bin--open svg path:first-child {
+  transform: rotate(30deg) translate3d(9px, 0, 0);
 }
