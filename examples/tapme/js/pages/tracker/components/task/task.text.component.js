@@ -39,7 +39,7 @@ class TaskTextComponent extends Component {
         return t`
             <textarea
                 id="${this.inputId}"
-                class="task-text-container-input ym-disable-keys"
+                class="task-text-container-input ym-disable-keys ym-hide-content"
                 onblur="${() => this.onFocusOut()}"
                 onkeydown="${(event) => this.onKeyDown(event)}"
             >${this.task.title.trim()}</textarea>
