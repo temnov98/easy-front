@@ -51,8 +51,8 @@ class TaskModel extends BaseModel {
      * @returns {Date | undefined}
      */
     get firstTouch() {
-        if (!!this._finishedIntervals && this._finishedIntervals.length > 0) {
-            return this._finishedIntervals[0].startedAt
+        if (this._finishedIntervals.length > 0) {
+            return this._finishedIntervals[0].startedAt;
         } else {
             return this._startedAt;
         }

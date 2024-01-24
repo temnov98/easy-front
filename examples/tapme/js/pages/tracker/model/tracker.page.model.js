@@ -16,11 +16,16 @@ class TrackerPageModel extends BaseModel {
         this.totalTimeFormatted = this.getTotalTimeFormatted();
     }
 
+    updateTimeOfFirstTouchToday() {
+        this.timeOfFirstTouchToday = this.getTimeOfFirstTouchToday();
+    }
+
     getTimeOfFirstTouchToday() {
-        const startedTasks = this.tasks.map(task => task.firstTouch).filter(Boolean)
+        const startedTasks = this.tasks.map(task => task.firstTouch).filter(Boolean);
         if (!startedTasks.length) {
             return '🗿';
         }
+
         return new Date(Math.min(...startedTasks)).toLocaleTimeString();
     }
 
@@ -45,6 +50,7 @@ class TrackerPageModel extends BaseModel {
     deleteActiveTasks() {
         this.tasks = [];
         this.updateTotalTime();
+        this.updateTimeOfFirstTouchToday();
 
         this.saveToLocalStorage();
     }
@@ -96,6 +102,7 @@ class TrackerPageModel extends BaseModel {
     deleteTask(task) {
         this.tasks = this.tasks.filter((currentTask) => currentTask.id !== task.id);
         this.updateTotalTime();
+        this.updateTimeOfFirstTouchToday();
 
         this.saveToLocalStorage();
     }
@@ -145,6 +152,8 @@ class TrackerPageModel extends BaseModel {
                 currentTask.toggle();
             }
         });
+
+        this.updateTimeOfFirstTouchToday();
 
         this.saveToLocalStorage();
     }
