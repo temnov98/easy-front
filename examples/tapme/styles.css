@@ -307,24 +307,6 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     fill: #306e32;
 }
 
-.total-time-container {
-    background-color: #f2f2f2;
-    margin-right: 10px;
-    border-radius: 25px;
-    font-size: 20px;
-    text-align: center;
-    width: 135px;
-    height: 70px;
-    font-family: Arial;
-    vertical-align: middle;
-    display: table-cell;
-    font-weight: bold;
-}
-
-.page--dark .total-time-container {
-    background-color: transparent;
-}
-
 .toggle-button__container {
     display: flex;
     align-items: center;

@@ -11,6 +11,12 @@ const locales = {
         [Language.Kazakh]: 'Үлгі қосыңыз',
         [Language.Georgian]: 'დაამატეთ შაბლონი',
     },
+    firstTouchTitle: {
+        [Language.English]: 'First touch today',
+        [Language.Russian]: 'Начало работы',
+        [Language.Kazakh]: 'Бүгінгі бірінші түсу',
+        [Language.Georgian]: 'დღეს პირველი',
+    },
     deleteModalWindow: {
         deleteActiveTasksTitle: {
             [Language.English]: 'Do you want to clear the list of active tasks?',
