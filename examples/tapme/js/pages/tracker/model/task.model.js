@@ -47,6 +47,17 @@ class TaskModel extends BaseModel {
         return timeFormatService.durationFormatted(this.durationInSeconds);
     }
 
+    /**
+     * @returns {Date | undefined}
+     */
+    get firstTouch() {
+        if (!!this._finishedIntervals && this._finishedIntervals.length > 0) {
+            return this._finishedIntervals[0].startedAt
+        } else {
+            return this._startedAt;
+        }
+    }
+
     get isActive() {
         return !!this._startedAt;
     }
