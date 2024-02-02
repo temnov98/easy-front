@@ -28,6 +28,7 @@ class ChartModel extends BaseModel {
         this.showEmptyDays = showEmptyDays;
 
         this._updateChartData();
+        this._saveToStorage();
     }
 
     setPreDefinedInterval(interval) {
