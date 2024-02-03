@@ -120,7 +120,10 @@ class DayLineComponent extends Component {
 
 class ChartDayLinesComponent extends AutoSubscribeComponent {
     toHtml() {
-        const days = chartModel.chartData.days.map((day) => new DayLineComponent(day));
+        const days = chartModel.chartData.days
+            .map((day) => day) // Copying an array, do not change the original array
+            .sort((left, right) => right.date.getTime() - left.date.getTime())
+            .map((day) => new DayLineComponent(day));
 
         return t`
             <div class="chart-page__list-of-days">
