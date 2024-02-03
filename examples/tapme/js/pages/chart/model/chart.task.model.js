@@ -8,7 +8,7 @@ class ChartTaskModel {
     static NoTagTitle = 'No tag';
 
     /**
-     * @param {string} tags
+     * @param {string[]} tags
      * @param {number} seconds
      */
     constructor({ tags, seconds }) {

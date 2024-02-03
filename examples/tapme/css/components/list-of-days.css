@@ -1,0 +1,40 @@
+.chart-page__list-of-days {
+    margin-top: 25px;
+    display: grid;
+    gap: 16px;
+}
+
+.chart-page__day-line {
+    height: 100px;
+    width: 100%;
+}
+
+.chart-page__day-line__interval {
+    height: 100%;
+    float: left;
+    cursor: pointer;
+}
+
+.chart-page__day-line__interval-tooltip {
+    visibility: hidden;
+
+    background-color: white;
+    font-size: 16pt;
+    padding: 10px 15px 5px 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 50px 5px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+
+    min-width: 100px;
+    max-width: 600px;
+    position: absolute;
+    margin-top: -100px;
+    color: black;
+
+    display: grid;
+    gap: 8px;
+}
+
+.chart-page__day-line__interval:hover .chart-page__day-line__interval-tooltip {
+    visibility: visible;
+}

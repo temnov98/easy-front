@@ -146,6 +146,22 @@ const locales = {
                 },
             ],
         },
+        _7: {
+            date: {
+                [Language.English]: 'Feb 3, 2024',
+                [Language.Russian]: '3 февраля 2024',
+                [Language.Kazakh]: '2024 жылғы 3 ақпан',
+                [Language.Georgian]: '2024 წლის 3 თებერვალი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added a new chart with visualization',
+                    [Language.Russian]: 'Добавлен новый график с визуализацией',
+                    [Language.Kazakh]: 'Көрнекілігі бар жаңа график қосылды',
+                    [Language.Georgian]: 'დაემატა ახალი გრაფიკი ვიზუალიზაციით',
+                },
+            ],
+        },
     },
     chart: {
         chartInterval: {
@@ -227,6 +243,12 @@ const locales = {
             [Language.Russian]: 'Очистить',
             [Language.Kazakh]: 'Таза',
             [Language.Georgian]: 'წმინდა',
+        },
+        changeViewButtonTitle: {
+            [Language.English]: 'Toggle chart',
+            [Language.Russian]: 'Переключить график',
+            [Language.Kazakh]: 'Диаграмманы ауыстырып қосу',
+            [Language.Georgian]: 'დიაგრამის გადართვა',
         },
         showEmptyDaysCheckboxTitle: {
             [Language.English]: 'Show empty days',

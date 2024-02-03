@@ -29,9 +29,45 @@ class ChartIntervalOptionComponent extends Component {
     }
 }
 
-class ChartButtonsPanelComponent extends Component {
-    constructor() {
+class ChartDayLinesButtonsPanelComponent extends Component {
+    constructor({ onChangeView }) {
         super();
+
+        this.onChangeView = onChangeView;
+
+        this.subscribe(languageModel.language).redrawOnChange();
+    }
+
+    toHtml() {
+        return t`
+            <div class="chart__buttons-panel__container">
+                <button
+                    onclick="${() => chartModel.selectFiles()}"
+                >
+                    ${languageModel.t(locales.chart.selectFilesButtonTitle)}
+                </button>
+
+                <button
+                    onclick="${() => chartModel.clearChart()}"
+                >
+                    ${languageModel.t(locales.chart.clearButtonTitle)}
+                </button>
+
+                <button
+                    onclick="${() => this.onChangeView()}"
+                >
+                    ${languageModel.t(locales.chart.changeViewButtonTitle)}
+                </button>
+            </div>
+        `;
+    }
+}
+
+class ChartButtonsPanelComponent extends Component {
+    constructor({ onChangeView }) {
+        super();
+
+        this.onChangeView = onChangeView;
 
         this.selectId = getId();
         this.checkboxId = getId();
@@ -64,6 +100,12 @@ class ChartButtonsPanelComponent extends Component {
                     onclick="${() => chartModel.clearChart()}"
                 >
                     ${languageModel.t(locales.chart.clearButtonTitle)}
+                </button>
+
+                <button
+                    onclick="${() => this.onChangeView()}"
+                >
+                    ${languageModel.t(locales.chart.changeViewButtonTitle)}
                 </button>
 
                 <div class="chart__buttons-panel__show-empty-days">

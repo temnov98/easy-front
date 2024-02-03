@@ -6,8 +6,9 @@ class ChartModel extends BaseModel {
     constructor() {
         super();
 
-        const { days, showEmptyDays } = chartStorageService.load();
+        const { days, showEmptyDays, chartMode } = chartStorageService.load();
 
+        this.chartMode = this.createObservable(chartMode, 'chartMode');
         this.showEmptyDays = this.createObservable(showEmptyDays, 'showEmptyDays');
 
         this._days = [];
@@ -28,6 +29,15 @@ class ChartModel extends BaseModel {
         this.showEmptyDays = showEmptyDays;
 
         this._updateChartData();
+        this._saveToStorage();
+    }
+
+    /**
+     * @param {string} mode
+     */
+    setChartMode(mode) {
+        this.chartMode = mode;
+
         this._saveToStorage();
     }
 
@@ -151,6 +161,8 @@ class ChartModel extends BaseModel {
             this._updateChartData();
             this._saveToStorage();
         } catch (error) {
+            console.log(`Error on reading files: ${error.message}`);
+
             modalWindowModel.openModal('ErrorModalComponent', {
                 message: locales.chart.errorOnReadingFiles.title,
                 okButtonTitle: locales.chart.errorOnReadingFiles.okButtonTitle,
@@ -175,6 +187,7 @@ class ChartModel extends BaseModel {
         chartStorageService.save({
             days: this._days,
             showEmptyDays: this.showEmptyDays,
+            chartMode: this.chartMode,
         });
     }
 }

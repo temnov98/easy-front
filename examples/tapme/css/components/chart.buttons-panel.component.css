@@ -1,6 +1,6 @@
 .chart__buttons-panel__container {
     display: grid;
-    grid-template-columns: 140px 130px auto auto;
+    grid-template-columns: 140px 130px 200px auto auto;
     gap: 16px;
 }
 

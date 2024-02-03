@@ -1,5 +1,9 @@
 const updatesList = [
     {
+        id: 7,
+        content: locales.whatsNew._7,
+    },
+    {
         id: 6,
         content: locales.whatsNew._6,
     },

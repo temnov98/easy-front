@@ -12,7 +12,7 @@ class TimeFormatService {
             this._getHoursFormatted(durationInSeconds),
             this._getMinutesFormatted(durationInSeconds),
             this._getSecondsFormatted(durationInSeconds),
-        ].join(' ');
+        ].filter((item) => !!item).join(' ');
     }
 
     /**

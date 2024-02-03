@@ -56,7 +56,32 @@ class ChartFileReaderService {
                 tags: task.tags,
                 seconds: task.duration / 1000,
             })),
+            intervals: this._jsonDataToDayIntervalModels(data),
         })
+    }
+
+    /**
+     * @param {object} data
+     * @return {ChartIntervalModel[]}
+     * @private
+     */
+    static _jsonDataToDayIntervalModels(data) {
+        return data.tasks
+            .reduce((acc, task) => {
+                if (!task.intervals) {
+                    return acc;
+                }
+
+                const taskIntervals = task.intervals.map((interval) => new ChartIntervalModel({
+                    title: task.title,
+                    start: new Date(interval.startedAt),
+                    end: new Date(interval.finishedAt),
+                    tags: task.tags ?? [],
+                }));
+
+                return [...acc, ...taskIntervals];
+            }, [])
+            .sort((left, right) => left.end.getTime() - right.end.getTime());
     }
 
     /**
@@ -82,6 +107,7 @@ class ChartFileReaderService {
         return new ChartDayModel({
             date,
             tasks,
+            intervals: [], // There are no intervals in csv files
         });
     }
 }
