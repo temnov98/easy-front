@@ -2,6 +2,7 @@ class ChartPageComponent extends AutoSubscribeComponent {
     getLinesComponents() {
         return [
             new ChartDayLinesButtonsPanelComponent({ onChangeView: () => chartModel.setChartMode(ChartMode.Bars) }),
+            ChartTagsPanelComponent,
             ChartDayLinesComponent,
         ];
     }

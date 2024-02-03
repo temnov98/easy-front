@@ -10,9 +10,13 @@ class DayLineIntervalTooltipComponent extends Component {
     }
 
     toHtml() {
-        const { title, tags, start, end } = this.interval;
+        const { title, start, end } = this.interval;
 
-        const tagsLine = tags
+        const { activeTags } = chartModel.chartData;
+
+        const tags = this.interval.tags.filter((tag) => activeTags.has(tag));
+
+        const tagsLine = tags.length
             ? '#' + tags.join(', ')
             : '';
 
@@ -55,10 +59,14 @@ class DayLineIntervalComponent extends Component {
     }
 
     toHtml() {
+        const { activeTags } = chartModel.chartData;
+
         const tagToColorMap = trackerPageModel.getTagToColorMap();
 
         const colors = this.interval
-            ? this.interval.tags.map((tag) => tagToColorMap.get(tag) || generateRandomHexColor())
+            ? this.interval.tags
+                .filter((tag) => activeTags.has(tag))
+                .map((tag) => tagToColorMap.get(tag) || generateRandomHexColor())
             : [];
 
         const css = [
@@ -78,7 +86,7 @@ class DayLineIntervalComponent extends Component {
     }
 }
 
-class DayLineComponent extends Component {
+class DayLineComponent extends AutoSubscribeComponent {
     /**
      * @param {ChartDayModel} day
      */
@@ -89,6 +97,8 @@ class DayLineComponent extends Component {
     }
 
     toHtml() {
+        const { activeTags } = chartModel.chartData;
+
         const dayDuration = 24 * 60 * 60 * 1000;
         const intervals = [];
 
@@ -105,7 +115,13 @@ class DayLineComponent extends Component {
                 intervals.push(new DayLineIntervalComponent({ percent: percentOfDay }));
             }
 
-            intervals.push(new DayLineIntervalComponent({ interval }));
+            const shouldShow = interval.tags.some((tag) => activeTags.has(tag));
+
+            const intervalComponent = shouldShow
+                ? new DayLineIntervalComponent({ interval })
+                : new DayLineIntervalComponent({ percent: interval.percentOfDay });
+
+            intervals.push(intervalComponent);
 
             lastInterval = interval;
         }
