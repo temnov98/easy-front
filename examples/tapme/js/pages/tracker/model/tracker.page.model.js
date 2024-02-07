@@ -29,6 +29,14 @@ class TrackerPageModel extends BaseModel {
         return new Date(Math.min(...startedTasks)).toLocaleTimeString();
     }
 
+    hasActiveTask() {
+        return this.tasks.some((task) => task.isActive);
+    }
+
+    getTotalTimeInSeconds() {
+        return this.tasks.reduce((result, task) => result + task.durationInSeconds, 0);
+    }
+
     getTotalTimeFormatted() {
         const durationInSeconds = this.tasks.reduce((result, task) => result + task.durationInSeconds, 0);
 

@@ -1,0 +1,50 @@
+.overtime-notification {
+    position: absolute;
+    right: 15px;
+    top: 70px;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+body:has(.tags-settings-panel-active) .overtime-notification {
+    right: 515px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.overtime-notification:hover {
+    transition-duration: 0.5s;
+    width: 60px;
+    height: 60px;
+    right: 5px;
+    top: 60px;
+}
+
+.overtime-notification__color {
+    fill: #df4343;
+}
+
+.overtime-notification:hover .overtime-notification__color {
+    fill: #b22b2b
+}
+
+.overtime-notification-animation svg {
+    animation: overtime-notification-animation 1s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes overtime-notification-animation {
+    0% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.2, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}

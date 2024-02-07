@@ -34,6 +34,7 @@ class TrackerPageComponent extends Component {
                 ${TrackerPageInnerComponent}
                 ${TagsSettingsPanelComponent}
                 ${UpdatesNotifierComponent}
+                ${OvertimeNotificationComponent}
             </div>
         `;
     }
