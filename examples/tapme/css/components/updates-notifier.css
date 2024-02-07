@@ -24,6 +24,14 @@ body:has(.tags-settings-panel-active) .updates-notifier {
     top: 5px;
 }
 
+.updates-notifier__color {
+    fill: #4caf51ba;
+}
+
+.updates-notifier:hover .updates-notifier__color {
+    fill: #3e9b42;
+}
+
 .updates-notifier-animation svg {
     animation: updates-notifier-animation 1s infinite;
     animation-timing-function: ease-in-out;

@@ -35,14 +35,15 @@ class PageTabsComponent extends Component {
                     key: AvailableTabs.Chart,
                     content: themeModel.theme === 'light' ? icons.chart.light : icons.chart.dark,
                 },
-                {
-                    key: AvailableTabs.CheckLists,
-                    content: themeModel.theme === 'light' ? icons.checkLists.light : icons.checkLists.dark,
-                },
-                {
-                    key: AvailableTabs.Notifications,
-                    content: themeModel.theme === 'light' ? icons.notifications.light : icons.notifications.dark,
-                },
+                // Useless now
+                // {
+                //     key: AvailableTabs.CheckLists,
+                //     content: themeModel.theme === 'light' ? icons.checkLists.light : icons.checkLists.dark,
+                // },
+                // {
+                //     key: AvailableTabs.Notifications,
+                //     content: themeModel.theme === 'light' ? icons.notifications.light : icons.notifications.dark,
+                // },
             ],
             activeTabKey: tabsModel.activeTabKey,
             onSelect: (key) => tabsModel.changePage(key),

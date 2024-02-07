@@ -1,7 +1,7 @@
 .switch-theme-component__container {
     position: fixed;
     left: -5px;
-    top: 20px;
+    top: 10px;
     transform: scale(0.8, 0.8);
 
     --switcher--color-container-active: #d0d0d0;
