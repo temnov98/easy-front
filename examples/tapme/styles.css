@@ -348,7 +348,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 }
 
 .tags-settings-tag-item-textbox .add-tag-input {
-    width: 440px;
+    width: 340px;
 }
 
 .tag-item {
@@ -392,6 +392,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
     width: fit-content;
     cursor: pointer;
     margin-top: 15px;
+    margin-left: 70px;
 }
 
 .add-tag-button-svg svg {
@@ -485,6 +486,7 @@ body:has(.page--light) .add-tag-input {
 
 .tags-settings-panel .add-tag-input-not-empty {
     margin-top: 10px;
+    margin-left: 84px;
 }
 
 .tags-settings-panel {
@@ -503,7 +505,7 @@ body:has(.page--light) .tags-settings-panel {
 }
 
 .tags-settings-panel-inner {
-    padding: 20px 30px 10px 30px;
+    padding: 20px 30px 10px 10px;
 }
 
 .tags-settings-panel-inactive {
@@ -555,7 +557,7 @@ body:has(.page--light) .tags-settings-panel {
 .tag-item-component-text {
     text-align: center;
     padding: 3px 10px 5px 10px;
-    height: 28px;
+    height: 33px;
     font-size: 16pt;
     color: white;
     border-radius: 5px;
@@ -578,10 +580,17 @@ body:has(.page--light) .tag-item-component-text:focus {
 }
 
 .tag-item-component-container {
-    justify-content: center;
-    align-items: center;
+    grid-template-columns: 10px auto;
     gap: 8px;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
+}
+
+.tag-item-component-container:hover .hide-by-default {
+    visibility: visible;
+}
+
+.tag-item-component-container .selected-row {
+    margin-right: 0;
 }
 
 .delete-active-tasks-window {

@@ -45,6 +45,7 @@ class TagItemComponent extends Component {
     toHtml() {
         return t`
             <div class="row tag-item-component-container">
+                <div class="hide-by-default selected-row"></div>
                 ${new TagItemColorComponent(this.tag)}
                 ${new TagItemTextComponent(this.tag)}
                 ${new DeleteButtonComponent(() => trackerPageModel.deleteTag(trackerPageModel, this.tag))}
