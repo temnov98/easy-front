@@ -1,9 +1,7 @@
 const updatesList = Object.entries(locales.whatsNew)
-  .sort(([id1], [id2]) => id2 > id1 ? 1 : -1)
-  .filter(([id, _]) => id[0] === '_')
-  .map(([id, content], index) => {
-    return {id: index + 1, content};
-  })
+    .filter(([id]) => id[0] === '_')
+    .sort(([id1], [id2]) => +id2.replace('_', '') > +id1.replace('_', '') ? 1 : -1)
+    .map(([id, content], index) => ({ id: index + 1, content }));
 
 class UpdatesModel extends BaseModel {
     constructor() {

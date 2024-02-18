@@ -77,7 +77,7 @@ class AddTagComponent extends Component {
                         onkeydown="${(event) => this.onKeyDown(event)}"
                         onfocusout="${() => this.onFocusOut()}"
                     />
-                    ${new DatalistTagsComponent({model: this.model, dataId: this.dataListId})}
+                    ${new DatalistTagsComponent({ model: this.model, dataId: this.dataListId })}
                 </div>
             `;
         }

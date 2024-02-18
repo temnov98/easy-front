@@ -178,12 +178,12 @@ const locales = {
                 },
                 {
                     [Language.English]: 'Minor update of changelog generation',
-                    [Language.Russian]: 'Мелкое обновление генерации "Что нового?"',
+                    [Language.Russian]: 'Небольшое обновление генерации "Что нового?"',
                     [Language.Kazakh]: 'Жаңалықтардың жасауын жаңарту',
                     [Language.Georgian]: 'განახლება ცვლილებების გენერაციაში',
-                }
+                },
             ],
-        }
+        },
     },
     chart: {
         chartInterval: {
