@@ -245,15 +245,15 @@ class TrackerPageModel extends BaseModel {
      * @param {TagModel} tag
      */
     deleteTag(model, tag) {
-        model.tags = model.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+        model.tags = model.tags.filter((currentTag) => !this.tagsEqual(currentTag, tag));
 
         if (model instanceof TrackerPageModel) {
             for (const task of this.tasks) {
-                task.tags = task.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+                task.tags = task.tags.filter((currentTag) => !this.tagsEqual(currentTag, tag));
             }
 
             for (const preset of this.presets) {
-                preset.tags = preset.tags.filter((currentTag) => !this._tagsEqual(currentTag, tag));
+                preset.tags = preset.tags.filter((currentTag) => !this.tagsEqual(currentTag, tag));
             }
         }
 
@@ -268,7 +268,7 @@ class TrackerPageModel extends BaseModel {
         const allTags = this._getAllTags();
 
         for (const currentTag of allTags) {
-            if (this._tagsEqual(currentTag, tag)) {
+            if (this.tagsEqual(currentTag, tag)) {
                 currentTag.color = newColor;
             }
         }
@@ -328,9 +328,8 @@ class TrackerPageModel extends BaseModel {
     /**
      * @param {TagModel} left
      * @param {TagModel} right
-     * @private
      */
-    _tagsEqual(left, right) {
+    tagsEqual(left, right) {
         return this._formatTagTitle(left.title) === this._formatTagTitle(right.title);
     }
 

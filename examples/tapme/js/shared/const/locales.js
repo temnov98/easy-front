@@ -162,6 +162,28 @@ const locales = {
                 },
             ],
         },
+        _8: {
+            date: {
+                [Language.English]: 'Feb 18, 2024',
+                [Language.Russian]: '18 февраля 2024',
+                [Language.Kazakh]: '2024 жылғы 18 ақпан',
+                [Language.Georgian]: '2024 წლის 18 თებერვალი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added autocomplete for tags',
+                    [Language.Russian]: 'Добавлено автозаполнение для тегов',
+                    [Language.Kazakh]: 'Тегтер үшін автотолтыру қосылды',
+                    [Language.Georgian]: 'დაემატა ტეგების ავტომატური შევსება',
+                },
+                {
+                    [Language.English]: 'Minor update of changelog generation',
+                    [Language.Russian]: 'Небольшое обновление генерации "Что нового?"',
+                    [Language.Kazakh]: 'Жаңалықтардың жасауын жаңарту',
+                    [Language.Georgian]: 'განახლება ცვლილებების გენერაციაში',
+                },
+            ],
+        },
     },
     chart: {
         chartInterval: {
