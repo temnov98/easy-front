@@ -1,33 +1,9 @@
-const updatesList = [
-    {
-        id: 7,
-        content: locales.whatsNew._7,
-    },
-    {
-        id: 6,
-        content: locales.whatsNew._6,
-    },
-    {
-        id: 5,
-        content: locales.whatsNew._5,
-    },
-    {
-        id: 4,
-        content: locales.whatsNew._4,
-    },
-    {
-        id: 3,
-        content: locales.whatsNew._3,
-    },
-    {
-        id: 2,
-        content: locales.whatsNew._2,
-    },
-    {
-        id: 1,
-        content: locales.whatsNew._1,
-    },
-];
+const updatesList = Object.entries(locales.whatsNew)
+  .sort(([id1], [id2]) => id2 > id1 ? 1 : -1)
+  .filter(([id, _]) => id[0] === '_')
+  .map(([id, content], index) => {
+    return {id: index + 1, content};
+  })
 
 class UpdatesModel extends BaseModel {
     constructor() {

@@ -15,6 +15,7 @@ class AddTagComponent extends Component {
         this.inputContainerCssClassName = inputContainerCssClassName;
         this.hideButtonByDefault = hideButtonByDefault;
         this.clicked = this.createFullRedrawable(false, 'clicked');
+        this.dataListId = getId();
     }
 
     get input() {
@@ -35,7 +36,7 @@ class AddTagComponent extends Component {
         if (event.key === 'Enter') {
             event.preventDefault();
 
-            const value = this.input.innerHTML.replaceAll('&nbsp;', '').trim();
+            const value = this.input.value.replaceAll('&nbsp;', '').trim();
 
             if (!value) {
                 this.input.blur();
@@ -66,13 +67,17 @@ class AddTagComponent extends Component {
 
             return t`
                 <div class="${this.inputContainerCssClassName}">
-                    <span role="textbox"
-                        contenteditable
+                    <input
+                        autocomplete="off"
+                        type="text"
+                        role="combobox"
+                        list=${this.dataListId}
                         class="${className}"
                         id="${this.inputId}"
                         onkeydown="${(event) => this.onKeyDown(event)}"
                         onfocusout="${() => this.onFocusOut()}"
-                    ></span>
+                    />
+                    ${new DatalistTagsComponent({model: this.model, dataId: this.dataListId})}
                 </div>
             `;
         }

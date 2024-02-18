@@ -5,6 +5,14 @@ body {
     margin: 0;
 }
 
+datalist {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
 .tracker-page {
     margin-top: 8px;
 }
@@ -443,7 +451,6 @@ body:has(.page--dark) .add-tag-button-svg svg:hover * {
 }
 
 .add-tag-input {
-    position: absolute;
     height: 32px;
     margin-left: 10px;
 
@@ -456,11 +463,16 @@ body:has(.page--dark) .add-tag-button-svg svg:hover * {
     background: transparent;
     transition: outline 0.1s linear;
 
-    padding: 5px 15px;
+    padding: 5px 0 5px 15px;
     font-size: 15pt;
     border-radius: 10px;
-    min-width: 120px;
+    width: 120px;
     outline: 2px rgba(40, 184, 78, 0.82) dashed;
+}
+
+.add-tag-input[list]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    width: 0;
 }
 
 body:has(.page--dark) .add-tag-input {
