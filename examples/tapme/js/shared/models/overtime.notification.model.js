@@ -1,3 +1,4 @@
+// todo: не нравится тут зависимость от trackerPageModel
 class OvertimeNotificationModel extends BaseModel {
     constructor() {
         super();
@@ -39,6 +40,9 @@ class OvertimeNotificationModel extends BaseModel {
         return (trackerPageModel.getTotalTimeInSeconds() * 1000) > this.overtimeTresholdInMilliseconds;
     }
 
+    // todo: плохо написал.
+    //  оно будет висеть 5 минут, если нет активной задачи, а должно обновляться мгновенно.
+    //  при исправлении важно учесть, чтобы не было циклических зависимостей
     _getShouldNotify() {
         if (!this.getIsOvertime()) {
             return false;
