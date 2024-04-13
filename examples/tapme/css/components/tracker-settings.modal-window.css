@@ -3,7 +3,7 @@
     margin: auto;
     background-color: rgb(255, 255, 255);
     width: 600px;
-    padding: 10px 50px 10px 50px;
+    padding: 10px 50px 30px 50px;
     border-radius: 20px;
     color: black;
 
@@ -17,6 +17,8 @@
         "header header"
         "button button"
         "description description";
+
+    gap: 16px;
 }
 
 .tracker-settings-modal-window__container h2 {
@@ -25,11 +27,22 @@
     grid-area: header;
 }
 
-.tracker-settings-modal-window__container p {
+.tracker-settings-modal-window__description {
+    margin-top: 10px;
+    grid-area: description;
+    text-align: left;
+}
+
+.tracker-settings-modal-window__description p {
     font-size: 16pt;
     color: gray;
-    text-align: center;
-    grid-area: description;
+    padding: 5px;
+    margin: 0;
+}
+
+.tracker-settings-modal-window__description b {
+    font-size: 18pt;
+    color: black;
 }
 
 .tracker-settings-modal-window__button {

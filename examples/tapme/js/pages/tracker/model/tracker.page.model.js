@@ -142,6 +142,21 @@ class TrackerPageModel extends BaseModel {
     }
 
     /**
+     * @param {TagModel[]} tags
+     * @param {PresetModel[]} presets
+     */
+    importSettings({ tags, presets }) {
+        this.tags = tags;
+        this.presets = presets;
+
+        this.tasks.forEach((task) => {
+            task.tags = task.tags.map((taskTag) => this.tags.find((tag) => tag.title === taskTag.title));
+        });
+
+        this.saveToLocalStorage();
+    }
+
+    /**
      * @param {PresetModel} preset
      * @param {string} text
      * @returns {void}

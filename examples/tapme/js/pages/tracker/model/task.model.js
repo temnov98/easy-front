@@ -4,6 +4,7 @@
  * @property {number} _durationInSeconds
  * @property {ObservableValue} _startedAt
  * @property {TaskIntervalModel} _finishedIntervals
+ * @property {TagModel[]} tags
  */
 class TaskModel extends BaseModel {
     /**
@@ -23,6 +24,7 @@ class TaskModel extends BaseModel {
         this._durationInSeconds = durationInSeconds ?? 0;
         this._startedAt = this.createObservable(startedAt, '_startedAt');
         this._finishedIntervals = finishedIntervals ?? [];
+        /** @type {TagModel[]} */
         this.tags = this.createObservable(tags ?? [], 'tags');
     }
 

@@ -18,13 +18,16 @@ class TrackerSettingsModalWindowComponent extends Component {
                 </button>
 
                 <button
-                    class="tracker-settings-modal-window__button tracker-settings-modal-window__disabled_button"
+                    class="tracker-settings-modal-window__button tracker-settings-modal-window__active_button"
                     onclick="${() => trackerSettingsService.importSettings()}"
                 >
                     ${languageModel.t(locales.trackerSettings.importButtonTitle)}
                 </button>
 
-                <p>${languageModel.t(locales.trackerSettings.description)}</p>
+                <div class="tracker-settings-modal-window__description">
+                    <p>${languageModel.t(locales.trackerSettings.description)}</p>
+                    <p>${languageModel.t(locales.trackerSettings.importDescription)}</p>
+                </div>
             </div>
         `;
     }

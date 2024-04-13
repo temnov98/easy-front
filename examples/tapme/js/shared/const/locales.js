@@ -62,6 +62,40 @@ const locales = {
             [Language.Kazakh]: '*тек тегтер мен үлгілер экспортталады/импортталады',
             [Language.Georgian]: '*ექსპორტი/იმპორტირებულია მხოლოდ ტეგები და შაბლონები',
         },
+        importDescription: {
+            [Language.English]: '*when importing, the current settings <b>will be deleted</b>',
+            [Language.Russian]: '*при импорте текущие настройки <b>будут удалены</b>',
+            [Language.Kazakh]: '*импорттау кезінде ағымдағы параметрлер <b>жойылады</b>',
+            [Language.Georgian]: '*იმპორტის დროს, მიმდინარე პარამეტრები <b>წაიშლება</b>',
+        },
+
+        resultModal: {
+            defaultErrorTitle: {
+                [Language.English]: 'Error on reading files',
+                [Language.Russian]: 'Ошибка при чтении файлов',
+                [Language.Kazakh]: 'Файлдарды оқу қатесі',
+                [Language.Georgian]: 'შეცდომა ფაილების წაკითხვისას',
+            },
+            incorrectFileTitle: {
+                [Language.English]: 'Invalid file',
+                [Language.Russian]: 'Неверный файл',
+                [Language.Kazakh]: 'жарамсыз файл',
+                [Language.Georgian]: 'არასწორი ფაილი',
+            },
+            successTitle: {
+                [Language.English]: 'Settings imported successfully',
+                [Language.Russian]: 'Настройки успешно импортированы',
+                [Language.Kazakh]: 'Параметрлер сәтті импортталды',
+                [Language.Georgian]: 'პარამეტრები წარმატებით იმპორტირებულია',
+            },
+
+            okButtonTitle: {
+                [Language.English]: 'Ok',
+                [Language.Russian]: 'Ок',
+                [Language.Kazakh]: 'Жарайды ма',
+                [Language.Georgian]: 'კარგი',
+            },
+        },
     },
     whatsNew: {
         title: {
@@ -223,6 +257,22 @@ const locales = {
                     [Language.Russian]: 'Добавлен экспорт настроек (тэгов и шаблонов)',
                     [Language.Kazakh]: 'Параметрлерді экспорттау қосылды (тегтер мен үлгілер)',
                     [Language.Georgian]: 'დამატებულია პარამეტრების ექსპორტი (თეგები და შაბლონები)',
+                },
+            ],
+        },
+        _10: {
+            date: {
+                [Language.English]: 'April 14, 2024',
+                [Language.Russian]: '14 апреля 2024',
+                [Language.Kazakh]: '2024 жылғы 14 сәуір',
+                [Language.Georgian]: '2024 წლის 14 აპრილი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added import of settings (tags and templates)',
+                    [Language.Russian]: 'Добавлен импорт настроек (тэгов и шаблонов)',
+                    [Language.Kazakh]: 'Параметрлерді импорттау қосылды (тегтер мен үлгілер)',
+                    [Language.Georgian]: 'დამატებულია პარამეტრების იმპორტი (თეგები და შაბლონები)',
                 },
             ],
         },
