@@ -132,6 +132,39 @@ class TrackerSettingsService {
             };
         }
 
+        // NOTE: дополнительные проверки
+
+        const allTagsTitles = new Set(settings.tags.map((tag) => tag.title));
+
+        const hasIncorrectTagTitle = (
+            settings.tags.some((tag) => !tag.title.trim().length) ||
+            settings.tags.some((tag) => tag.title !== tag.title.trim())
+        );
+
+        const hasIncorrectTagColor = settings.tags.some((tag) => tag.color.length !== 7);
+
+        const hasIncorrectPresetTitle = (
+            settings.presets.some((preset) => !preset.title.trim().length) ||
+            settings.presets.some((preset) => preset.title !== preset.title.trim())
+        );
+
+        const hasIncorrectPresetTags = (
+            settings.presets.some((preset) => [...new Set(preset.tags)].length !== preset.tags.length) ||
+            settings.presets.some((preset) => preset.tags.some((tag) => !allTagsTitles.has(tag)))
+        );
+
+        if (
+            hasIncorrectTagTitle ||
+            hasIncorrectTagColor ||
+            hasIncorrectPresetTitle ||
+            hasIncorrectPresetTags
+        ) {
+            return {
+                success: false,
+                error: locales.trackerSettings.resultModal.incorrectFileTitle,
+            };
+        }
+
         const tags = settings.tags.map((tag) => new TagModel({
             title: tag.title,
             color: tag.color,
