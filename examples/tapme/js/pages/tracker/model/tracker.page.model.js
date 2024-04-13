@@ -1,3 +1,12 @@
+/**
+ * @class TrackerPageModel
+ * @property {TagModel[]} tags
+ * @property {boolean} tagsSettingsOpened
+ * @property {TaskModel[]} tasks
+ * @property {PresetModel[]} presets
+ * @property {string} totalTimeFormatted
+ * @property {string} timeOfFirstTouchToday
+ */
 class TrackerPageModel extends BaseModel {
     constructor() {
         super();

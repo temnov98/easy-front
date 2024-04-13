@@ -11,8 +11,10 @@
 @import "chart.buttons-panel.component.css";
 @import "check-lists.css";
 @import "updates-notifier.css";
+@import "settings-button.css";
 @import "updates-modal-window.css";
 @import "change-language.component.css";
 @import "summary-badge.css";
 @import "list-of-days.css";
 @import "overtime-notification.css";
+@import "tracker-settings.modal-window.css";

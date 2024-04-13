@@ -11,21 +11,10 @@ class TrackerBaseExportService {
      * @returns {void}
      */
     export(tasks) {
-        // Create element with <a> tag
-        const link = document.createElement("a");
-
-        // Create a blog object with the file content which you want to add to the file
-        const file = new Blob([this._getContent(tasks)], { type: 'text/plain' });
-
-        // Add file content in the object URL
-        link.href = URL.createObjectURL(file);
-
-        // Add file name
-        link.download = this._getFilename();
-
-        // Add click event to <a> tag to save file.
-        link.click();
-        URL.revokeObjectURL(link.href);
+        exportFile({
+            content: this._getContent(tasks),
+            filename: this._getFilename(),
+        });
     }
 
     /**

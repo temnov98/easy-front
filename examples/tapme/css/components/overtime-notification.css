@@ -24,6 +24,12 @@ body:has(.tags-settings-panel-active) .overtime-notification {
     top: 60px;
 }
 
+body:has(.tags-settings-panel-active) .overtime-notification:hover {
+    right: 505px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
 .overtime-notification__color {
     fill: #df4343;
 }

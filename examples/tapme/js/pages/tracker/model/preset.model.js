@@ -1,3 +1,9 @@
+/**
+ * @class PresetModel
+ * @property {string} id
+ * @property {string} title
+ * @property {TagModel[]} tags
+ */
 class PresetModel extends BaseModel {
     /**
      * @param {object} params
@@ -10,6 +16,7 @@ class PresetModel extends BaseModel {
 
         this.id = id ?? getId();
         this.title = title;
+        /** @type TagModel[] */
         this.tags = this.createObservable(tags ?? [], 'tags');
     }
 }

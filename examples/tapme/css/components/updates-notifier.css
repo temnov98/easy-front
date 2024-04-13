@@ -24,6 +24,12 @@ body:has(.tags-settings-panel-active) .updates-notifier {
     top: 5px;
 }
 
+body:has(.tags-settings-panel-active) .updates-notifier:hover {
+    right: 505px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
 .updates-notifier__color {
     fill: #4caf51ba;
 }

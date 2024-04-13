@@ -1,0 +1,39 @@
+.settings-button__component {
+    position: absolute;
+    right: 65px;
+    top: 15px;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+body:has(.tags-settings-panel-active) .settings-button__component {
+    right: 565px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.settings-button__component:hover {
+    transition-duration: 0.5s;
+    width: 60px;
+    height: 60px;
+    right: 55px;
+    top: 5px;
+}
+
+body:has(.tags-settings-panel-active) .settings-button__component:hover {
+    right: 555px;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.settings-button__component path {
+    fill: #2c65bd;
+}
+
+body:has(.page--dark) .settings-button__component path {
+    fill: #d2d2d2;
+}

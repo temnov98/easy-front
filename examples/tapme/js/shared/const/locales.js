@@ -37,6 +37,32 @@ const locales = {
             [Language.Georgian]: 'არა, დახურე ფანჯარა',
         },
     },
+    trackerSettings: {
+        title: {
+            [Language.English]: 'Settings',
+            [Language.Russian]: 'Настройки',
+            [Language.Kazakh]: `Параметрлер`,
+            [Language.Georgian]: 'პარამეტრები',
+        },
+        exportButtonTitle: {
+            [Language.English]: 'export',
+            [Language.Russian]: 'экспорт',
+            [Language.Kazakh]: `экспорттау`,
+            [Language.Georgian]: 'ექსპორტი',
+        },
+        importButtonTitle: {
+            [Language.English]: 'import',
+            [Language.Russian]: 'импорт',
+            [Language.Kazakh]: `импорттау`,
+            [Language.Georgian]: 'იმპორტი',
+        },
+        description: {
+            [Language.English]: '*only tags and templates are exported/imported',
+            [Language.Russian]: '*экспортируются/импортируются только теги и шаблоны',
+            [Language.Kazakh]: '*тек тегтер мен үлгілер экспортталады/импортталады',
+            [Language.Georgian]: '*ექსპორტი/იმპორტირებულია მხოლოდ ტეგები და შაბლონები',
+        },
+    },
     whatsNew: {
         title: {
             [Language.English]: `What's new?`,
@@ -181,6 +207,22 @@ const locales = {
                     [Language.Russian]: 'Небольшое обновление генерации "Что нового?"',
                     [Language.Kazakh]: 'Жаңалықтардың жасауын жаңарту',
                     [Language.Georgian]: 'განახლება ცვლილებების გენერაციაში',
+                },
+            ],
+        },
+        _9: {
+            date: {
+                [Language.English]: 'April 13, 2024',
+                [Language.Russian]: '13 апреля 2024',
+                [Language.Kazakh]: '2024 жылғы 13 сәуір',
+                [Language.Georgian]: '2024 წლის 13 აპრილი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added export of settings (tags and templates)',
+                    [Language.Russian]: 'Добавлен экспорт настроек (тэгов и шаблонов)',
+                    [Language.Kazakh]: 'Параметрлерді экспорттау қосылды (тегтер мен үлгілер)',
+                    [Language.Georgian]: 'დამატებულია პარამეტრების ექსპორტი (თეგები და შაბლონები)',
                 },
             ],
         },
