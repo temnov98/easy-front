@@ -88,6 +88,8 @@ class PageComponent extends Component {
                 ${component}
                 ${DebugComponent}
                 ${ModalWindowComponent}
+                ${BlurComponent}
+                ${BlurScreenContainer}
             </div>
         `;
     }

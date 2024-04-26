@@ -276,6 +276,22 @@ const locales = {
                 },
             ],
         },
+        _11: {
+            date: {
+                [Language.English]: 'April 27, 2024',
+                [Language.Russian]: '27 апреля 2024',
+                [Language.Kazakh]: '2024 жылғы 27 сәуір',
+                [Language.Georgian]: '2024 წლის 27 აპრილი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added page blur mode',
+                    [Language.Russian]: 'Добавлен режим размытия страницы',
+                    [Language.Kazakh]: 'Беттің бұлыңғырлау режимі қосылды',
+                    [Language.Georgian]: 'დამატებულია გვერდის დაბინდვის რეჟიმი',
+                },
+            ],
+        },
     },
     chart: {
         chartInterval: {
