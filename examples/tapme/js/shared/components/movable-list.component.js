@@ -69,10 +69,33 @@ class MovableListComponent extends Component {
         const rect = element.getBoundingClientRect();
 
         // Оба значения (clientY и top) относительно окна браузера (viewport) считаются, поэтому работает
-        this.diffY = event.clientY - rect.top;
+        if (this._isFixedPosition(element)) {
+            this.diffY = event.pageY - rect.top;
+        } else {
+            this.diffY = event.clientY - rect.top;
+        }
+
         this.diffX = event.clientX;
 
         this.selectedItem = item;
+    }
+
+    _isFixedPosition(element) {
+        let currentElement = element;
+
+        for (let i = 0; i < 100; i++) {
+            if (!currentElement) {
+                break;
+            }
+
+            if (window.getComputedStyle(currentElement).position === 'fixed') {
+                return true;
+            }
+
+            currentElement = currentElement.parentElement;
+        }
+
+        return false;
     }
 
     onMouseUp() {
