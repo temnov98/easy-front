@@ -192,12 +192,12 @@ class TrackerSettingsService {
         const raw = {
             version: "1",
             tags: trackerPageModel.tags.map((tag) => ({
-                title: tag.title,
+                title: tag.title.trim(),
                 color: tag.color,
             })),
             presets: trackerPageModel.presets.map((preset) => ({
-                title: preset.title,
-                tags: preset.tags.map((tag) => tag.title),
+                title: preset.title.trim(),
+                tags: preset.tags.map((tag) => tag.title.trim()),
             })),
         };
 
