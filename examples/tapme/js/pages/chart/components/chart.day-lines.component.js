@@ -105,9 +105,11 @@ class DayLineComponent extends AutoSubscribeComponent {
         let lastInterval = undefined;
 
         for (const interval of this.day.intervals) {
+            const startOfDayTimestamp = new Date(interval.start).setHours(0, 0, 0, 0);
+
             const emptyDuration = lastInterval
                 ? interval.start.getTime() - lastInterval.end.getTime()
-                : interval.start.getTime() % dayDuration;
+                : interval.start.getTime() - startOfDayTimestamp;
 
             if (emptyDuration > 0) {
                 const percentOfDay = (emptyDuration / dayDuration) * 100;
