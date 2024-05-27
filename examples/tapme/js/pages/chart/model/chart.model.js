@@ -155,11 +155,22 @@ class ChartModel extends BaseModel {
 
     async selectFiles() {
         try {
-            const days = await ChartFileReaderService.readFiles();
+            const { days, filesWithErrors } = await ChartFileReaderService.readFiles();
 
             this._setDays(days);
             this._updateChartData();
             this._saveToStorage();
+
+            if (filesWithErrors.length) {
+                modalWindowModel.openModal('ErrorModalComponent', {
+                    message: locales.chart.errorOnReadingFiles.title,
+                    items: [
+                        locales.chart.errorOnReadingFiles.skippedFiles,
+                        ...filesWithErrors.map((file) => `- ${file}`),
+                    ],
+                    okButtonTitle: locales.chart.errorOnReadingFiles.okButtonTitle,
+                });
+            }
         } catch (error) {
             console.log(`Error on reading files: ${error.message}`);
 

@@ -393,6 +393,12 @@ const locales = {
                 [Language.Kazakh]: 'Файлдарды оқу қатесі',
                 [Language.Georgian]: 'შეცდომა ფაილების წაკითხვისას',
             },
+            skippedFiles: {
+                [Language.English]: 'These files were not included:',
+                [Language.Russian]: 'Эти файлы не были учтены:',
+                [Language.Kazakh]: 'Бұл файлдар қосылмаған:',
+                [Language.Georgian]: 'ეს ფაილები არ იყო ჩართული:',
+            },
             okButtonTitle: {
                 [Language.English]: 'Ok',
                 [Language.Russian]: 'Ок',

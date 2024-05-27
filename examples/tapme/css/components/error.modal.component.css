@@ -15,6 +15,10 @@ body:has(.page--dark) .error-modal-window__container {
     text-align: center;
 }
 
+.error-modal-window__container p {
+    font-size: 30px;
+}
+
 .error-modal-window__container div {
     display: grid;
     grid-template-columns: auto;

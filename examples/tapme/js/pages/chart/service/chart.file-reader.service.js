@@ -9,7 +9,7 @@
 
 class ChartFileReaderService {
     /**
-     * @return {Promise<ChartDayModel[]>}
+     * @return {Promise<{ days: ChartDayModel[]; filesWithErrors: string[] }>}
      */
     static async readFiles() {
         const handles = await window.showOpenFilePicker({
@@ -28,6 +28,8 @@ class ChartFileReaderService {
         const files = await Promise.all(handles.map((handle) => handle.getFile()));
         const filesContents = await Promise.all(files.map((file) => file.text()));
 
+        const filesWithErrors = [];
+
         /** @type {Interval[]} */
         const intervals = [];
 
@@ -35,19 +37,30 @@ class ChartFileReaderService {
             const file = files[index];
             const content = filesContents[index];
 
-            const extension = file.name.split('.').pop();
-            const [day, month, year] = file.name.split(' ')[0].split('-');
+            try {
+                const extension = file.name.split('.').pop();
+                const [day, month, year] = file.name.split(' ')[0].split('-');
 
-            const date = new Date(`${year}-${month}-${day}`);
+                const date = new Date(`${year}-${month}-${day}`);
 
-            if (extension === 'json') {
-                intervals.push(...this._jsonDataToIntervals(JSON.parse(content)));
-            } else if (extension === 'csv') {
-                intervals.push(...this._csvDataToIntervals(date, content));
+                if (extension === 'json') {
+                    intervals.push(...this._jsonDataToIntervals(JSON.parse(content)));
+                } else if (extension === 'csv') {
+                    intervals.push(...this._csvDataToIntervals(date, content));
+                }
+            } catch (error) {
+                console.log(`Error on reading file: ${error.message}`);
+
+                filesWithErrors.push(file.name);
             }
         }
 
-        return this._intervalsToDays(intervals);
+        const days = this._intervalsToDays(intervals);
+
+        return {
+            filesWithErrors,
+            days,
+        };
     }
 
     /**
@@ -76,7 +89,7 @@ class ChartFileReaderService {
             days.add(dayTimestamp);
 
             const chartIntervalModel = new ChartIntervalModel({
-                tags: interval.tags,
+                tags: interval.tags ?? [],
                 title: interval.task,
                 start: interval.startedAt,
                 end: interval.finishedAt,
@@ -149,7 +162,7 @@ class ChartFileReaderService {
                     result.push({
                         day,
                         task: task.title,
-                        tags: task.tags.map((tag) => tag),
+                        tags: (task.tags ?? []).map((tag) => tag),
                         startedAt,
                         finishedAt,
                     });

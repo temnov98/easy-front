@@ -36,7 +36,7 @@ class ChartIntervalModel {
             title: raw.title,
             start: new Date(raw.start),
             end: new Date(raw.end),
-            tags: raw.tags,
+            tags: raw.tags ?? [],
         });
     }
 
