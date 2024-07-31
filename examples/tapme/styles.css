@@ -92,7 +92,37 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 }
 
 .preset-list-component {
-    margin-top: 20px;
+    min-height: 100px;
+}
+
+.preset-list-component:hover .change-presets-visibility-component {
+    visibility: visible;
+}
+
+.change-presets-visibility-component {
+    visibility: hidden;
+    width: 30px;
+    height: 30px;
+    margin-left: 1075px;
+}
+
+.change-presets-visibility-component svg {
+    width: 30px;
+    height: 30px;
+}
+
+.change-presets-visibility-component svg:hover {
+    cursor: pointer;
+}
+
+.change-presets-visibility-component svg path {
+    fill: #62874C;
+    transition-duration: 0.5s;
+}
+
+.change-presets-visibility-component svg:hover path {
+    fill: #99b587;
+    transition-duration: 0.5s;
 }
 
 .preset-component {
@@ -108,7 +138,7 @@ body:has(.page--dark) input, body:has(.page--dark) textarea {
 }
 
 .buttons-line {
-    padding: 30px 0 30px 40px;
+    padding: 30px 0 10px 40px;
     gap: 5px;
     min-width: 1086px;
 }

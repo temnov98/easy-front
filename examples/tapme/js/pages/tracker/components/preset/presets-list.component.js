@@ -15,12 +15,13 @@ class PresetsInnerListComponent extends AutoSubscribeComponent {
     }
 }
 
-class PresetsListComponent extends Component {
+class PresetsListComponent extends AutoSubscribeComponent {
     toHtml() {
         return t`
             <div class="preset-list-component">
-                ${PresetsInnerListComponent}
-                ${AddPresetComponent}
+                ${ChangePresetsVisibilityComponent}
+                ${presetsSettingsModel.isPresetsVisible ? PresetsInnerListComponent : ''}
+                ${presetsSettingsModel.isPresetsVisible ? AddPresetComponent : ''}
             </div>
         `;
     }

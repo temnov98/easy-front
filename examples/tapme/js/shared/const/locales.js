@@ -292,6 +292,28 @@ const locales = {
                 },
             ],
         },
+        _12: {
+            date: {
+                [Language.English]: 'August 1, 2024',
+                [Language.Russian]: '1 августа 2024',
+                [Language.Kazakh]: '2024 жылғы 1 тамыз',
+                [Language.Georgian]: '2024 წლის 1 აგვისტო',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added the ability to hide the list of templates',
+                    [Language.Russian]: 'Добавлена возможность скрыть список шаблонов',
+                    [Language.Kazakh]: 'Үлгілер тізімін жасыру мүмкіндігі қосылды',
+                    [Language.Georgian]: 'დამატებულია შაბლონების სიის დამალვის შესაძლებლობა',
+                },
+                {
+                    [Language.English]: 'The button appears when you hover over the list of templates',
+                    [Language.Russian]: 'Кнопка появляется при наведении на список шаблонов',
+                    [Language.Kazakh]: 'Түйме меңзерді үлгілер тізімінің үстіне апарған кезде пайда болады',
+                    [Language.Georgian]: 'ღილაკი გამოჩნდება შაბლონების სიაზე გადასვლისას',
+                },
+            ],
+        },
     },
     chart: {
         chartInterval: {
