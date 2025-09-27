@@ -400,6 +400,22 @@ const locales = {
                 },
             ],
         },
+        _13: {
+            date: {
+                [Language.English]: 'September 28, 2025',
+                [Language.Russian]: '28 сентября 2025',
+                [Language.Kazakh]: '2025 жылғы 28 қыркүйек',
+                [Language.Georgian]: '2025 წლის 28 სექტემბერი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added the ability to edit time intervals via modal window',
+                    [Language.Russian]: 'Добавлена возможность править временные интервалы через модальное окно',
+                    [Language.Kazakh]: 'Уақыт аралықтарын модальды терезе арқылы түзету мүмкіндігі қосылды',
+                    [Language.Georgian]: 'დამატებულია დროის ინტერვალების მოდალური ფანჯრიდან რედაქტირების შესაძლებლობა',
+                },
+            ],
+        },
     },
     chart: {
         chartInterval: {
