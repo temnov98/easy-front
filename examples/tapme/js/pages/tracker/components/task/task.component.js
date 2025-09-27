@@ -16,6 +16,7 @@ class TaskComponent extends Component {
                 <div class="row task-component">
                     <div>${new TaskToggleButtonComponent(this.task)}</div>
                     <div class="max-width">${new TaskTextComponent(this.task)}</div>
+                    <div class="hide-by-default">${new TaskEditIntervalsButtonComponent(this.task)}</div>
                     <div class="hide-by-default">${new TaskSaveAsPresetButtonComponent(this.task)}</div>
                     <div class="hide-by-default">
                         ${new DeleteButtonComponent(() => trackerPageModel.deleteTask(this.task))}

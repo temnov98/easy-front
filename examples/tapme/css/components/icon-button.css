@@ -31,6 +31,22 @@
   fill: var(--white);
 }
 
+.icon-button:disabled,
+.icon-button:disabled:hover {
+  cursor: not-allowed;
+  background-color: transparent;
+  color: rgba(28, 29, 31, 0.35);
+}
+
+.icon-button:disabled svg * {
+  fill: currentColor;
+}
+
+body:has(.page--dark) .icon-button:disabled,
+body:has(.page--dark) .icon-button:disabled:hover {
+  color: rgba(230, 237, 243, 0.35);
+}
+
 /*Variants*/
 
 .icon-button--big {
