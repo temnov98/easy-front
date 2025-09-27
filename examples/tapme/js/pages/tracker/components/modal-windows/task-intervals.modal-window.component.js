@@ -1,3 +1,8 @@
+// TODO: New functionality:
+//  - Not thoroughly tested.
+//  - Possible data loss.
+//  - Possible interval overwriting.
+//  - Need to separate UI and logic into different files.
 class TaskIntervalsModalWindowComponent extends Component {
     /**
      * @param {{ task: TaskModel }} params
