@@ -44,6 +44,12 @@ const locales = {
             [Language.Kazakh]: 'Уақытты өңдеу',
             [Language.Georgian]: 'დროის რედაქტირება',
         },
+        warningNote: {
+          [Language.English]: '⚠️ experimental feature (data loss possible)',
+          [Language.Russian]: '⚠️ экспериментальная функция (возможна потеря данных)',
+          [Language.Kazakh]: '⚠️ эксперименталды функция (деректердің жоғалуы мүмкін)',
+          [Language.Georgian]: '⚠️ ექსპერიმენტული ფუნქცია (მონაცემების დაკარგვა შესაძლებელია)',
+        },
         taskLabel: {
             [Language.English]: 'Task:',
             [Language.Russian]: 'Задача:',
@@ -129,6 +135,24 @@ const locales = {
             [Language.Russian]: 'Настройки',
             [Language.Kazakh]: `Параметрлер`,
             [Language.Georgian]: 'პარამეტრები',
+        },
+        experimentalFeaturesTitle: {
+          [Language.English]: 'Experimental features:',
+          [Language.Russian]: 'Экспериментальные функции:',
+          [Language.Kazakh]: 'Эксперименталды функциялар:',
+          [Language.Georgian]: 'ექსპერიმენტული ფუნქციები:',
+        },
+        experimentalFeatureTimeIntervalEditing: {
+          [Language.English]: 'Time interval editing',
+          [Language.Russian]: 'Изменение временных интервалов',
+          [Language.Kazakh]: 'Уақыт интервалдарын өңдеу',
+          [Language.Georgian]: 'დროის ინტერვალების რედაქტირება',
+        },
+        importExportSettingsTitle: {
+            [Language.English]: 'Import/export settings:',
+            [Language.Russian]: 'Импорт/экспорт настроек:',
+            [Language.Kazakh]: 'Параметрлерді импорт/экспорт:',
+            [Language.Georgian]: 'პარამეტრების იმპორტი/ექსპორტი:',
         },
         exportButtonTitle: {
             [Language.English]: 'export',

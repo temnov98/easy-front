@@ -186,6 +186,7 @@ class TaskIntervalsModalWindowComponent extends Component {
                 <form class="task-intervals-modal__form" id="${this.formId}" method="dialog" novalidate>
                     <header class="task-intervals-modal__header">
                         <h1 id="${this.dialogTitleId}">${languageModel.t(locales.taskIntervalsModal.title)}</h1>
+                        <h3>${languageModel.t(locales.taskIntervalsModal.warningNote)}</h3>
                         <p class="task-intervals-modal__task">
                             ${languageModel.t(locales.taskIntervalsModal.taskLabel)}
                             <span>${this.task.title}</span>

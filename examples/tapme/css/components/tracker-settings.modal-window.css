@@ -12,13 +12,42 @@
 
     display: grid;
     grid-template-columns: auto auto;
-    grid-template-rows: 200px auto auto;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
         "header header"
+        "experimental_features_title experimental_features_title"
+        "time_interval_editing time_interval_editing"
+        "export_settings_title export_settings_title"
         "button button"
         "description description";
 
     gap: 16px;
+}
+
+.tracker-settings-modal-window__experimental_features_title {
+    grid-area: experimental_features_title;
+    font-size: 20pt;
+    margin-top: 16px;
+}
+
+.tracker-settings-modal-window__time_interval_editing {
+    grid-area: time_interval_editing;
+    font-size: 16pt;
+    color: gray;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.tracker-settings-modal-window__time_interval_editing input[type="checkbox"] {
+    transform: scale(1.6);
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.tracker-settings-modal-window__time_interval_editing span {
+    padding-top: 1px;
 }
 
 .tracker-settings-modal-window__container h2 {
@@ -43,6 +72,12 @@
 .tracker-settings-modal-window__description b {
     font-size: 18pt;
     color: black;
+}
+
+.tracker-settings-modal-window__export_settings_title {
+    grid-area: export_settings_title;
+    font-size: 20pt;
+    margin-top: 50px;
 }
 
 .tracker-settings-modal-window__button {
