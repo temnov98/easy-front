@@ -37,6 +37,92 @@ const locales = {
             [Language.Georgian]: 'არა, დახურე ფანჯარა',
         },
     },
+    taskIntervalsModal: {
+        title: {
+            [Language.English]: 'Edit tracked time',
+            [Language.Russian]: 'Редактировать время',
+            [Language.Kazakh]: 'Уақытты өңдеу',
+            [Language.Georgian]: 'დროის რედაქტირება',
+        },
+        taskLabel: {
+            [Language.English]: 'Task:',
+            [Language.Russian]: 'Задача:',
+            [Language.Kazakh]: 'Тапсырма:',
+            [Language.Georgian]: 'დავალება:',
+        },
+        subtitle: {
+            [Language.English]: 'Update the start and finish for every recorded interval.',
+            [Language.Russian]: 'Обновите начало и окончание каждого интервала.',
+            [Language.Kazakh]: 'Әр жазылған интервалдың басталуы мен аяқталуын жаңартыңыз.',
+            [Language.Georgian]: 'განაახლეთ თითოეული ინტერვალის დაწყება და დასრულება.',
+        },
+        intervalTitle: {
+            [Language.English]: 'Interval',
+            [Language.Russian]: 'Интервал',
+            [Language.Kazakh]: 'Интервал',
+            [Language.Georgian]: 'ინტერვალი',
+        },
+        startLabel: {
+            [Language.English]: 'Start',
+            [Language.Russian]: 'Начало',
+            [Language.Kazakh]: 'Басталу',
+            [Language.Georgian]: 'დაწყება',
+        },
+        endLabel: {
+            [Language.English]: 'End',
+            [Language.Russian]: 'Окончание',
+            [Language.Kazakh]: 'Аяқталу',
+            [Language.Georgian]: 'დასრულება',
+        },
+        saveButton: {
+            [Language.English]: 'Save',
+            [Language.Russian]: 'Сохранить',
+            [Language.Kazakh]: 'Сақтау',
+            [Language.Georgian]: 'შენახვა',
+        },
+        cancelButton: {
+            [Language.English]: 'Cancel',
+            [Language.Russian]: 'Отмена',
+            [Language.Kazakh]: 'Бас тарту',
+            [Language.Georgian]: 'გაუქმება',
+        },
+        saveConfirm: {
+            [Language.English]: 'Save the updated timestamps?',
+            [Language.Russian]: 'Сохранить изменённые отметки времени?',
+            [Language.Kazakh]: 'Жаңартылған уақыттарды сақтау керек пе?',
+            [Language.Georgian]: 'შევინახო განახლებული დროები?',
+        },
+        cancelConfirm: {
+            [Language.English]: 'Discard changes and close the window?',
+            [Language.Russian]: 'Отменить изменения и закрыть окно?',
+            [Language.Kazakh]: 'Өзгерістерден бас тартып, терезені жабу керек пе?',
+            [Language.Georgian]: 'გავაუქმო ცვლილებები და დავხურო ფანჯარა?',
+        },
+        invalidDateMessage: {
+            [Language.English]: 'Enter both start and end date and time.',
+            [Language.Russian]: 'Укажите дату и время начала и окончания.',
+            [Language.Kazakh]: 'Басталу және аяқталу күні мен уақытын енгізіңіз.',
+            [Language.Georgian]: 'შეიყვანეთ დაწყების და დასრულების თარიღი და დრო.',
+        },
+        invalidRangeMessage: {
+            [Language.English]: 'End time must be later than the start time.',
+            [Language.Russian]: 'Время окончания должно быть позже времени начала.',
+            [Language.Kazakh]: 'Аяқталу уақыты басталу уақытынан кейін болуы тиіс.',
+            [Language.Georgian]: 'დასრულება უნდა იყოს დაწყებაზე გვიან.',
+        },
+        emptyState: {
+            [Language.English]: 'This task does not have recorded intervals yet.',
+            [Language.Russian]: 'У задачи пока нет сохранённых интервалов.',
+            [Language.Kazakh]: 'Бұл тапсырмада сақталған интервалдар жоқ.',
+            [Language.Georgian]: 'ამ ამოცანას ჯერ არ აქვს შენახული ინტერვალები.',
+        },
+        editButtonTooltip: {
+            [Language.English]: 'Edit recorded time',
+            [Language.Russian]: 'Редактировать время',
+            [Language.Kazakh]: 'Уақытты өңдеу',
+            [Language.Georgian]: 'დროის რედაქტირება',
+        },
+    },
     trackerSettings: {
         title: {
             [Language.English]: 'Settings',
