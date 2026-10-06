@@ -424,6 +424,22 @@ const locales = {
                 },
             ],
         },
+        _14: {
+            date: {
+                [Language.English]: 'October 6, 2026',
+                [Language.Russian]: '6 октября 2026',
+                [Language.Kazakh]: '2026 жылғы 6 қазан',
+                [Language.Georgian]: '2026 წლის 6 ოქტომბერი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added a Picture-in-Picture timer. The PiP switch is saved, and toggling a task opens the compact player when enabled.',
+                    [Language.Russian]: 'Добавлен таймер Picture-in-Picture. Переключатель PiP сохраняется; включение и выключение задачи открывает компактное окно, когда он включён.',
+                    [Language.Kazakh]: 'Picture-in-Picture таймері қосылды. PiP қосқышы сақталады; ол қосулы болса, тапсырманы қосу және өшіру шағын терезені ашады.',
+                    [Language.Georgian]: 'დაემატა Picture-in-Picture ტაიმერი. PiP გადამრთველი ინახება; ჩართვისას ამოცანის დაწყება და შეჩერება ხსნის მცირე ფანჯარას.',
+                },
+            ],
+        },
         _13: {
             date: {
                 [Language.English]: 'September 28, 2025',

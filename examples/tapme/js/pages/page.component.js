@@ -85,6 +85,7 @@ class PageComponent extends Component {
                 ${PageTabsComponent}
                 ${SwitchThemeComponent}
                 ${ChangeLanguageComponent}
+                ${TrackerPipSwitchComponent}
                 ${component}
                 ${DebugComponent}
                 ${ModalWindowComponent}
