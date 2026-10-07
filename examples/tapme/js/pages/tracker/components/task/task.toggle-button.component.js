@@ -37,7 +37,7 @@ class TaskToggleButtonLightComponent extends AutoSubscribeComponent {
         return t`
             <button
                 class="${buttonCssClass}"
-                onmousedown="${() => trackerPageModel.toggle(this.task)}">
+                onmousedown="${() => trackerPageModel.toggle({ task: this.task, fromPip: false })}">
                 ${new Timer(this.task)}
             </button>
         `;
@@ -85,7 +85,7 @@ class ToggleInput extends AutoSubscribeComponent {
         return t`
             <input
                 type="checkbox"  
-                onchange="${() => trackerPageModel.toggle(this.task)}"
+                onchange="${() => trackerPageModel.toggle({ task: this.task, fromPip: false })}"
                 ${isChecked && 'checked'}
                 >
         `;

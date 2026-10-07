@@ -8,41 +8,81 @@ class TrackerPipController {
         this.timer = undefined;
     }
 
+    /**
+     * @return {boolean}
+     */
     get supported() {
         return window.isSecureContext && 'documentPictureInPicture' in window;
     }
 
+    /**
+     * @return {TaskModel | undefined}
+     */
     get task() {
         return trackerPageModel.tasks.find((task) => task.id === this.lastTouchedId);
     }
 
+    /**
+     * @param {TaskModel} task
+     * @returns {void}
+     */
     touch(task) {
         this.lastTouchedId = task.id;
         localStorage.setItem(this.lastTouchedStorageKey, task.id);
         this.render();
     }
 
+    /**
+     * @returns {void}
+     */
     toggleEnabled() {
-        if (!this.supported) return;
+        if (!this.supported) {
+            return;
+        }
+
         this.enabled = !this.enabled;
         localStorage.setItem(this.enabledStorageKey, String(this.enabled));
-        if (!this.enabled) this.close();
+
+        if (!this.enabled) {
+            this.close();
+        }
     }
 
-    onTaskToggled(task, fromPip = false) {
+    /**
+     * @param {TaskModel} task
+     * @param {boolean} fromPip
+     * @returns {void}
+     */
+    onTaskToggled({ task, fromPip }) {
         this.touch(task);
-        if (this.enabled && !fromPip) this.open();
+
+        if (this.enabled && !fromPip) {
+            this.open();
+        }
+
+        trackerPipController.render();
     }
 
+    /**
+     * @return {Promise<void>}
+     */
     async open() {
-        if (this.pipWindow?.closed) this.close();
-        if (!this.task || !this.supported || this.pipWindow) return;
+        if (this.pipWindow?.closed) {
+            this.close();
+        }
+
+        if (!this.task || !this.supported || this.pipWindow) {
+            return;
+        }
 
         try {
             const pipWindow = await window.documentPictureInPicture.requestWindow({
-                width: 240, height: 62, disallowReturnToOpener: true,
+                width: 240,
+                height: 62,
+                disallowReturnToOpener: true,
                 preferInitialWindowPlacement: true,
             });
+
             if (!this.task) {
                 pipWindow.close();
                 return;
@@ -73,14 +113,21 @@ class TrackerPipController {
             row.innerHTML = '<button class="pip-button" type="button"></button><div class="pip-content"><div class="pip-name"></div><div class="pip-time"></div></div>';
             pipWindow.document.body.append(row);
             row.querySelector('button').addEventListener('click', () => {
-                if (this.task) trackerPageModel.toggle(this.task, true);
+                if (this.task) {
+                    trackerPageModel.toggle({task: this.task, fromPip: true});
+                }
             });
+
             pipWindow.addEventListener('pagehide', () => {
-                if (this.pipWindow !== pipWindow) return;
+                if (this.pipWindow !== pipWindow) {
+                    return;
+                }
+
                 this.pipWindow = undefined;
                 clearInterval(this.timer);
                 this.timer = undefined;
             });
+
             this.timer = setInterval(() => this.render(), 1000);
             this.render();
         } catch (error) {
@@ -88,8 +135,21 @@ class TrackerPipController {
         }
     }
 
+    /**
+     * @returns {void}
+     */
+    onTaskTextChanged() {
+        this.render();
+    }
+
+    /**
+     * @returns {void}
+     */
     render() {
-        if (!this.pipWindow || this.pipWindow.closed) return;
+        if (!this.pipWindow || this.pipWindow.closed) {
+            return;
+        }
+
         const task = this.task;
         if (!task) {
             this.close();
@@ -103,15 +163,27 @@ class TrackerPipController {
         doc.querySelector('.pip-name').textContent = task.title.trim();
     }
 
+    /**
+     * @returns {void}
+     */
     onTasksDeleted() {
-        if (this.task) return;
+        if (this.task) {
+            return;
+        }
+
         this.lastTouchedId = undefined;
         localStorage.removeItem(this.lastTouchedStorageKey);
         this.close();
     }
 
+    /**
+     * @returns {void}
+     */
     close() {
-        if (this.pipWindow && !this.pipWindow.closed) this.pipWindow.close();
+        if (this.pipWindow && !this.pipWindow.closed) {
+            this.pipWindow.close();
+        }
+
         this.pipWindow = undefined;
         clearInterval(this.timer);
         this.timer = undefined;

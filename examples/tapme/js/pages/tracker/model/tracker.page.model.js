@@ -63,9 +63,12 @@ class TrackerPageModel extends BaseModel {
         this.saveToLocalStorage();
     }
 
-
+    /**
+     * @returns {void}
+     */
     deleteActiveTasks() {
         this.tasks = [];
+
         trackerPipController.onTasksDeleted();
         this.updateTotalTime();
         this.updateTimeOfFirstTouchToday();
@@ -119,6 +122,7 @@ class TrackerPageModel extends BaseModel {
      */
     deleteTask(task) {
         this.tasks = this.tasks.filter((currentTask) => currentTask.id !== task.id);
+
         trackerPipController.onTasksDeleted();
         this.updateTotalTime();
         this.updateTimeOfFirstTouchToday();
@@ -139,7 +143,7 @@ class TrackerPageModel extends BaseModel {
         }
 
         editedTask.title = text;
-        trackerPipController.render();
+        trackerPipController.onTaskTextChanged();
 
         this.saveToLocalStorage();
     }
@@ -178,8 +182,10 @@ class TrackerPageModel extends BaseModel {
 
     /**
      * @param {TaskModel} task
+     * @param {boolean} fromPip
+     * @returns {void}
      */
-    toggle(task, fromPip = false) {
+    toggle({ task, fromPip }) {
         this.tasks.forEach((currentTask) => {
             if (currentTask.id !== task.id) {
                 currentTask.stop();
@@ -191,8 +197,8 @@ class TrackerPageModel extends BaseModel {
         this.updateTimeOfFirstTouchToday();
 
         this.saveToLocalStorage();
-        trackerPipController.onTaskToggled(task, fromPip);
-        trackerPipController.render();
+
+        trackerPipController.onTaskToggled({ task, fromPip });
     }
 
     /**
