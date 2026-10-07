@@ -24,9 +24,10 @@ class TrackerPipService {
     }
 
     /**
+     * @private
      * @return {TaskModel | undefined}
      */
-    get task() {
+    get _task() {
         return trackerPageModel.tasks.find((task) => task.id === this.lastTouchedId);
     }
 
@@ -80,7 +81,7 @@ class TrackerPipService {
             this._close();
         }
 
-        if (!this.task || !this.supported || this.pipWindow) {
+        if (!this._task || !this.supported || this.pipWindow) {
             return;
         }
 
@@ -92,7 +93,7 @@ class TrackerPipService {
                 preferInitialWindowPlacement: true,
             });
 
-            if (!this.task) {
+            if (!this._task) {
                 pipWindow.close();
                 return;
             }
@@ -122,8 +123,8 @@ class TrackerPipService {
             row.innerHTML = '<button class="pip-button" type="button"></button><div class="pip-content"><div class="pip-name"></div><div class="pip-time"></div></div>';
             pipWindow.document.body.append(row);
             row.querySelector('button').addEventListener('click', () => {
-                if (this.task) {
-                    trackerPageModel.toggle({ task: this.task, fromPip: true });
+                if (this._task) {
+                    trackerPageModel.toggle({ task: this._task, fromPip: true });
                 }
             });
 
@@ -160,7 +161,7 @@ class TrackerPipService {
             return;
         }
 
-        const task = this.task;
+        const task = this._task;
         if (!task) {
             this._close();
             return;
@@ -178,7 +179,7 @@ class TrackerPipService {
      * @returns {void}
      */
     onTasksDeleted() {
-        if (this.task) {
+        if (this._task) {
             return;
         }
 
