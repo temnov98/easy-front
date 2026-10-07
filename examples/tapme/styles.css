@@ -17,42 +17,6 @@ datalist {
     margin-top: 8px;
 }
 
-.tracker-pip-switch__container {
-    position: fixed;
-    left: -5px;
-    top: 130px;
-    transform: scale(.8);
-    z-index: 200;
-
-    --switcher--color-container-active: #d0d0d0;
-    --switcher--color-container-inactive: #5e5e5e;
-    --switcher--color-circle-active-border: transparent;
-    --switcher--color-circle-inactive-border: transparent;
-    --switcher--color-circle-active: #fff;
-    --switcher--color-circle-inactive: #1f1f1f;
-}
-
-.tracker-pip-switch__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    font: 700 12px sans-serif;
-    color: #283653;
-}
-
-.switcher-component__circle-inactive .tracker-pip-switch__icon {
-    color: #fff;
-}
-
-body:has(.page--dark) .tracker-pip-switch__container {
-    --switcher--color-container-active: #363636;
-    --switcher--color-container-inactive: #a8a8a8;
-    --switcher--color-circle-active: #1f1f1f;
-    --switcher--color-circle-inactive: #fff;
-}
-
 body:has(.page--dark) {
     background-color: var(--black);
     color: var(--white);
