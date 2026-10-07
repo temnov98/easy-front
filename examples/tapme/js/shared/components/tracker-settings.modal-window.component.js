@@ -1,10 +1,11 @@
 class TrackerSettingsCheckBoxComponent extends Component {
-    constructor({ feature, titleTemplate, className, onChange }) {
+    constructor({ feature, enabled, titleTemplate, className, onChange }) {
         super();
 
         this.subscribe(experimentalFeatureModel.updatedAt).redrawOnChange();
 
         this.feature = feature;
+        this.enabled = enabled;
         this.titleTemplate = titleTemplate;
         this.className = className;
         this.onChange = onChange;
@@ -20,6 +21,7 @@ class TrackerSettingsCheckBoxComponent extends Component {
             <label class="tracker-settings-modal-window__checkbox ${this.className}">
                 <input
                     type="checkbox"  
+                    ${this.enabled ? '' : 'disabled'}
                     onchange="${() => this._onChange()}"
                     ${experimentalFeatureModel.isFeatureEnabled(this.feature) && 'checked'}
                 >
@@ -35,6 +37,7 @@ class TrackerSettingsTimeIntervalEditingComponent extends TrackerSettingsCheckBo
     constructor() {
         super({
             feature: ExperimentalFeature.TimeIntervalEditing,
+            enabled: true,
             titleTemplate: locales.trackerSettings.experimentalFeatureTimeIntervalEditing,
             className: 'tracker-settings-modal-window__time_interval_editing',
             onChange: () => {},
@@ -46,7 +49,10 @@ class TrackerSettingsPictureInPictureComponent extends TrackerSettingsCheckBoxCo
     constructor() {
         super({
             feature: ExperimentalFeature.PictureInPicture,
-            titleTemplate: locales.trackerSettings.experimentalFeaturePictureInPicture,
+            enabled: trackerPipService.supported,
+            titleTemplate: trackerPipService.supported ?
+              locales.trackerSettings.experimentalFeaturePictureInPicture:
+              locales.trackerSettings.experimentalFeaturePictureInPictureUnsupported,
             className: 'tracker-settings-modal-window__picture_in_picture',
             onChange: () => trackerPipService.onFeatureToggled(),
         });

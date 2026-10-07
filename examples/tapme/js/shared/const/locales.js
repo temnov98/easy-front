@@ -154,6 +154,12 @@ const locales = {
             [Language.Kazakh]: 'Сурет ішіндегі сурет',
             [Language.Georgian]: 'სურათი სურათში',
         },
+        experimentalFeaturePictureInPictureUnsupported: {
+            [Language.English]: 'Picture in picture (unsupported)',
+            [Language.Russian]: 'Картинка в картинке (не поддерживается)',
+            [Language.Kazakh]: 'Сурет ішіндегі сурет (қолдау жоқ)',
+            [Language.Georgian]: 'სურათი სურათში (მხარდაუჭერელი)',
+        },
         importExportSettingsTitle: {
             [Language.English]: 'Import/export settings:',
             [Language.Russian]: 'Импорт/экспорт настроек:',
