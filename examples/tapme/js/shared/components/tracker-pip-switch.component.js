@@ -7,7 +7,7 @@ class TrackerPipSwitchContentComponent extends Component {
 class TrackerPipSwitchComponent extends Component {
     toHtml() {
         if (!trackerPipController.supported) {
-            return t`<div></div>`
+            return t`<div></div>`;
         }
 
         const switcher = new SwitcherComponent({
