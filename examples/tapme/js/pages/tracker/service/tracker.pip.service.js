@@ -1,3 +1,6 @@
+// TODO: Между `TrackerPipService` и `TrackerPageModel` есть циклическая зависимость.
+//       Сейчас оно работает, но в будущем при изменении можно случайно сломать.
+//       Нужно избавиться от циклической зависимости когда-нибудь потом.
 class TrackerPipService {
     constructor() {
         this.lastTouchedStorageKey = 'time-tracker-local-storage-key:pip:last-touched-id';
