@@ -1,11 +1,16 @@
 class TrackerPipService {
     constructor() {
         this.lastTouchedStorageKey = 'time-tracker-local-storage-key:pip:last-touched-id';
-        this.enabledStorageKey = 'time-tracker-local-storage-key:pip:enabled';
         this.lastTouchedId = localStorage.getItem(this.lastTouchedStorageKey) || undefined;
-        this.enabled = localStorage.getItem(this.enabledStorageKey) === 'true';
         this.pipWindow = undefined;
         this.timer = undefined;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    get enabled() {
+        return experimentalFeatureModel.isFeatureEnabled(ExperimentalFeature.PictureInPicture);
     }
 
     /**
@@ -35,13 +40,10 @@ class TrackerPipService {
     /**
      * @returns {void}
      */
-    toggleEnabled() {
+    onFeatureToggled() {
         if (!this.supported) {
             return;
         }
-
-        this.enabled = !this.enabled;
-        localStorage.setItem(this.enabledStorageKey, String(this.enabled));
 
         if (!this.enabled) {
             this.close();
@@ -155,6 +157,7 @@ class TrackerPipService {
             this.close();
             return;
         }
+
         const doc = this.pipWindow.document;
         doc.querySelector('.pip-time').textContent = task.durationFormatted;
         const button = doc.querySelector('.pip-button');

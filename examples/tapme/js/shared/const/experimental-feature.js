@@ -1,5 +1,6 @@
 const ExperimentalFeature = {
-  TimeIntervalEditing: 'TimeIntervalEditing'
+  TimeIntervalEditing: 'TimeIntervalEditing',
+  PictureInPicture: 'PictureInPicture',
 }
 
 /** @type {ExperimentalFeature[]} */

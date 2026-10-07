@@ -143,10 +143,16 @@ const locales = {
           [Language.Georgian]: 'ექსპერიმენტული ფუნქციები:',
         },
         experimentalFeatureTimeIntervalEditing: {
-          [Language.English]: 'Time interval editing',
-          [Language.Russian]: 'Изменение временных интервалов',
-          [Language.Kazakh]: 'Уақыт интервалдарын өңдеу',
-          [Language.Georgian]: 'დროის ინტერვალების რედაქტირება',
+            [Language.English]: 'Time interval editing',
+            [Language.Russian]: 'Изменение временных интервалов',
+            [Language.Kazakh]: 'Уақыт интервалдарын өңдеу',
+            [Language.Georgian]: 'დროის ინტერვალების რედაქტირება',
+        },
+        experimentalFeaturePictureInPicture: {
+            [Language.English]: 'Picture in picture',
+            [Language.Russian]: 'Картинка в картинке',
+            [Language.Kazakh]: 'Сурет ішіндегі сурет',
+            [Language.Georgian]: 'სურათი სურათში',
         },
         importExportSettingsTitle: {
             [Language.English]: 'Import/export settings:',

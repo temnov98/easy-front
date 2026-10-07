@@ -1,25 +1,55 @@
-class TrackerSettingsTimeIntervalEditingComponent extends Component {
-    constructor() {
+class TrackerSettingsCheckBoxComponent extends Component {
+    constructor({ feature, titleTemplate, className, onChange }) {
         super();
 
         this.subscribe(experimentalFeatureModel.updatedAt).redrawOnChange();
+
+        this.feature = feature;
+        this.titleTemplate = titleTemplate;
+        this.className = className;
+        this.onChange = onChange;
+    }
+
+    _onChange() {
+        experimentalFeatureModel.toggleFeature(this.feature);
+        this.onChange();
     }
 
     toHtml() {
-        const feature = ExperimentalFeature.TimeIntervalEditing;
-
         return t`
-            <label class="tracker-settings-modal-window__time_interval_editing">
+            <label class="tracker-settings-modal-window__checkbox ${this.className}">
                 <input
                     type="checkbox"  
-                    onchange="${() => experimentalFeatureModel.toggleFeature(feature)}"
-                    ${experimentalFeatureModel.isFeatureEnabled(feature) && 'checked'}
+                    onchange="${() => this._onChange()}"
+                    ${experimentalFeatureModel.isFeatureEnabled(this.feature) && 'checked'}
                 >
                 <span>
-                    ${languageModel.t(locales.trackerSettings.experimentalFeatureTimeIntervalEditing)}
+                    ${languageModel.t(this.titleTemplate)}
                 </span>
             </label>
         `;
+    }
+}
+
+class TrackerSettingsTimeIntervalEditingComponent extends TrackerSettingsCheckBoxComponent {
+    constructor() {
+        super({
+            feature: ExperimentalFeature.TimeIntervalEditing,
+            titleTemplate: locales.trackerSettings.experimentalFeatureTimeIntervalEditing,
+            className: 'tracker-settings-modal-window__time_interval_editing',
+            onChange: () => {},
+        });
+    }
+}
+
+class TrackerSettingsPictureInPictureComponent extends TrackerSettingsCheckBoxComponent {
+    constructor() {
+        super({
+            feature: ExperimentalFeature.PictureInPicture,
+            titleTemplate: locales.trackerSettings.experimentalFeaturePictureInPicture,
+            className: 'tracker-settings-modal-window__picture_in_picture',
+            onChange: () => trackerPipService.onFeatureToggled(),
+        });
     }
 }
 
@@ -40,6 +70,7 @@ class TrackerSettingsModalWindowComponent extends Component {
                 </div>
 
                 ${new TrackerSettingsTimeIntervalEditingComponent()}
+                ${new TrackerSettingsPictureInPictureComponent()}
 
                 <div class="tracker-settings-modal-window__export_settings_title">
                     ${languageModel.t(locales.trackerSettings.importExportSettingsTitle)}

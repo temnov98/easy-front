@@ -11,12 +11,11 @@
     overflow-y: scroll;
 
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto auto;
     grid-template-areas:
         "header header"
         "experimental_features_title experimental_features_title"
         "time_interval_editing time_interval_editing"
+        "picture_in_picture picture_in_picture"
         "export_settings_title export_settings_title"
         "button button"
         "description description";
@@ -32,6 +31,13 @@
 
 .tracker-settings-modal-window__time_interval_editing {
     grid-area: time_interval_editing;
+}
+
+.tracker-settings-modal-window__picture_in_picture {
+    grid-area: picture_in_picture;
+}
+
+.tracker-settings-modal-window__checkbox {
     font-size: 16pt;
     color: gray;
     display: flex;
@@ -40,13 +46,13 @@
     cursor: pointer;
 }
 
-.tracker-settings-modal-window__time_interval_editing input[type="checkbox"] {
+.tracker-settings-modal-window__checkbox input[type="checkbox"] {
     transform: scale(1.6);
     margin-left: 20px;
     cursor: pointer;
 }
 
-.tracker-settings-modal-window__time_interval_editing span {
+.tracker-settings-modal-window__checkbox span {
     padding-top: 1px;
 }
 
