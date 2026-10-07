@@ -1,4 +1,4 @@
-class TrackerPipController {
+class TrackerPipService {
     constructor() {
         this.lastTouchedStorageKey = 'time-tracker-local-storage-key:pip:last-touched-id';
         this.enabledStorageKey = 'time-tracker-local-storage-key:pip:enabled';
@@ -60,7 +60,7 @@ class TrackerPipController {
             this.open();
         }
 
-        trackerPipController.render();
+        this.render();
     }
 
     /**
@@ -114,7 +114,7 @@ class TrackerPipController {
             pipWindow.document.body.append(row);
             row.querySelector('button').addEventListener('click', () => {
                 if (this.task) {
-                    trackerPageModel.toggle({task: this.task, fromPip: true});
+                    trackerPageModel.toggle({ task: this.task, fromPip: true });
                 }
             });
 
@@ -190,4 +190,4 @@ class TrackerPipController {
     }
 }
 
-const trackerPipController = new TrackerPipController();
+const trackerPipService = new TrackerPipService();

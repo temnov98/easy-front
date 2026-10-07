@@ -6,13 +6,13 @@ class TrackerPipSwitchContentComponent extends Component {
 
 class TrackerPipSwitchComponent extends Component {
     toHtml() {
-        if (!trackerPipController.supported) {
+        if (!trackerPipService.supported) {
             return t`<div></div>`;
         }
 
         const switcher = new SwitcherComponent({
-            onClick: () => trackerPipController.toggleEnabled(),
-            defaultState: trackerPipController.enabled,
+            onClick: () => trackerPipService.toggleEnabled(),
+            defaultState: trackerPipService.enabled,
             content: TrackerPipSwitchContentComponent,
         });
 
