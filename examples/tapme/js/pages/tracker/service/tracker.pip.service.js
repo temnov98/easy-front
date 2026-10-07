@@ -120,7 +120,14 @@ class TrackerPipService {
             pipWindow.document.head.append(style);
             const row = pipWindow.document.createElement('div');
             row.className = 'pip-row';
-            row.innerHTML = '<button class="pip-button" type="button"></button><div class="pip-content"><div class="pip-name"></div><div class="pip-time"></div></div>';
+
+            row.innerHTML = `
+              <button class="pip-button" type="button"></button>
+              <div class="pip-content">
+                  <div class="pip-name"></div>
+                  <div class="pip-time"></div>
+              </div>`;
+
             pipWindow.document.body.append(row);
             row.querySelector('button').addEventListener('click', () => {
                 if (this._task) {
@@ -138,6 +145,7 @@ class TrackerPipService {
                 this.timer = undefined;
             });
 
+            clearInterval(this.timer);
             this.timer = setInterval(() => this._render(), 1000);
             this._render();
         } catch (error) {
