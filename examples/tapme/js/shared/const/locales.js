@@ -143,10 +143,22 @@ const locales = {
           [Language.Georgian]: 'ექსპერიმენტული ფუნქციები:',
         },
         experimentalFeatureTimeIntervalEditing: {
-          [Language.English]: 'Time interval editing',
-          [Language.Russian]: 'Изменение временных интервалов',
-          [Language.Kazakh]: 'Уақыт интервалдарын өңдеу',
-          [Language.Georgian]: 'დროის ინტერვალების რედაქტირება',
+            [Language.English]: 'Time interval editing',
+            [Language.Russian]: 'Изменение временных интервалов',
+            [Language.Kazakh]: 'Уақыт интервалдарын өңдеу',
+            [Language.Georgian]: 'დროის ინტერვალების რედაქტირება',
+        },
+        experimentalFeaturePictureInPicture: {
+            [Language.English]: 'Picture in picture',
+            [Language.Russian]: 'Картинка в картинке',
+            [Language.Kazakh]: 'Сурет ішіндегі сурет',
+            [Language.Georgian]: 'სურათი სურათში',
+        },
+        experimentalFeaturePictureInPictureUnsupported: {
+            [Language.English]: 'Picture in picture (unsupported)',
+            [Language.Russian]: 'Картинка в картинке (не поддерживается)',
+            [Language.Kazakh]: 'Сурет ішіндегі сурет (қолдау жоқ)',
+            [Language.Georgian]: 'სურათი სურათში (მხარდაუჭერელი)',
         },
         importExportSettingsTitle: {
             [Language.English]: 'Import/export settings:',
@@ -437,6 +449,22 @@ const locales = {
                     [Language.Russian]: 'Добавлена возможность править временные интервалы через модальное окно',
                     [Language.Kazakh]: 'Уақыт аралықтарын модальды терезе арқылы түзету мүмкіндігі қосылды',
                     [Language.Georgian]: 'დამატებულია დროის ინტერვალების მოდალური ფანჯრიდან რედაქტირების შესაძლებლობა',
+                },
+            ],
+        },
+        _14: {
+            date: {
+                [Language.English]: 'October 6, 2026',
+                [Language.Russian]: '6 октября 2026',
+                [Language.Kazakh]: '2026 жылғы 6 қазан',
+                [Language.Georgian]: '2026 წლის 6 ოქტომბერი',
+            },
+            lines: [
+                {
+                    [Language.English]: 'Added a Picture-in-Picture timer. The PiP switch is saved, and toggling a task opens the compact player when enabled.',
+                    [Language.Russian]: 'Добавлен таймер Picture-in-Picture. Переключатель PiP сохраняется; включение и выключение задачи открывает компактное окно, когда он включён.',
+                    [Language.Kazakh]: 'Picture-in-Picture таймері қосылды. PiP қосқышы сақталады; ол қосулы болса, тапсырманы қосу және өшіру шағын терезені ашады.',
+                    [Language.Georgian]: 'დაემატა Picture-in-Picture ტაიმერი. PiP გადამრთველი ინახება; ჩართვისას ამოცანის დაწყება და შეჩერება ხსნის მცირე ფანჯარას.',
                 },
             ],
         },
