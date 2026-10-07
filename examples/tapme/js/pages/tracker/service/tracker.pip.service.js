@@ -31,13 +31,14 @@ class TrackerPipService {
     }
 
     /**
+     * @private
      * @param {TaskModel} task
      * @returns {void}
      */
-    touch(task) {
+    _touch(task) {
         this.lastTouchedId = task.id;
         localStorage.setItem(this.lastTouchedStorageKey, task.id);
-        this.render();
+        this._render();
     }
 
     /**
@@ -48,32 +49,35 @@ class TrackerPipService {
             return;
         }
 
-        if (!this.enabled) {
-            this.close();
+        if (this.enabled) {
+            void this._open();
+        } else {
+            this._close();
         }
     }
 
     /**
+     * @private
      * @param {TaskModel} task
      * @param {boolean} fromPip
      * @returns {void}
      */
     onTaskToggled({ task, fromPip }) {
-        this.touch(task);
+        this._touch(task);
 
         if (this.enabled && !fromPip) {
-            this.open();
+            void this._open();
         }
 
-        this.render();
+        this._render();
     }
 
     /**
      * @return {Promise<void>}
      */
-    async open() {
+    async _open() {
         if (this.pipWindow?.closed) {
-            this.close();
+            this._close();
         }
 
         if (!this.task || !this.supported || this.pipWindow) {
@@ -133,8 +137,8 @@ class TrackerPipService {
                 this.timer = undefined;
             });
 
-            this.timer = setInterval(() => this.render(), 1000);
-            this.render();
+            this.timer = setInterval(() => this._render(), 1000);
+            this._render();
         } catch (error) {
             console.warn('Picture-in-Picture could not open:', error);
         }
@@ -144,20 +148,21 @@ class TrackerPipService {
      * @returns {void}
      */
     onTaskTextChanged() {
-        this.render();
+        this._render();
     }
 
     /**
+     * @private
      * @returns {void}
      */
-    render() {
+    _render() {
         if (!this.pipWindow || this.pipWindow.closed) {
             return;
         }
 
         const task = this.task;
         if (!task) {
-            this.close();
+            this._close();
             return;
         }
 
@@ -179,13 +184,14 @@ class TrackerPipService {
 
         this.lastTouchedId = undefined;
         localStorage.removeItem(this.lastTouchedStorageKey);
-        this.close();
+        this._close();
     }
 
     /**
+     * @private
      * @returns {void}
      */
-    close() {
+    _close() {
         if (this.pipWindow && !this.pipWindow.closed) {
             this.pipWindow.close();
         }
